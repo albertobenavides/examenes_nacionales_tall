@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('avatar_url')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->integer('rol_id');
             $table->timestamps();
         });
     }
