@@ -56,4 +56,14 @@ class User extends Authenticatable
     {
         return '/storage/'.$this->avatar_url;
     }
+
+    public function pagos()
+    {
+        return $this->hasMany(Pago::class);
+    }
+
+    public function intentos()
+    {
+        return $this->hasMany(Intento::class);
+    }
 }
