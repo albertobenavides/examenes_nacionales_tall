@@ -35,7 +35,7 @@ class PreguntasRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('respuestas')->label('Respuesta')->formatStateUsing(function ($record) {
                     return Respuesta::whereIn('id', $record->respuestas)->whereIn('id', $this->getOwnerRecord()->respuestas)->first()->contenido;
                 }),
-                Tables\Columns\TextColumn::make('respuestas.correcta')->label('correcta')->formatStateUsing(function ($record) {
+                Tables\Columns\TextColumn::make('respuestas')->label('correcta')->formatStateUsing(function ($record) {
                     return Respuesta::whereIn('id', $record->respuestas)->whereIn('id', $this->getOwnerRecord()->respuestas)->first()->correcta;
                 }),
             ])
