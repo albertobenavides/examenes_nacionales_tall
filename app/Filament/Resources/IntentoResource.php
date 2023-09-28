@@ -5,13 +5,20 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\IntentoResource\Pages;
 use App\Filament\Resources\IntentoResource\RelationManagers;
 use App\Models\Intento;
+use App\Models\Prueba;
 use Filament\Forms;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\RepeatableEntry;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Livewire\Livewire;
 
 class IntentoResource extends Resource
 {
@@ -23,9 +30,9 @@ class IntentoResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('user_id')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Select::make('user_id')
+                    ->relationship('usuario', 'name')
+                    ->required(),
                 Forms\Components\TextInput::make('prueba_id')
                     ->required()
                     ->numeric(),
@@ -34,9 +41,12 @@ class IntentoResource extends Resource
                     ->numeric(),
                 Forms\Components\TextInput::make('aciertos')
                     ->numeric(),
-                Forms\Components\Textarea::make('preguntas')
-                    ->maxLength(65535)
-                    ->columnSpanFull(),
+                Repeater::make('preguntasIncluidas')
+                    ->relationship()
+                    ->schema([
+                        Forms\Components\RichEditor::make('contenido')
+                            ->columnSpanFull(),
+                    ]),
                 Forms\Components\Textarea::make('respuestas')
                     ->maxLength(65535)
                     ->columnSpanFull(),
@@ -55,12 +65,10 @@ class IntentoResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('usuario.name')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('prueba_id')
-                    ->numeric()
-                    ->sortable(),
+                    ->formatStateUsing(fn (string $state): string => Prueba::find(abs($state))->nombre ?? 'Prueba borrada'),
                 Tables\Columns\TextColumn::make('calificacion')
                     ->numeric()
                     ->sortable(),

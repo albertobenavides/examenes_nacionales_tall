@@ -4,11 +4,13 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\InstitucionResource\Pages;
 use App\Filament\Resources\InstitucionResource\RelationManagers;
+use App\Models\Examen;
 use App\Models\Institucion;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -35,8 +37,8 @@ class InstitucionResource extends Resource
                 Forms\Components\TextInput::make('estado')
                     ->required()
                     ->maxLength(191),
-                Forms\Components\TextInput::make('examen_id')
-                    ->numeric(),
+                Forms\Components\Select::make('examen_id')
+                    ->relationship('curso', 'nombre'),
                 Forms\Components\TextInput::make('imagen')
                     ->maxLength(191),
             ]);
@@ -50,29 +52,22 @@ class InstitucionResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('siglas')
                     ->searchable(),
+                Tables\Columns\ImageColumn::make('imagen'),
                 Tables\Columns\TextColumn::make('pais')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('estado')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('examen_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('imagen')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('examen.nombre'),
+                Split::make([]),
+            ])
+            ->contentGrid([
+                'md' => 2,
+                'xl' => 3,
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -81,21 +76,20 @@ class InstitucionResource extends Resource
                 ]),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListInstitucions::route('/'),
             'create' => Pages\CreateInstitucion::route('/create'),
-            'view' => Pages\ViewInstitucion::route('/{record}'),
             'edit' => Pages\EditInstitucion::route('/{record}/edit'),
         ];
-    }    
+    }
 }
