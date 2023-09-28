@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\IntentoResource\Pages;
 use App\Filament\Resources\IntentoResource\RelationManagers;
+use App\Filament\Resources\IntentoResource\RelationManagers\PreguntasRelationManager;
 use App\Models\Intento;
 use App\Models\Prueba;
 use Filament\Forms;
@@ -41,12 +42,6 @@ class IntentoResource extends Resource
                     ->numeric(),
                 Forms\Components\TextInput::make('aciertos')
                     ->numeric(),
-                Repeater::make('preguntasIncluidas')
-                    ->relationship()
-                    ->schema([
-                        Forms\Components\RichEditor::make('contenido')
-                            ->columnSpanFull(),
-                    ]),
                 Forms\Components\Textarea::make('respuestas')
                     ->maxLength(65535)
                     ->columnSpanFull(),
@@ -92,7 +87,7 @@ class IntentoResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            PreguntasRelationManager::class
         ];
     }
     
