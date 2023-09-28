@@ -6,9 +6,11 @@ use App\Filament\Resources\CursoResource\Pages;
 use App\Filament\Resources\CursoResource\RelationManagers;
 use App\Models\Curso;
 use Filament\Forms;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -23,19 +25,22 @@ class CursoResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nombre')
-                    ->required()
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('descripcion')
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('imagen')
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('examen_id')
-                    ->numeric(),
-                Forms\Components\TextInput::make('activo')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
+                Grid::make(2)
+                    ->schema([
+                        Forms\Components\TextInput::make('nombre')
+                            ->required()
+                            ->maxLength(191),
+                        Forms\Components\Select::make('examen_id')
+                            ->relationship('examen', 'nombre'),
+                        Forms\Components\RichEditor::make('descripcion')
+                            ->maxLength(191)
+                            ->columnSpan(2),
+                        Forms\Components\FileUpload::make('imagen')
+                            ->image()
+                            ->columnSpan(2),
+                        Forms\Components\Toggle::make('activo')
+                            ->required(),
+                    ])
             ]);
     }
 
@@ -44,28 +49,17 @@ class CursoResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('nombre')
+                    ->description(fn (Curso $record): string => $record->descripcion ?? 'Falta descripción')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('descripcion')
+                Tables\Columns\TextColumn::make('examen.nombre'),
+                Tables\Columns\ImageColumn::make('imagen')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('imagen')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('examen_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('activo')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\ToggleColumn::make('activo'),
+                Split::make([]),
+            ])
+            ->contentGrid([
+                'md' => 2,
+                'xl' => 3,
             ])
             ->filters([
                 //
@@ -79,14 +73,14 @@ class CursoResource extends Resource
                 ]),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -94,5 +88,5 @@ class CursoResource extends Resource
             'create' => Pages\CreateCurso::route('/create'),
             'edit' => Pages\EditCurso::route('/{record}/edit'),
         ];
-    }    
+    }
 }
