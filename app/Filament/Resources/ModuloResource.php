@@ -28,14 +28,12 @@ class ModuloResource extends Resource
                     ->maxLength(191),
                 Forms\Components\TextInput::make('imagen')
                     ->maxLength(191),
-                Forms\Components\TextInput::make('curso_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\Textarea::make('descripcion')
+                Forms\Components\Select::make('curso_id')
+                    ->relationship(name: 'curso', titleAttribute: 'nombre')
+                    ->required(),
+                Forms\Components\RichEditor::make('descripcion')
                     ->maxLength(65535)
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('orden')
-                    ->numeric(),
             ]);
     }
 
@@ -47,7 +45,7 @@ class ModuloResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('imagen')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('curso_id')
+                Tables\Columns\TextColumn::make('curso.nombre')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -72,7 +70,8 @@ class ModuloResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->reorderable('order');
     }
     
     public static function getRelations(): array

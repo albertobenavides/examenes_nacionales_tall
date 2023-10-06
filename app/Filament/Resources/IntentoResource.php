@@ -31,20 +31,6 @@ class IntentoResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
-                    ->relationship('usuario', 'name')
-                    ->required(),
-                Forms\Components\TextInput::make('prueba_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('calificacion')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('aciertos')
-                    ->numeric(),
-                Forms\Components\Textarea::make('respuestas')
-                    ->maxLength(65535)
-                    ->columnSpanFull(),
             ]);
     }
 
@@ -87,7 +73,7 @@ class IntentoResource extends Resource
     public static function getRelations(): array
     {
         return [
-            PreguntasRelationManager::class
+            //
         ];
     }
     
@@ -96,7 +82,7 @@ class IntentoResource extends Resource
         return [
             'index' => Pages\ListIntentos::route('/'),
             'create' => Pages\CreateIntento::route('/create'),
-            'edit' => Pages\EditIntento::route('/{record}/edit'),
+            // 'edit' => Pages\EditIntento::route('/{record}/edit'),
         ];
     }    
 }

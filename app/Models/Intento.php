@@ -25,9 +25,4 @@ class Intento extends Model
     {
         return $this->belongsTo(Prueba::class, 'prueba_id', 'id');
     }
-
-    public function preguntas()
-    {
-        return $this->hasMany(Intento::class, 'id')->join('preguntas', 'preguntas.id', '=', 'preguntas.id') ->whereIn('preguntas.id', $this->preguntas);
-    }
 }

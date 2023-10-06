@@ -34,7 +34,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                // Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->plugins([
@@ -47,13 +47,13 @@ class AdminPanelProvider extends PanelProvider
                         slug: 'my-profile' // Sets the slug for the profile page (default = 'my-profile')
                     ),
                 \BezhanSalleh\FilamentLanguageSwitch\FilamentLanguageSwitchPlugin::make(),
-                \Awcodes\Overlook\OverlookPlugin::make()
-                    ->excludes([
-                        \BezhanSalleh\FilamentShield\Resources\RoleResource::class
-                    ]),
+                // \Awcodes\Overlook\OverlookPlugin::make()
+                //     ->excludes([
+                //         \BezhanSalleh\FilamentShield\Resources\RoleResource::class
+                //     ]),
             ])
             ->widgets([
-                \Awcodes\Overlook\Widgets\OverlookWidget::class,
+                // \Awcodes\Overlook\Widgets\OverlookWidget::class,
                 // Widgets\AccountWidget::class,
                 // Widgets\FilamentInfoWidget::class,
             ])
