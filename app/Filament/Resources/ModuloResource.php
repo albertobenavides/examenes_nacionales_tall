@@ -26,8 +26,8 @@ class ModuloResource extends Resource
                 Forms\Components\TextInput::make('nombre')
                     ->required()
                     ->maxLength(191),
-                Forms\Components\TextInput::make('imagen')
-                    ->maxLength(191),
+                Forms\Components\FileUpload::make('imagen')
+                    ->image(),
                 Forms\Components\Select::make('curso_id')
                     ->relationship(name: 'curso', titleAttribute: 'nombre')
                     ->required(),

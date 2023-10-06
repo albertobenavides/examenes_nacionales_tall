@@ -48,13 +48,13 @@ class PagoResource extends Resource
                 Tables\Columns\TextColumn::make('fin')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('user_id')
+                Tables\Columns\TextColumn::make('usuario.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('promo_id')
+                Tables\Columns\TextColumn::make('promo.nombre')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('curso_id')
+                Tables\Columns\TextColumn::make('curso.nombre')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -72,7 +72,7 @@ class PagoResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -93,7 +93,7 @@ class PagoResource extends Resource
         return [
             'index' => Pages\ListPagos::route('/'),
             'create' => Pages\CreatePago::route('/create'),
-            'edit' => Pages\EditPago::route('/{record}/edit'),
+            // 'edit' => Pages\EditPago::route('/{record}/edit'),
         ];
     }    
 }
