@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\CursoResource\Pages;
 use App\Filament\Resources\CursoResource\RelationManagers;
+use App\Filament\Resources\CursoResource\RelationManagers\ModulosRelationManager;
 use App\Models\Curso;
 use Filament\Forms;
 use Filament\Forms\Components\Grid;
@@ -77,7 +78,7 @@ class CursoResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ModulosRelationManager::class
         ];
     }
 
