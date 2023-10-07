@@ -26,12 +26,13 @@ class PromoResource extends Resource
                 Forms\Components\TextInput::make('nombre')
                     ->required()
                     ->maxLength(191),
-                Forms\Components\TextInput::make('curso_id')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Select::make('curso_id')
+                    ->relationship(name: 'curso', titleAttribute: 'nombre')    
+                    ->required(),
                 Forms\Components\TextInput::make('costo')
                     ->required()
-                    ->numeric(),
+                    ->numeric()
+                    ->minValue(0),
                 Forms\Components\Toggle::make('videos')
                     ->required(),
                 Forms\Components\TextInput::make('examenes')
@@ -39,12 +40,12 @@ class PromoResource extends Resource
                     ->numeric(),
                 Forms\Components\Toggle::make('duracion')
                     ->required(),
-                Forms\Components\TextInput::make('descripcion')
+                Forms\Components\RichEditor::make('descripcion')
                     ->maxLength(191),
-                Forms\Components\TextInput::make('contenido')
+                Forms\Components\RichEditor::make('contenido')
                     ->maxLength(191),
-                Forms\Components\TextInput::make('imagen')
-                    ->maxLength(191),
+                Forms\Components\FileUpload::make('imagen')
+                    ->image(),
             ]);
     }
 
@@ -54,12 +55,14 @@ class PromoResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('nombre')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('curso_id')
+                Tables\Columns\TextColumn::make('curso.nombre')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('costo')
                     ->numeric()
-                    ->sortable(),
+                    ->formatStateUsing(fn (string $state): string => "$" . number_format($state, 2))
+                    ->sortable()
+                    ->alignEnd(),
                 Tables\Columns\IconColumn::make('videos')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('examenes')
@@ -79,7 +82,7 @@ class PromoResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('contenido')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('imagen')
+                Tables\Columns\ImageColumn::make('imagen')
                     ->searchable(),
             ])
             ->filters([

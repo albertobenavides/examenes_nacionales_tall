@@ -24,7 +24,7 @@ class Modulo extends Model implements Sortable
 
     public function temas()
     {
-        return $this->hasMany('App\Tema');
+        return $this->hasMany(Tema::class);
     }
 
     public function buildSortQuery()

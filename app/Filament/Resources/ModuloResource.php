@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ModuloResource\Pages;
 use App\Filament\Resources\ModuloResource\RelationManagers;
+use App\Filament\Resources\ModuloResource\RelationManagers\TemasRelationManager;
 use App\Models\Modulo;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -73,7 +74,7 @@ class ModuloResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            TemasRelationManager::class
         ];
     }
     

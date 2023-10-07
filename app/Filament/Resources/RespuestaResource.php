@@ -23,12 +23,9 @@ class RespuestaResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Textarea::make('contenido')
+                Forms\Components\RichEditor::make('contenido')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('pregunta_id')
-                    ->required()
-                    ->numeric(),
                 Forms\Components\Toggle::make('correcta')
                     ->required(),
             ]);
@@ -38,11 +35,11 @@ class RespuestaResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('pregunta_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('pregunta.contenido')
+                    ->wrap()
+                    ->placeholder('Pregunta borrada.')
                     ->sortable(),
-                Tables\Columns\IconColumn::make('correcta')
-                    ->boolean(),
+                Tables\Columns\ToggleColumn::make('correcta'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

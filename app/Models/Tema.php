@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\EloquentSortable\Sortable;
+use Spatie\EloquentSortable\SortableTrait;
 
-class Tema extends Model
+class Tema extends Model implements Sortable
 {
     use HasFactory;
+    use SortableTrait;
 
     public function modulo()
     {
@@ -22,5 +25,10 @@ class Tema extends Model
     public function pruebas()
     {
         return $this->belongsToMany(Prueba::class)->withPivot('preguntas');
+    }
+
+    public function buildSortQuery()
+    {
+        return static::query()->where('modulo_id', $this->modulo_id);
     }
 }

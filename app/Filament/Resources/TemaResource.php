@@ -28,14 +28,10 @@ class TemaResource extends Resource
                     ->maxLength(191),
                 Forms\Components\TextInput::make('descripcion')
                     ->maxLength(191),
-                Forms\Components\TextInput::make('imagen')
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('pdf')
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('video')
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('orden')
-                    ->numeric(),
+                Forms\Components\FileUpload::make('imagen')
+                    ->image(),
+                Forms\Components\FileUpload::make('pdf'),
+                Forms\Components\FileUpload::make('video'),
                 Forms\Components\TextInput::make('modulo_id')
                     ->required()
                     ->numeric(),
@@ -51,11 +47,9 @@ class TemaResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('nombre')
+                    ->description(fn (Tema $record): string => $record->description ?? '')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('descripcion')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('imagen')
-                    ->searchable(),
+                Tables\Columns\ImageColumn::make('imagen'),
                 Tables\Columns\TextColumn::make('pdf')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('video')
@@ -63,7 +57,7 @@ class TemaResource extends Resource
                 Tables\Columns\TextColumn::make('orden')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('modulo_id')
+                Tables\Columns\TextColumn::make('modulo.nombre')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')

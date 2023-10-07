@@ -26,11 +26,11 @@ class PruebaResource extends Resource
                 Forms\Components\TextInput::make('nombre')
                     ->required()
                     ->maxLength(191),
-                Forms\Components\Textarea::make('descripcion')
+                Forms\Components\RichEditor::make('descripcion')
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('curso_id')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Select::make('curso_id')
+                    ->relationship(name: 'curso', titleAttribute: 'nombre')
+                    ->required(),
             ]);
     }
 
@@ -40,7 +40,7 @@ class PruebaResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('nombre')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('curso_id')
+                Tables\Columns\TextColumn::make('curso.nombre')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
