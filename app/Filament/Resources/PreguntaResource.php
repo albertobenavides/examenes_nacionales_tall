@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use tidy;
 
 class PreguntaResource extends Resource
 {
@@ -23,17 +24,17 @@ class PreguntaResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Textarea::make('contenido')
+                Forms\Components\RichEditor::make('contenido')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\Textarea::make('ayuda')
+                Forms\Components\RichEditor::make('ayuda')
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('tema_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('curso_id')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Select::make('curso_id')
+                    ->relationship(name: 'curso', titleAttribute: 'nombre')
+                    ->required(),
+                Forms\Components\Select::make('tema_id')
+                    ->relationship(name: 'tema', titleAttribute: 'nombre')
+                    ->required(),
             ]);
     }
 
@@ -41,10 +42,13 @@ class PreguntaResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('tema_id')
+                Tables\Columns\TextColumn::make('contenido')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('curso_id')
+                Tables\Columns\TextColumn::make('tema.nombre')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('curso.nombre')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
