@@ -24,7 +24,7 @@ class PreguntaResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\RichEditor::make('contenido')
+                Forms\Components\MarkdownEditor::make('contenido')
                     ->required()
                     ->columnSpanFull(),
                 Forms\Components\RichEditor::make('ayuda')
