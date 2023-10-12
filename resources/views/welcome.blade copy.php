@@ -19,7 +19,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="#">
+                    <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
@@ -77,22 +77,22 @@
     <div id="banner" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                @if ($settings->portada1)
-                <img src="/storage/{{$settings->portada1}}" class="d-block w-100" alt="...">    
+                @if (setting('portada1'))
+                <img src="/storage/{{setting('portada1')}}" class="d-block w-100" alt="...">    
                 @else    
                 <img src="/img/banner2.jpg" class="d-block w-100" alt="...">
                 @endif
             </div>
             <div class="carousel-item">
-                @if ($settings->portada2)
-                <img src="/storage/{{$settings->portada2}}" class="d-block w-100" alt="...">    
+                @if (setting('portada2'))
+                <img src="/storage/{{setting('portada2')}}" class="d-block w-100" alt="...">    
                 @else    
                 <img src="/img/banner3.jpg" class="d-block w-100" alt="...">
                 @endif
             </div>
             <div class="carousel-item">
-                @if ($settings->portada3)
-                <img src="/storage/{{$settings->portada3}}" class="d-block w-100" alt="...">    
+                @if (setting('portada3'))
+                <img src="/storage/{{setting('portada3')}}" class="d-block w-100" alt="...">    
                 @else    
                 <img src="/img/banner4.jpg" class="d-block w-100" alt="...">
                 @endif
@@ -121,7 +121,7 @@
     <div class="container">
         <span class="display-5">Contamos con todos los exámenes</span>
         <div class="d-flex align-content-md-start flex-wrap">
-            @foreach(App\Models\Examen::select(['nombre', 'descripcion'])->get() as $e)
+            @foreach(App\Examen::select(['nombre', 'descripcion'])->get() as $e)
             <div class="col-lg-4 mb-3">
                 <div class="bg-white p-3" style="height:13rem">
                         <h5>{{$e->nombre}}</h5>
