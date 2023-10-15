@@ -31,7 +31,7 @@ Route::get('/', function () {
 Route::group(['middleware' => 'revisar.acceso'], function() {
     Auth::routes();
 
-    Route::get('/inicio', HomeController::class, 'index')->name('home');
+    Route::get('/inicio', [HomeController::class, 'index'])->name('home');
 
     Route::resources([
         '/pruebas' => 'ExamenController',
