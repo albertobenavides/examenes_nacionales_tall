@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('scripts')
-<script>
-    $(document).ready(function(){
-        $('#login_modal').modal('show');
-    });
-</script>
+    <script>
+        $(document).ready(function() {
+            $('#login_modal').modal('show');
+        });
+    </script>
 @endsection
 
 @section('content')
@@ -78,34 +78,34 @@
         <div class="carousel-inner">
             <div class="carousel-item active">
                 @if ($settings->portada1)
-                <img src="/storage/{{$settings->portada1}}" class="d-block w-100" alt="...">    
-                @else    
-                <img src="/img/banner2.jpg" class="d-block w-100" alt="...">
+                    <img src="/storage/{{ $settings->portada1 }}" class="d-block w-100" alt="...">
+                @else
+                    <img src="/img/banner2.jpg" class="d-block w-100" alt="...">
                 @endif
             </div>
             <div class="carousel-item">
                 @if ($settings->portada2)
-                <img src="/storage/{{$settings->portada2}}" class="d-block w-100" alt="...">    
-                @else    
-                <img src="/img/banner3.jpg" class="d-block w-100" alt="...">
+                    <img src="/storage/{{ $settings->portada2 }}" class="d-block w-100" alt="...">
+                @else
+                    <img src="/img/banner3.jpg" class="d-block w-100" alt="...">
                 @endif
             </div>
             <div class="carousel-item">
                 @if ($settings->portada3)
-                <img src="/storage/{{$settings->portada3}}" class="d-block w-100" alt="...">    
-                @else    
-                <img src="/img/banner4.jpg" class="d-block w-100" alt="...">
+                    <img src="/storage/{{ $settings->portada3 }}" class="d-block w-100" alt="...">
+                @else
+                    <img src="/img/banner4.jpg" class="d-block w-100" alt="...">
                 @endif
             </div>
         </div>
-        <a class="carousel-control-prev" href="#banner" role="button" data-slide="prev">
+        <button class="carousel-control-prev" type="button" data-bs-target="#banner" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">Anterior</span>
-        </a>
-        <a class="carousel-control-next" href="#banner" role="button" data-slide="next">
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#banner" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Siguiente</span>
-        </a>
+        </button>
     </div>
     <div class="jumbotron bg-secondary d-flex justify-content-center">
         <div class="container row">
@@ -121,17 +121,17 @@
     <div class="container">
         <span class="display-5">Contamos con todos los exámenes</span>
         <div class="d-flex align-content-md-start flex-wrap">
-            @foreach(App\Models\Examen::select(['nombre', 'descripcion'])->get() as $e)
-            <div class="col-lg-4 mb-3">
-                <div class="bg-white p-3" style="height:13rem">
-                        <h5>{{$e->nombre}}</h5>
-                    <p>{{$e->descripcion}}</p>
+            @foreach (App\Models\Examen::select(['nombre', 'descripcion'])->get() as $e)
+                <div class="col-lg-4 mb-3">
+                    <div class="bg-white p-3" style="height:13rem">
+                        <h5>{{ $e->nombre }}</h5>
+                        <p>{{ $e->descripcion }}</p>
+                    </div>
                 </div>
-            </div>
             @endforeach
         </div>
     </div>
-    
+
     <div class="jumbotron bg-dark text-white my-5 d-flex justify-content-center">
         <div class="container row">
             <div class="col-lg-4">
@@ -159,5 +159,4 @@
             @csrf
         </form>
     </div>
-
 @endsection

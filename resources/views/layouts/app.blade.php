@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,21 +13,101 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/4.0.0/css/jasny-bootstrap.min.css">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
-    <link rel="stylesheet" href="/css/jquery-ui.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+    <link rel="stylesheet" href="/css/jquery-ui.min.css" />
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <!--Floating WhatsApp css-->
     <link rel="stylesheet" href="https://rawcdn.githack.com/rafaelbotazini/floating-whatsapp/3d18b26d5c7d430a1ab0b664f8ca6b69014aed68/floating-wpp.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/fh-3.2.2/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/fh-3.2.2/datatables.min.js"></script>
+<style>
+/* Preloder */
+
+#preloder {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 999999;
+	/*background: #000; OLD*/
+	background: rgba(84, 124, 161, 0.836);
+}
+
+.loader {
+	width: 100px;
+	height: 100px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -13px;
+	margin-left: -13px;
+	border-radius: 60px;
+	animation: loader 1.5s linear infinite;
+	-webkit-animation: loader 1.5s linear infinite;
+}
+
+@keyframes loader {
+	0% {
+		-webkit-transform: rotateY(0deg);
+		transform: rotateY(0deg);
+		/*border: 4px solid #f44336;OLD*/
+		border: 4px solid #ffffff;
+		border-left-color: transparent;
+	}
+	50% {
+		-webkit-transform: rotateY(180deg);
+		transform: rotateY(180deg);
+		/*border: 4px solid #673ab7;OLD*/
+		border: 4px solid #002e5b;
+		border-left-color: transparent;
+	}
+	100% {
+		-webkit-transform: rotateY(360deg);
+		transform: rotateY(360deg);
+		/*border: 4px solid #f44336;OLD*/
+		border: 4px solid #fde428;
+		border-left-color: transparent;
+	}
+}
+
+@-webkit-keyframes loader {
+	0% {
+		-webkit-transform: rotateY(0deg);
+		border: 4px solid #ffffff;
+		border-left-color: transparent;
+	}
+	50% {
+		-webkit-transform: rotateY(180deg);
+		border: 4px solid #002e5b;
+		border-left-color: transparent;
+	}
+	100% {
+		-webkit-transform: rotateY(360deg);
+		border: 4px solid #fde428;
+		border-left-color: transparent;
+	}
+}
+</style>
     @livewireStyles
     @yield('styles')
 </head>
+
 <body>
+<!-- START Page Preloder -->
+<div id="preloder">
+    <div class="loader"></div>
+</div>
+<!-- FIN Page Preloder -->
     <div id="app" style="min-height: 80vh">
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="app">
             <div class="container">
@@ -50,33 +131,16 @@
                                 <div class="row">
                                     <div class="col-3 pr-0 py-0">
                                         <div class="list-group list-group-flush" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                            @php
-                                                $cursos_activos = Cache::remember('cursos_activos', 3600, function () {
-                                                    return App\Models\Curso::where('activo', 1)->get();
-                                                });
-                                            @endphp
-                                            @foreach ($cursos_activos as $c)
-                                                <a class="list-group-item list-group-item-course bg-primary text-white" id="v-pills-{{$c->id}}-tab" curso_id="{{$c->id}}" data-toggle="tab" href="#v-pills-{{$c->id}}" role="tab" aria-controls="v-pills-{{$c->id}}" aria-selected="true">{{$c->nombre}}</a>
-                                            @endforeach
+                                            
                                         </div>
                                     </div>
                                     <div class="col-9">
                                         <div class="tab-content" id="v-pills-tabContent">
-                                            @foreach ($cursos_activos as $c)
-                                            <div class="tab-pane show" id="v-pills-{{$c->id}}" role="tabpanel" aria-labelledby="v-pills-{{$c->id}}-tab">
-                                                <div class="d-flex flex-wrap justify-content-around">
-                                                    @foreach ($c->instituciones as $inst)
-                                                        @if ($inst->imagen != null)
-                                                            <a href="#" class="m-1"><img src="/storage/{{$inst->imagen}}" width="300" height="113"></a>
-                                                        @else
-                                                            <a href="#" class="m-1"><img src="https://fakeimg.pl/300x113/?text={{$c->nombre}}"></a>
-                                                        @endif
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                            @endforeach
+                                            
                                         </div>
                                     </div>
+                                    <!--Aqui es mas trabajo necesitas renderizar todo esto-->
+                                    
                                 </div>
                             </div>
                         </div>
@@ -91,15 +155,15 @@
                                         <a class="dropdown-item" href="/ajustes">Plataforma</a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="/cursos">
-                                            <span class="badge badge-pill">{{App\Models\Curso::count()}}</span>
+                                            <span class="badge badge-pill">{{App\Curso::count()}}</span>
                                             Cursos
                                         </a>
                                         <a class="dropdown-item" href="/usuarios">
-                                            <span class="badge badge-pill">{{App\Models\User::count()}}</span>
+                                            <span class="badge badge-pill">{{App\User::count()}}</span>
                                             Usuarios
                                         </a>     
                                         <a class="dropdown-item" href="/pagos">
-                                            <span class="badge badge-pill">{{App\Models\Pago::count()}}</span>
+                                            <span class="badge badge-pill">{{App\Pago::count()}}</span>
                                             Pagos
                                         </a>
                                         <a class="dropdown-item" href="/calificaciones">
@@ -107,11 +171,11 @@
                                         </a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="/pagos">
-                                            <span class="badge badge-pill">{{App\Models\Examen::count()}}</span>
+                                            <span class="badge badge-pill">{{App\Examen::count()}}</span>
                                             Exámenes
                                         </a>
                                         <a class="dropdown-item" href="/pagos">
-                                            <span class="badge badge-pill">{{App\Models\Institucion::count()}}</span>
+                                            <span class="badge badge-pill">{{App\Institucion::count()}}</span>
                                             Instituciones
                                         </a>
                                     </div>
@@ -184,6 +248,10 @@
     <!--Floating WhatsApp javascript-->
     <script type="text/javascript" src="https://rawcdn.githack.com/rafaelbotazini/floating-whatsapp/3d18b26d5c7d430a1ab0b664f8ca6b69014aed68/floating-wpp.min.js"></script>
     <script>
+        $(window).on('load', function () {
+            $(".loader").fadeOut();
+            $("#preloder").delay(200).fadeOut("slow");
+        });
         $(document).ready(function(){
             $(".list-group-item-course").hover(function(){
                 $(this).tab('show');
@@ -202,6 +270,8 @@
             });
 
             $('#cerrar_sesion').click(function(){
+                sessionStorage.clear();
+                localStorage.clear(); 
                 $('#cerrar_sesion_form').submit();
             });
             @if (Session::has('mensaje'))
@@ -253,7 +323,7 @@
                     $('.floating-wpp-button').css('height', '90px');
 
                     $('#WAButtonL').floatingWhatsApp({
-                        phone: '+528124285085', //WhatsApp Business phone number International format-
+                        phone: '+528136201380', //WhatsApp Business phone number International format-
                         //Get it with Toky at https://toky.co/en/features/whatsapp.
                         headerTitle: 'Chatea con nosotros', //Popup Title
                         popupMessage: 'Hola, ¿en qué podemos ayudarte?', //Popup Message

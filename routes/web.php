@@ -29,7 +29,7 @@ Route::get('/', function (GeneralSettings $settings) {
 
 Route::group(['middleware' => 'revisar.acceso'], function() {
     Auth::routes();
-    
+
     Route::get('/inicio', 'HomeController@index')->name('home');
 
     Route::resources([
@@ -131,6 +131,3 @@ Route::post('/oxxo', function(Request $request){
         return response("Error en referencia $reference", 200);
     }
 });
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
