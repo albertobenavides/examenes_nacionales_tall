@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Examen;
 use Illuminate\Http\Request;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,24 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        //echo Auth::user()->rol_id ;
+        if (Auth::user()->rol_id == 3){
+            return view('usuarios.consulta');
+        }
+        if (Auth::user()->rol_id == 1){
+            return redirect('ajustes');
+        }else{
+            return view('cursos.index');    
+        }
+        
+        /*
+        if (Auth::user()->rol_id == 1){
+            return redirect('ajustes');
+        } else if (Auth::user()->rol_id == 3){
+            return view('usuarios.consulta');
+        } else {
+            return view('cursos.index');
+        }*/
+        
     }
 }

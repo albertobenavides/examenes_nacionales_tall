@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ $settings->app_name }}</title>
+    <title>@php fn (GeneralSettings $settings): string => $settings->app_name @endphp</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -111,7 +111,7 @@
     <div id="app" style="min-height: 80vh">
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="app">
             <div class="container">
-                <a class="navbar-brand" href="/">{{$settings->app_name}}</a>
+                <a class="navbar-brand" href="/">@php fn (GeneralSettings $settings) => $settings->app_name @endphp</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>

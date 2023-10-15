@@ -1,6 +1,7 @@
 <?php
 
 use App\Curso;
+use App\Http\Controllers\HomeController;
 use App\Intento;
 use App\User;
 use App\Pago;
@@ -23,14 +24,14 @@ use Illuminate\Support\Facades\Log;
 |
 */
 
-Route::get('/', function (GeneralSettings $settings) {
-    return view('welcome', ['settings' => $settings]);
+Route::get('/', function () {
+    return view('welcome');
 });
 
 Route::group(['middleware' => 'revisar.acceso'], function() {
     Auth::routes();
 
-    Route::get('/inicio', 'HomeController@index')->name('home');
+    Route::get('/inicio', HomeController::class, 'index')->name('home');
 
     Route::resources([
         '/pruebas' => 'ExamenController',
