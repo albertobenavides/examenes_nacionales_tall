@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Intento;
-use App\Modulo;
+use App\Models\Intento;
+use App\Models\Modulo;
 use App\Models\Pago;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -75,12 +75,12 @@ class ModuloController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Modulo  $modulo
+     * @param  \App\Models\Modulo  $modulo
      * @return \Illuminate\Http\Response
      */
     public function show(Modulo $modulo)
     {
-        /*$pago = Pago::where('user_id', Auth::id())->where('curso_id', $modulo->curso_id)->where('fin', '>=', Carbon::today())->orderByDesc('promo_id')->first();
+        $pago = Pago::where('user_id', Auth::id())->where('curso_id', $modulo->curso_id)->where('fin', '>=', Carbon::today())->orderByDesc('promo_id')->first();
         $temas = $modulo->temas->sortBy('orden');
         $totales = 0.0;
         $pasados = 0.0;
@@ -91,15 +91,15 @@ class ModuloController extends Controller
             $totales = $totales + 1;
             $t->max = Intento::where('user_id', Auth::id())->where('prueba_id', $t->id * -1)->where('calificacion', '>', -1)->max('calificacion');
             $pasados = $t->max >= 90 ? $pasados + 1 : $pasados;
-        }*/
+        }
 
-        /**return view('modulos.mostrar', [
+        return view('modulos.mostrar', [
             'modulo' => $modulo,
             'pago' => $pago,
             'temas' => $temas,
             'totales' => $totales,
             'pasados' => $pasados
-        ]);**/
+        ]);
         return view('modulos.mostrar',[
             'modulo' => $modulo
         ]);
@@ -108,7 +108,7 @@ class ModuloController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Modulo  $modulo
+     * @param  \App\Models\Modulo  $modulo
      * @return \Illuminate\Http\Response
      */
     public function edit(Modulo $modulo)
@@ -122,7 +122,7 @@ class ModuloController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Modulo  $modulo
+     * @param  \App\Models\Modulo  $modulo
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Modulo $modulo)
@@ -161,7 +161,7 @@ class ModuloController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Modulo  $modulo
+     * @param  \App\Models\Modulo  $modulo
      * @return \Illuminate\Http\Response
      */
     public function destroy(Modulo $modulo)

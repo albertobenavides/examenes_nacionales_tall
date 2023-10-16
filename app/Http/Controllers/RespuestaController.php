@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Respuesta;
-use App\Pregunta;
+use App\Models\Pregunta;
 use Illuminate\Http\Request;
 
 class RespuestaController extends Controller

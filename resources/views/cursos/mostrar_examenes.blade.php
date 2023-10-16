@@ -83,7 +83,7 @@
                 @endphp
                 @foreach ($curso->pruebas as $p)
                 @php
-                    $intentos = App\Intento::where('user_id', Auth::id())->where('prueba_id', $p->id)->where('calificacion', '>', -1);
+                    $intentos = App\Models\Intento::where('user_id', Auth::id())->where('prueba_id', $p->id)->where('calificacion', '>', -1);
                     $max = $intentos->max('calificacion');
                     $min = $intentos->min('calificacion');
                     $avg = $intentos->avg('calificacion');

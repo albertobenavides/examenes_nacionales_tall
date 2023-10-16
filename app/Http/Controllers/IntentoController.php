@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Intento;
-use App\Pregunta;
+use App\Models\Intento;
+use App\Models\Pregunta;
 use App\Prueba;
 use App\Respuesta;
 use App\Tema;
@@ -100,7 +100,7 @@ class IntentoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Intento  $intento
+     * @param  \App\Models\Intento  $intento
      * @return \Illuminate\Http\Response
      */
     public function show(Intento $intento)
@@ -111,7 +111,7 @@ class IntentoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Intento  $intento
+     * @param  \App\Models\Intento  $intento
      * @return \Illuminate\Http\Response
      */
     public function edit(Intento $intento)
@@ -123,7 +123,7 @@ class IntentoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Intento  $intento
+     * @param  \App\Models\Intento  $intento
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Intento $intento)
@@ -134,7 +134,7 @@ class IntentoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Intento  $intento
+     * @param  \App\Models\Intento  $intento
      * @return \Illuminate\Http\Response
      */
     public function destroy(Intento $intento)

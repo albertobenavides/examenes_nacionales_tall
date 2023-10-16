@@ -162,7 +162,7 @@ $gran_val = 0;
         @php
             $totales = $totales + 1;
             $gran_totales = $gran_totales + 1;
-            $max = App\Intento::where('user_id', Auth::id())->where('prueba_id', $t->id * -1)->max('calificacion');
+            $max = App\Models\Intento::where('user_id', Auth::id())->where('prueba_id', $t->id * -1)->max('calificacion');
             $pasados = $max >= 90 ? $pasados + 1 : $pasados;
             $gran_pasados = $max >= 90 ? $gran_pasados + 1 : $gran_pasados;
             if ($totales <= 0){
@@ -219,7 +219,7 @@ if ($gran_totales > 0){
                 @endif
                 @php
                     $totales = $totales + 1;
-                    $max = App\Intento::where('user_id', Auth::id())->where('prueba_id', $t->id * -1)->max('calificacion');
+                    $max = App\Models\Intento::where('user_id', Auth::id())->where('prueba_id', $t->id * -1)->max('calificacion');
                     $pasados = $max >= 90 ? $pasados + 1 : $pasados;
                     if ($totales <= 0){
                         $val = 0;

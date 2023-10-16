@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Curso;
-use App\Modulo;
-use App\Pregunta;
+use App\Models\Modulo;
+use App\Models\Pregunta;
 use App\Respuesta;
 use App\Tema;
 use Illuminate\Http\Request;

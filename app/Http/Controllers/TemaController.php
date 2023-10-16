@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Tema;
-use App\Modulo;
+use App\Models\Modulo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 

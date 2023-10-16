@@ -3,7 +3,9 @@
 use App\Models\Curso;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\HomeController;
-use App\Intento;
+use App\Http\Controllers\ModuloController;
+use App\Http\Controllers\PruebaController;
+use App\Models\Intento;
 use App\Models\User;
 use App\Models\Pago;
 use Illuminate\Http\Request;
@@ -35,18 +37,18 @@ Route::group(['middleware' => 'revisar.acceso'], function() {
     Route::get('/inicio', [HomeController::class, 'index'])->name('home');
 
     Route::resources([
-        '/pruebas' => 'ExamenController',
-        '/instituciones' => 'InstitucionController',
+        '/pruebas' => ExamenController::class,
+        '/instituciones' => InstitucionController::class,
         '/cursos' => CursoController::class,
-        '/modulos' => 'ModuloController',
-        '/temas' => 'TemaController',
-        '/promos' => 'PromoController',
-        '/pagos' => 'PagoController',
-        '/preguntas' => 'PreguntaController',
-        '/respuestas' => 'RespuestaController',
-        '/examenes' => 'PruebaController',
-        '/intentos' => 'IntentoController',
-        '/usuarios' => 'UsuarioController',
+        '/modulos' => ModuloController::class,
+        '/temas' => TemaController::class,
+        '/promos' => PromoController::class,
+        '/pagos' => PagoController::class,
+        '/preguntas' => PreguntaController::class,
+        '/respuestas' => RespuestaController::class,
+        '/examenes' => PruebaController::class,
+        '/intentos' => IntentoController::class,
+        '/usuarios' => UsuarioController::class,
     ]);
 
     Route::post('/usuarios/pagina', 'UsuarioController@paginate');
@@ -56,12 +58,12 @@ Route::group(['middleware' => 'revisar.acceso'], function() {
 
     Route::get('/cursos/{id}/{seccion}', [CursoController::class, 'seccion']);
 
-    Route::get('/pruebas/{id}/intentos', 'PruebaController@intentos');
-    Route::get('/pruebas/{id}/intentos/{intento_id}', 'IntentoController@revision');
-    Route::post('/pruebas/intento/{intento_id}/{respuesta_id}', 'PruebaController@actualizar_respuestas');
+    Route::get('/pruebas/{id}/intentos', [PruebaController::class, 'intentos']);
+    Route::get('/pruebas/{id}/intentos/{intento_id}', [IntentoController::class, 'revision']);
+    Route::post('/pruebas/intento/{intento_id}/{respuesta_id}', [PruebaController::class, 'actualizar_respuestas']);
 
     Route::get('/preguntas/editar/{id}', function($id){
-        $pregunta = App\Pregunta::find($id);
+        $pregunta = App\Models\Pregunta::find($id);
         return view('preguntas.editar', [
             'pregunta' => $pregunta
         ]);
@@ -69,7 +71,7 @@ Route::group(['middleware' => 'revisar.acceso'], function() {
 
     Route::post('/preguntas/revisar/{pregunta_id}', 'PreguntaController@revisar');
 
-    Route::post('/examenes/revisar', 'PruebaController@revisar');
+    Route::post('/examenes/revisar', [PruebaController::class, 'revisar']);
 
     Route::get('/calificaciones', 'CalificacionController@index');
     Route::get('/calificaciones/simulaciones', 'CalificacionController@index_simulaciones');

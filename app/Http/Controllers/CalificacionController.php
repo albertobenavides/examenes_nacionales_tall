@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Curso;
-use App\Intento;
+use App\Models\Intento;
 use App\Models\Pago;
 use App\Models\User;
 use Carbon\Carbon;

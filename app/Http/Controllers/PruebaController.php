@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Prueba;
-use App\Intento;
+use App\Models\Intento;
 use App\Respuesta;
 use App\Tema;
 use Illuminate\Support\Facades\Auth;

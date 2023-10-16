@@ -203,12 +203,12 @@
                                     @endif
                                     @php
                                         $totales = $totales + 1;
-                                        $max = App\Intento::where('user_id', Auth::id())->where('prueba_id', $t->id * -1)->where('calificacion', '>', -1)->max('calificacion');
+                                        $max = App\Models\Intento::where('user_id', Auth::id())->where('prueba_id', $t->id * -1)->where('calificacion', '>', -1)->max('calificacion');
                                         $pasados = $max >= 90 ? $pasados + 1 : $pasados;
                                     @endphp
                                     <tr>
                                         <td>{{$t->nombre}}</td>
-                                        <td>{{App\Intento::where('user_id', Auth::id())->where('prueba_id', $t->id * -1)->where('calificacion', '>', -1)->max('calificacion')}}</td>
+                                        <td>{{App\Models\Intento::where('user_id', Auth::id())->where('prueba_id', $t->id * -1)->where('calificacion', '>', -1)->max('calificacion')}}</td>
                                     </tr>
                                 @endforeach
                                 @if ($totales == 0)
