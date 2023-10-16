@@ -6,7 +6,7 @@ return new class extends SettingsMigration
 {
     public function up(): void
     {
-        $this->migrator->add('general.app_name', '');
+        $this->migrator->add('general.app_name', 'EXAMENES NACIONALES');
         $this->migrator->add('general.portada1', '');
         $this->migrator->add('general.portada2', '');
         $this->migrator->add('general.portada3', '');
