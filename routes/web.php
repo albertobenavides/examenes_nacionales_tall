@@ -1,10 +1,11 @@
 <?php
 
-use App\Curso;
+use App\Models\Curso;
+use App\Http\Controllers\CursoController;
 use App\Http\Controllers\HomeController;
 use App\Intento;
-use App\User;
-use App\Pago;
+use App\Models\User;
+use App\Models\Pago;
 use Illuminate\Http\Request;
 use Iman\Streamer\VideoStreamer;
 
@@ -24,8 +25,8 @@ use Illuminate\Support\Facades\Log;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', function (GeneralSettings $settings) {
+    return view('welcome', ['settings' => $settings]);
 });
 
 Route::group(['middleware' => 'revisar.acceso'], function() {
@@ -36,7 +37,7 @@ Route::group(['middleware' => 'revisar.acceso'], function() {
     Route::resources([
         '/pruebas' => 'ExamenController',
         '/instituciones' => 'InstitucionController',
-        '/cursos' => 'CursoController',
+        '/cursos' => CursoController::class,
         '/modulos' => 'ModuloController',
         '/temas' => 'TemaController',
         '/promos' => 'PromoController',
@@ -53,7 +54,7 @@ Route::group(['middleware' => 'revisar.acceso'], function() {
 
     Route::post('/pagos/pagina/tabla', 'PagoController@paginate_tabla');
 
-    Route::get('/cursos/{id}/{seccion}', 'CursoController@seccion');
+    Route::get('/cursos/{id}/{seccion}', [CursoController::class, 'seccion']);
 
     Route::get('/pruebas/{id}/intentos', 'PruebaController@intentos');
     Route::get('/pruebas/{id}/intentos/{intento_id}', 'IntentoController@revision');

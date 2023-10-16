@@ -141,7 +141,7 @@
         <label>Curso</label>
         <select id="curso" class="custom-select mr-2">
             <option value="-1" selected disabled>Elige un curso</option>
-            @foreach (App\Curso::select(['id', 'nombre'])->get() as $c)
+            @foreach (App\Models\Curso::select(['id', 'nombre'])->get() as $c)
                 <option value="{{ $c->id }}">{{ $c->nombre }}</option>
             @endforeach
         </select>

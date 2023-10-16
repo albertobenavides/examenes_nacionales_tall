@@ -24,7 +24,7 @@
 				<label>Curso asociado</label>
 				<select wire:model="examen_id" class="custom-select custom-select-sm" required>
 					<option value="-1" selected disabled>Elige</option>
-					@foreach(App\Curso::select(['id', 'nombre'])->get() as $e)
+					@foreach(App\Models\Curso::select(['id', 'nombre'])->get() as $e)
 						<option value="{{$e->id}}">{{$e->nombre}}</option>
 					@endforeach
 				</select>

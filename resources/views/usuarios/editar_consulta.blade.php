@@ -31,7 +31,7 @@
                 </div>
 
                 @php
-                    $pago = App\Pago::where('user_id', $usuario->id)->where('fin', '>=', Carbon\Carbon::today())->orderByDesc('promo_id')->first();
+                    $pago = App\Models\Pago::where('user_id', $usuario->id)->where('fin', '>=', Carbon\Carbon::today())->orderByDesc('promo_id')->first();
                 @endphp
 
                 <div class="row">
@@ -41,7 +41,7 @@
                             @if (!$pago)
                             <option value="-1" selected disabled>Elige un curso</option>
                             @endif
-                            @foreach (App\Curso::where('activo', 1)->get() as $c)
+                            @foreach (App\Models\Curso::where('activo', 1)->get() as $c)
                                 <option value="{{ $c->id }}" {{ $pago && $c->id == $pago->curso_id ? 'selected' : '' }}>{{ $c->nombre }}</option>
                             @endforeach
                         </select>

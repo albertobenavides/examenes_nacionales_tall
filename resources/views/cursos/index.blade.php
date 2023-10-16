@@ -11,7 +11,7 @@
             </ol>
         </nav>
         @php
-            $pago = App\Pago::where('user_id', Auth::id())->where('fin', '>=', Carbon\Carbon::today())->orderByDesc('promo_id')->first();
+            $pago = App\Models\Pago::where('user_id', Auth::id())->where('fin', '>=', Carbon\Carbon::today())->orderByDesc('promo_id')->first();
         @endphp
         @if ( $pago == null )
             <a href="/pagos/crear" class="btn btn-secondary">Inscríbete</a>
@@ -28,7 +28,7 @@
 </div>
 <div class="container">
     <div class="d-flex align-content-md-start flex-wrap">
-        @foreach(App\Curso::where('activo', 1)->get() as $c)
+        @foreach(App\Models\Curso::where('activo', 1)->get() as $c)
         <div class="card m-2" style="width:18rem">
             @if($c->imagen)
             <img src="/storage/{{$c->imagen}}" class="card-img-top">

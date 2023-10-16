@@ -121,7 +121,7 @@
     <div class="container">
         <span class="display-5">Contamos con todos los exámenes</span>
         <div class="d-flex align-content-md-start flex-wrap">
-            @foreach(App\Examen::select(['nombre', 'descripcion'])->get() as $e)
+            @foreach(App\Models\Examen::select(['nombre', 'descripcion'])->get() as $e)
             <div class="col-lg-4 mb-3">
                 <div class="bg-white p-3" style="height:13rem">
                         <h5>{{$e->nombre}}</h5>

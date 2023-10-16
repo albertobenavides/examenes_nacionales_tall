@@ -118,7 +118,7 @@
             </ol>
         </nav>
         @php
-            $pago = App\Pago::where('user_id', Auth::id())->where('curso_id', $curso->id)->where('fin', '>=', Carbon\Carbon::today())->orderByDesc('promo_id')->first();
+            $pago = App\Models\Pago::where('user_id', Auth::id())->where('curso_id', $curso->id)->where('fin', '>=', Carbon\Carbon::today())->orderByDesc('promo_id')->first();
         @endphp
         @if ( $pago == null )
             <a href="/pagos/crear" class="btn btn-secondary">Inscríbete</a>

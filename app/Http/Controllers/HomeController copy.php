@@ -30,12 +30,12 @@ class HomeController extends Controller
             return view('usuarios.consulta');
         }
         if (Auth::user()->rol_id == 1){
-            return redirect('admin');
+            return redirect('/ajustes');
         }else{
             return view('cursos.index');    
         }
         
-        /*
+        /**
         if (Auth::user()->rol_id == 1){
             return redirect('ajustes');
         } else if (Auth::user()->rol_id == 3){

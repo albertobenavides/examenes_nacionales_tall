@@ -96,7 +96,7 @@
                             <label for="mover">Prueba asociada</label>
                             <select class="custom-select" name="examen_id" form="agregar_curso" required>
                                 <option selected disabled value="-1">Elige</option>
-                                @foreach (App\Examen::select(['id', 'nombre'])->get() as $e)
+                                @foreach (App\Models\Examen::select(['id', 'nombre'])->get() as $e)
                                     <option value="{{$e->id}}">{{$e->nombre}}</option>
                                 @endforeach
                             </select>

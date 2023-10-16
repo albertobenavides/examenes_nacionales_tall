@@ -194,7 +194,7 @@
                                 <th class="text-center">Acciones</th>
                             </thead>
                             <tbody>
-                                @foreach(App\User::with('rol')->select(['id', 'name', 'email', 'rol_id'])->get()->sortByDesc('id')->take(500) as $u)
+                                @foreach(App\Models\User::with('rol')->select(['id', 'name', 'email', 'rol_id'])->get()->sortByDesc('id')->take(500) as $u)
                                 <tr>
                                     <td>{{$u->id}}</td>
                                     <td>{{$u->rol->nombre}}</td>
@@ -230,7 +230,7 @@
                             <div class="col">
                                 <label>Alumnos</label>
                                 <select id="alumnos" class="custom-select custom-select-sm" form="crearPago" name="alumnos[]" multiple="multiple" required>
-                                    @foreach (App\User::where('rol_id', 2)->get()->sortByDesc('id')->take(500) as $a)
+                                    @foreach (App\Models\User::where('rol_id', 2)->get()->sortByDesc('id')->take(500) as $a)
                                     <option value="{{$a->id}}">{{$a->name}}</option>
                                     @endforeach
                                 </select>
@@ -244,7 +244,7 @@
                                 <label>Curso</label>
                                 <select name="curso" class="custom-select custom-select-sm" form="crearPago" required>
                                     <option selected disabled>Selecciona</option>
-                                    @foreach (App\Curso::select('id', 'nombre')->get() as $c)
+                                    @foreach (App\Models\Curso::select('id', 'nombre')->get() as $c)
                                         <option value="{{$c->id}}">{{$c->nombre}}</option>
                                     @endforeach
                                 </select>
@@ -288,7 +288,7 @@
                                 <th>Acciones</th>
                             </thead>
                             <tbody>
-                                @foreach(App\Pago::all()->sortByDesc('id')->take(500) as $p)
+                                @foreach(App\Models\Pago::all()->sortByDesc('id')->take(500) as $p)
                                     @if ($eliminados && $p->curso != null)
                                         @continue
                                     @elseif (!$eliminados && $p->curso == null)

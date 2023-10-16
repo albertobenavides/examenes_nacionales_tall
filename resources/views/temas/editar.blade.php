@@ -191,7 +191,7 @@
                         <label for="mover">Mover a...</label>
                         <select class="custom-select" name="modulo_id" form="actualizar_tema">
                             <option selected value="-1">No mover</option>
-                            @foreach (App\Curso::select('id', 'nombre')->get() as $c)
+                            @foreach (App\Models\Curso::select('id', 'nombre')->get() as $c)
                                 <optgroup label="{{$c->nombre}}">
                                 @foreach (App\Modulo::select('id', 'nombre')->where('curso_id', $c->id)->get() as $m)
                                     <option value="{{$m->id}}">{{$m->nombre}}</option>

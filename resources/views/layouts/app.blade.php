@@ -103,6 +103,7 @@
 </head>
 
 <body>
+    <x-impersonate::banner/>
 <!-- START Page Preloder -->
 <div id="preloder">
     <div class="loader"></div>
@@ -155,15 +156,15 @@
                                         <a class="dropdown-item" href="/ajustes">Plataforma</a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="/cursos">
-                                            <span class="badge badge-pill">{{App\Curso::count()}}</span>
+                                            <span class="badge badge-pill">{{App\Models\Curso::count()}}</span>
                                             Cursos
                                         </a>
                                         <a class="dropdown-item" href="/usuarios">
-                                            <span class="badge badge-pill">{{App\User::count()}}</span>
+                                            <span class="badge badge-pill">{{App\Models\User::count()}}</span>
                                             Usuarios
                                         </a>     
                                         <a class="dropdown-item" href="/pagos">
-                                            <span class="badge badge-pill">{{App\Pago::count()}}</span>
+                                            <span class="badge badge-pill">{{App\Models\Pago::count()}}</span>
                                             Pagos
                                         </a>
                                         <a class="dropdown-item" href="/calificaciones">
@@ -171,11 +172,11 @@
                                         </a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="/pagos">
-                                            <span class="badge badge-pill">{{App\Examen::count()}}</span>
+                                            <span class="badge badge-pill">{{App\Models\Examen::count()}}</span>
                                             Exámenes
                                         </a>
                                         <a class="dropdown-item" href="/pagos">
-                                            <span class="badge badge-pill">{{App\Institucion::count()}}</span>
+                                            <span class="badge badge-pill">{{App\Models\Institucion::count()}}</span>
                                             Instituciones
                                         </a>
                                     </div>

@@ -110,7 +110,7 @@
                         <label>Curso</label>
                         <select name="curso_id" class="custom-select custom-select-sm" required>
                             <option value="-1" selected disbled>Elige un curso</option>
-                            @foreach (App\Curso::where('activo', 1)->get() as $c)
+                            @foreach (App\Models\Curso::where('activo', 1)->get() as $c)
                                 <option value="{{ $c->id }}">{{ $c->nombre }}</option>
                             @endforeach
                         </select>
@@ -147,7 +147,7 @@
                         <th class="text-center">Acciones</th>
                     </thead>
                     <tbody>
-                        @foreach(App\User::select('id', 'name', 'email')->sortByDesc('id')->take(500) as $u)
+                        @foreach(App\Models\User::select('id', 'name', 'email')->sortByDesc('id')->take(500) as $u)
                         <tr>
                             <td>{{$u->id}}</td>
                             <td>{{$u->rol->nombre}}</td>

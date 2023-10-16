@@ -146,7 +146,7 @@
             </ol>
         </nav>
         @php
-            $pago = App\Pago::where('user_id', Auth::id())->where('fin', '>=', Carbon\Carbon::today())->first();
+            $pago = App\Models\Pago::where('user_id', Auth::id())->where('fin', '>=', Carbon\Carbon::today())->first();
         @endphp
         @if ( $pago == null )
             <a href="/pagos/crear" class="btn btn-secondary">Inscríbete</a>
@@ -163,16 +163,16 @@
                 <select class="custom-select mb-3 curso" name="curso_id">
                     <option selected disabled>Selecciona un curso</option>
                     @if (Auth::user()->pagos->where('curso_id', 16)->count() > 0)
-                        <option value="16">{{ App\Curso::find(16)->nombre }}</option>
+                        <option value="16">{{ App\Models\Curso::find(16)->nombre }}</option>
                     @elseif (Auth::user()->rol_id == 3 || Auth::user()->rol_id == 1)
                         @foreach ($cursos_activos as $c)
                             <option value="{{$c->id}}">{{$c->nombre}}</option>
                         @endforeach
                     @elseif (Auth::user()->por_admin == 1)
                         @if (Auth::user()->pagos->first()->curso_id == 12)
-                            <option value="12">{{ App\Curso::find(12)->nombre }}</option>
+                            <option value="12">{{ App\Models\Curso::find(12)->nombre }}</option>
                         @else
-                            <option value="13">{{ App\Curso::find(13)->nombre }}</option>
+                            <option value="13">{{ App\Models\Curso::find(13)->nombre }}</option>
                         @endif
                     @else
                         @foreach ($cursos_activos as $c)

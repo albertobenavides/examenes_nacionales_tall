@@ -128,7 +128,7 @@
                                         <label for="examenCurso">Examen asociado</label>
                                         <select name="examenCurso" id="examenCurso" class="custom-select custom-select-sm" form="nuevoCurso" required>
                                             <option value="-1" selected disabled>Elige</option>
-                                            @foreach(App\Examen::select(['id', 'nombre'])->get() as $e)
+                                            @foreach(App\Models\Examen::select(['id', 'nombre'])->get() as $e)
                                                 <option value="{{$e->id}}">{{$e->nombre}}</option>
                                             @endforeach
                                         </select>
@@ -152,7 +152,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (App\Curso::select(['id', 'nombre'])->get() as $c) 
+                                            @foreach (App\Models\Curso::select(['id', 'nombre'])->get() as $c) 
                                             <tr>
                                                 <td scope="row">{{$c->id}}</td>
                                                 <td>{{$c->nombre}}</td>
@@ -195,7 +195,7 @@
                                         <th>Acciones</th>
                                     </thead>
                                     <tbody>
-                                        @foreach(App\Examen::all() as $e)
+                                        @foreach(App\Models\Examen::all() as $e)
                                         <tr>
                                             <td>{{$e->id}}</td>
                                             <td>{{$e->nombre}}</td>
