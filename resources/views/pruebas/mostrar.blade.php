@@ -30,6 +30,12 @@
                 $(this).siblings().removeClass('bg-info');
                 $(this).addClass('bg-info');
             });
+
+            if (preguntas[pregunta_id].id in respuestas_elegidas){
+                $(`[respuesta_id="${respuestas_elegidas[preguntas[pregunta_id].id]}"]`).siblings().removeClass('bg-info');
+                $(`[respuesta_id="${respuestas_elegidas[preguntas[pregunta_id].id]}"]`).addClass('bg-info');
+            }
+            
             MathJax.typeset();
         }
         $(function() {
