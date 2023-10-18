@@ -105,12 +105,19 @@ class PruebaController extends Controller
         if($id > 0){
             $prueba = Prueba::find($id);
             if(Auth::user()->rol_id == 1 or (Auth::user()->pagos->where('curso_id', $prueba->curso->id)->where('fin', '>=', Carbon::today())->count() > 0 and Auth::user()->pagos->where('curso_id', $prueba->curso->id)->where('fin', '>=', Carbon::today())->sortByDesc('promo_id')->first()->promo->examenes == true)){
+                // $preguntas = Cache::get("preguntas_prueba$id", function () use ($prueba) {
+                //     return Pregunta::select('id', 'contenido')->whereIn('tema_id', $prueba->temas->pluck('id'))->with('respuestas:id,contenido,pregunta_id')->get()->sortBy(function($order) use($prueba){
+                //         return array_search($order['tema_id'], $prueba->temas->pluck('id')->toArray());
+                //      });
+                // });
+                // dd($preguntas);
                 $preguntas = collect();
                 foreach ($prueba->temas as $t) {
                     $n = $t->pivot->preguntas;
                     $preguntas->push($t->preguntas->random($n)->shuffle());
                 }
                 $preguntas = $preguntas->flatten();
+                dd($preguntas);
                 // Para desordenarlas todas
                 //$preguntas = $preguntas->shuffle();
                 
@@ -134,10 +141,9 @@ class PruebaController extends Controller
             $id = $id * -1;
             $tema = Tema::find($id);
             if(Auth::user()->rol_id == 1 or (Auth::user()->pagos->where('curso_id', $tema->modulo->curso->id)->where('fin', '>=', Carbon::today())->count() > 0 and Auth::user()->pagos->where('curso_id', $tema->modulo->curso->id)->where('fin', '>=', Carbon::today())->sortByDesc('promo_id')->first()->promo->examenes == true)){
-                // $preguntas = Cache::get("preguntas_prueba$id", function () use ($tema) {
-                //     return Pregunta::select('id', 'contenido')->whereIn('id', $tema->preguntas->pluck('id'))->with('respuestas:id,contenido,pregunta_id')->get();
-                // });
-                $preguntas = Pregunta::select('id', 'contenido')->whereIn('id', $tema->preguntas->pluck('id'))->with('respuestas:id,contenido,pregunta_id')->get();
+                $preguntas = Cache::get("preguntas_prueba$id", function () use ($tema) {
+                    return Pregunta::select('id', 'contenido')->whereIn('id', $tema->preguntas->pluck('id'))->with('respuestas:id,contenido,pregunta_id')->get();
+                });
                 $preguntas = $preguntas->take($tema->preguntar);
                 $prueba = new Prueba;
                 $prueba->id = $tema->id * -1;
