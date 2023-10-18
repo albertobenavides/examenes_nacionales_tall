@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Prueba;
+use App\Models\Prueba;
 use App\Models\Intento;
-use App\Respuesta;
-use App\Tema;
+use App\Models\Pregunta;
+use App\Models\Respuesta;
+use App\Models\Tema;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class PruebaController extends Controller
 {
@@ -99,7 +102,7 @@ class PruebaController extends Controller
      */
     public function show($id)
     {
-        /*if($id > 0){
+        if($id > 0){
             $prueba = Prueba::find($id);
             if(Auth::user()->rol_id == 1 or (Auth::user()->pagos->where('curso_id', $prueba->curso->id)->where('fin', '>=', Carbon::today())->count() > 0 and Auth::user()->pagos->where('curso_id', $prueba->curso->id)->where('fin', '>=', Carbon::today())->sortByDesc('promo_id')->first()->promo->examenes == true)){
                 $preguntas = collect();
@@ -131,8 +134,10 @@ class PruebaController extends Controller
             $id = $id * -1;
             $tema = Tema::find($id);
             if(Auth::user()->rol_id == 1 or (Auth::user()->pagos->where('curso_id', $tema->modulo->curso->id)->where('fin', '>=', Carbon::today())->count() > 0 and Auth::user()->pagos->where('curso_id', $tema->modulo->curso->id)->where('fin', '>=', Carbon::today())->sortByDesc('promo_id')->first()->promo->examenes == true)){
-                $preguntas = collect();
-                $preguntas = $tema->preguntas->random($tema->preguntar);
+                $preguntas = Cache::get("preguntas_prueba$id", function () use ($tema) {
+                    return Pregunta::select('id', 'contenido')->whereIn('id', $tema->preguntas->pluck('id'))->with('respuestas:id,contenido,pregunta_id')->get();
+                });
+                $preguntas = $preguntas->take($tema->preguntar);
                 $prueba = new Prueba;
                 $prueba->id = $tema->id * -1;
                 $prueba->nombre = $tema->nombre;
@@ -154,7 +159,7 @@ class PruebaController extends Controller
             } else{
                 return redirect('/pagos/crear');
             }
-        }*/
+        }
         return view('pruebas.mostrar', [
             'prueba' => $id
         ]);

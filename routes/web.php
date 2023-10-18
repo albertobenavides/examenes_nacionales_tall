@@ -4,6 +4,7 @@ use App\Models\Curso;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ModuloController;
+use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PruebaController;
 use App\Models\Intento;
 use App\Models\User;
@@ -54,7 +55,7 @@ Route::group(['middleware' => 'revisar.acceso'], function() {
     Route::post('/usuarios/pagina', 'UsuarioController@paginate');
     Route::post('/usuarios/pagina/tabla', 'UsuarioController@paginate_tabla');
 
-    Route::post('/pagos/pagina/tabla', 'PagoController@paginate_tabla');
+    Route::post('/pagos/pagina/tabla', [PagoController::class, 'paginate_tabla']);
 
     Route::get('/cursos/{id}/{seccion}', [CursoController::class, 'seccion']);
 

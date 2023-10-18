@@ -13,9 +13,9 @@ use Carbon\Carbon;
 use App\Notifications\OxxoPay;
 use Illuminate\Support\Facades\Cache;
 
-require_once(env('APP_BASE') . "/vendor/conekta/conekta-php/lib/Conekta.php");
-\Conekta\Conekta::setApiKey(setting('conekta_sk'));
-\Conekta\Conekta::setApiVersion("2.0.0");
+// require_once(env('APP_BASE') . "/vendor/conekta/conekta-php/lib/Conekta.php");
+// \Conekta\Conekta::setApiKey(setting('conekta_sk'));
+// \Conekta\Conekta::setApiVersion("2.0.0");
 
 class PagoController extends Controller
 {
