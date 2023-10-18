@@ -30,6 +30,7 @@
                 $(this).siblings().removeClass('bg-info');
                 $(this).addClass('bg-info');
             });
+            MathJax.typeset();
         }
         $(function() {
             preguntas = {!! $preguntas !!};
