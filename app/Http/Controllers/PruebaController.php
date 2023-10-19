@@ -110,8 +110,9 @@ class PruebaController extends Controller
                         return array_search($order['tema_id'], $prueba->temas->pluck('id')->toArray());
                      });
                 });
-                // Para desordenarlas todas
-                //$preguntas = $preguntas->shuffle();
+                // $preguntas->filter(function ($p) use ($prueba) { [ ] Aquí vamos
+                //     return in_array($file->id, $existingIds);
+                // });
                 
                 $intento = new Intento();
                 $intento->prueba_id = $prueba->id;
