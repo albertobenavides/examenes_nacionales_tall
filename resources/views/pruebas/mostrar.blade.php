@@ -26,16 +26,16 @@
                 var r_id = parseInt($(this).attr('respuesta_id'));
                 var q_id = parseInt($(this).attr('pregunta_id'));
                 respuestas_elegidas[q_id] = r_id;
-                
+
                 $(this).siblings().removeClass('bg-info');
                 $(this).addClass('bg-info');
             });
 
-            if (preguntas[pregunta_id].id in respuestas_elegidas){
+            if (preguntas[pregunta_id].id in respuestas_elegidas) {
                 $(`[respuesta_id="${respuestas_elegidas[preguntas[pregunta_id].id]}"]`).siblings().removeClass('bg-info');
                 $(`[respuesta_id="${respuestas_elegidas[preguntas[pregunta_id].id]}"]`).addClass('bg-info');
             }
-            
+
             MathJax.typeset();
         }
         $(function() {
@@ -132,17 +132,20 @@
                 <h2 class="mt-3 text-center">Preguntas</h2>
                 <div class="text-center">
                     @php
-                        $modulo = null;
+                        $modules = $preguntas->groupby(function ($pregunta) {
+                            return $pregunta->tema->modulo;
+                        });
+                        $i = 0;
                     @endphp
-                    @for ($i = 0; $i < $preguntas->count(); $i++)
-                        @if ($modulo != App\Models\Pregunta::find($preguntas->get($i)->id)->tema->modulo->nombre)
+                    @foreach ($modules as $m)
+                        <h5>{{ $m[0]->tema->modulo->nombre ?? '' }}</h5>
+                        @foreach ($m as $pregunta)
+                            <button class="btn btn-link mostrar {{ $i == 0 ? 'bg-light' : '' }}" data-toggle="{{ $i }}">{{ $i + 1 }}</button>
                             @php
-                                $modulo = App\Models\Pregunta::find($preguntas->get($i)->id)->tema->modulo->nombre;
+                                $i += 1;
                             @endphp
-                            <h5>{{ $modulo }}</h5>
-                        @endif
-                        <button class="btn btn-link mostrar {{ $i == 0 ? 'bg-light' : '' }}" data-toggle="{{ $i }}">{{ $i + 1 }}</button>
-                    @endfor
+                        @endforeach
+                    @endforeach
                 </div>
                 <form action="/examenes/revisar" method="post" class="mt-3" id="revisar">
                     @csrf

@@ -105,14 +105,23 @@ class PruebaController extends Controller
         if($id > 0){
             $prueba = Prueba::find($id);
             if(Auth::user()->rol_id == 1 or (Auth::user()->pagos->where('curso_id', $prueba->curso->id)->where('fin', '>=', Carbon::today())->count() > 0 and Auth::user()->pagos->where('curso_id', $prueba->curso->id)->where('fin', '>=', Carbon::today())->sortByDesc('promo_id')->first()->promo->examenes == true)){
-                $preguntas = Cache::get("preguntas_prueba$id", function () use ($prueba) {
-                    return Pregunta::select('id', 'contenido', 'tema_id')->whereIn('tema_id', $prueba->temas->where('pivot.preguntas', '>', 0)->pluck('id'))->with('respuestas:id,contenido,pregunta_id')->get()->sortBy(function($order) use($prueba){
-                        return array_search($order['tema_id'], $prueba->temas->pluck('id')->toArray());
-                     });
+                $preguntas_ids = Cache::remember("preguntas_prueba$id", 3600, function () use ($prueba) {
+                    return Pregunta::whereIn('tema_id', $prueba->temas->where('pivot.preguntas', '>', 0)->pluck('id'))
+                        ->pluck('id');
+                        // ->sortBy(function($order) use($prueba){
+                        //     return array_search($order['tema_id'], $prueba->temas->pluck('id')->toArray());
+                        // });
                 });
-                // $preguntas->filter(function ($p) use ($prueba) { [ ] Aquí vamos
-                //     return in_array($file->id, $existingIds);
-                // });
+                $preguntas = Pregunta::select('id', 'contenido', 'tema_id')->whereIn('id', $preguntas_ids)
+                        ->with('respuestas:id,contenido,pregunta_id')
+                        ->get();
+                $groups = $preguntas->groupby('tema_id');
+                $groups_t = $groups;
+                foreach ($groups as $key => $g) {
+                    $total = $prueba->temas->find($key)->pivot->preguntas;
+                    $groups_t[$key] = $g->shuffle()->take($total);
+                }
+                $preguntas = $groups_t->flatten();
                 
                 $intento = new Intento();
                 $intento->prueba_id = $prueba->id;
@@ -134,9 +143,12 @@ class PruebaController extends Controller
             $id = $id * -1;
             $tema = Tema::find($id);
             if(Auth::user()->rol_id == 1 or (Auth::user()->pagos->where('curso_id', $tema->modulo->curso->id)->where('fin', '>=', Carbon::today())->count() > 0 and Auth::user()->pagos->where('curso_id', $tema->modulo->curso->id)->where('fin', '>=', Carbon::today())->sortByDesc('promo_id')->first()->promo->examenes == true)){
-                $preguntas = Cache::get("preguntas_prueba$id", function () use ($tema) {
-                    return Pregunta::select('id', 'contenido')->whereIn('id', $tema->preguntas->pluck('id'))->with('respuestas:id,contenido,pregunta_id')->get();
+                $preguntas_ids = Cache::remember("preguntas_prueba$id", 3600, function () use ($tema) {
+                    return Pregunta::whereIn('id', $tema->preguntas->pluck('id'))->pluck('id');
                 });
+                $preguntas = Pregunta::select('id', 'contenido', 'tema_id')->whereIn('id', $preguntas_ids)
+                        ->with('respuestas:id,contenido,pregunta_id')
+                        ->get();
                 $preguntas = $preguntas->take($tema->preguntar);
                 $prueba = new Prueba;
                 $prueba->id = $tema->id * -1;
