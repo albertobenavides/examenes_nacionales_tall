@@ -78,7 +78,7 @@
             $('#revisar').submit(function(e) {
                 e.preventDefault();
                 if (confirm('¿Terminar examen?')) {
-                    $('#respuestas_input').val(Object.values(respuestas_elegidas));
+                    $('#respuestas_input').val(JSON.stringify(respuestas_elegidas));
                     $(this).unbind('submit');
                     $(this).submit();
                 }
@@ -150,6 +150,7 @@
                 <form action="/examenes/revisar" method="post" class="mt-3" id="revisar">
                     @csrf
                     <input type="hidden" name="intento_id" value="{{ $intento->id }}">
+                    <input type="hidden" name="respuestas" id="respuestas_input">
                     <button class="btn btn-block btn-success btn-lg">
                         Terminar
                         <div class="spinner-border text-light" role="status" id="revisando">

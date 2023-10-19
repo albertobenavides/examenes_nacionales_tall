@@ -49,11 +49,13 @@ class PruebaController extends Controller
     public function revisar(Request $request){
         $intento = Intento::find($request->intento_id);
         
-        $rs = json_decode($intento->respuestas);
+        $preguntas = json_decode($request->respuestas);
+        $respuestas = [];
         $correctas = 0;
-        foreach ($rs as $r) {
+        foreach ($preguntas as $p => $r) {
+            array_push($respuestas, $r);
             $respuesta = Respuesta::find($r);
-            $pregunta = $respuesta->pregunta;
+            $pregunta = Pregunta::find($p);
             $c = $pregunta->respuestas->where('correcta')->first();
             if ($c->id == $respuesta->id){
                 $correctas += 1;
@@ -64,6 +66,7 @@ class PruebaController extends Controller
 
         $intento->calificacion = $calificacion;
         $intento->aciertos = $correctas;
+        $intento->respuestas = $respuestas;
         
         $intento->save();
 
@@ -119,7 +122,7 @@ class PruebaController extends Controller
                 $groups_t = $groups;
                 foreach ($groups as $key => $g) {
                     $total = $prueba->temas->find($key)->pivot->preguntas;
-                    $groups_t[$key] = $g->shuffle()->take($total);
+                    $groups_t[$key] = $g->random($total);
                 }
                 $preguntas = $groups_t->flatten();
                 

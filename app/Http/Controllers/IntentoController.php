@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Intento;
 use App\Models\Pregunta;
-use App\Prueba;
-use App\Respuesta;
-use App\Tema;
+use App\Models\Prueba;
+use App\Models\Respuesta;
+use App\Models\Tema;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -84,16 +84,16 @@ class IntentoController extends Controller
             $prueba->nombre = $tema->nombre;
             $prueba->curso_id = $tema->modulo->curso_id;
         }
-/**/
+        
         $preguntas = Pregunta::find(json_decode($intento->preguntas));
-        $respuestas = Respuesta::find(json_decode($intento->respuestas));
+        $respuestas = Respuesta::find($intento->respuestas);
 
         
         return view('pruebas.revision', [
             'prueba' => $prueba,
             'intento' => $intento,
             'preguntas' => $preguntas,
-            'respuestas' => $respuestas/**/
+            'respuestas' => $respuestas
         ]);
     }
 

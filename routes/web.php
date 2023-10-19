@@ -3,6 +3,7 @@
 use App\Models\Curso;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\IntentoController;
 use App\Http\Controllers\ModuloController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PruebaController;
