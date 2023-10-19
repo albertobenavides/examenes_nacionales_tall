@@ -10,9 +10,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use tidy;
+use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
 
 class PreguntaResource extends Resource
 {
@@ -24,10 +22,18 @@ class PreguntaResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\MarkdownEditor::make('contenido')
+                TinyEditor::make('contenido')
+                    ->profile('default')
+                    ->setExternalPlugins([
+                        'tiny_mce_wiris' => 'https://www.wiris.net/demo/plugins/tiny_mce/plugin.js',
+                    ])
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\RichEditor::make('ayuda')
+                TinyEditor::make('ayuda')
+                    ->profile('default')
+                    ->setExternalPlugins([
+                        'tiny_mce_wiris' => 'https://www.wiris.net/demo/plugins/tiny_mce/plugin.js',
+                    ])
                     ->columnSpanFull(),
                 Forms\Components\Select::make('curso_id')
                     ->relationship(name: 'curso', titleAttribute: 'nombre')

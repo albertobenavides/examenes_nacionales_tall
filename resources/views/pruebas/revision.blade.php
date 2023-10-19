@@ -82,17 +82,17 @@
                     $modulo = null;
                 @endphp
                 @for ($i = 0; $i < $preguntas->count(); $i++)
-                    @if ($modulo != $preguntas[$i]->tema->modulo->nombre)
-                    @php
-                        $modulo = $preguntas[$i]->tema->modulo->nombre;
-                    @endphp
-                        <h5>{{ $modulo }}</h5>
-                    @endif
+                    {{-- @if ($modulo != $preguntas[$i]->tema->modulo->nombre)
+                        @php
+                            $modulo = $preguntas[$i]->tema->modulo->nombre;
+                        @endphp
+                            <h5>{{ $modulo }}</h5>
+                    @endif --}}
                     <button class="btn btn-link mostrar {{$i == 0 ? 'bg-light' : ''}}
                     @if (in_array($preguntas[$i]->respuestas->where('correcta')->first()->id, $respuestas->pluck('id')->toArray()))
-                    text-success
+                        text-success
                     @else
-                    text-danger
+                        text-danger
                     @endif
                     " data-toggle="{{$i}}">
                         {{$i + 1}}
