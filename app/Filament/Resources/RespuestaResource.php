@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
 
 class RespuestaResource extends Resource
 {
@@ -23,7 +24,11 @@ class RespuestaResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\RichEditor::make('contenido')
+                TinyEditor::make('contenido')
+                    ->profile('default')
+                    ->setExternalPlugins([
+                        'tiny_mce_wiris' => 'https://www.wiris.net/demo/plugins/tiny_mce/plugin.js',
+                    ])
                     ->required()
                     ->columnSpanFull(),
                 Forms\Components\Toggle::make('correcta')
