@@ -33,7 +33,11 @@ class PagosRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('curso_id')
             ->columns([
-                Tables\Columns\TextColumn::make('curso_id'),
+                Tables\Columns\TextColumn::make('inicio'),
+                Tables\Columns\TextColumn::make('fin'),
+                Tables\Columns\TextColumn::make('curso.nombre'),
+                Tables\Columns\TextColumn::make('promo.nombre'),
+                Tables\Columns\TextColumn::make('oxxo'),
             ])
             ->filters([
                 //

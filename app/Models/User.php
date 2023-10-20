@@ -46,12 +46,6 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function canAccessPanel(Panel $panel): bool
-    {
-        # [ ] Actualizar en producción
-        return true;
-    }
-
     public function getFilamentAvatarUrl(): ?string
     {
         return '/storage/'.$this->avatar_url;
@@ -65,5 +59,10 @@ class User extends Authenticatable
     public function intentos()
     {
         return $this->hasMany(Intento::class);
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->hasRole(['super-admin', 'consulta']);
     }
 }
