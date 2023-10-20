@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\CursoResource\RelationManagers;
 
+use App\Filament\Resources\PruebaResource;
+use App\Models\Prueba;
 use Filament\Forms;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Form;
@@ -41,7 +43,7 @@ class PruebaRelationManager extends RelationManager
                 Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('editar')->url(fn (Prueba $record): string => PruebaResource::getUrl('edit', ['record' => $record])),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([

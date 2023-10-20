@@ -2,13 +2,16 @@
 
 namespace App\Filament\Resources\TemaResource\RelationManagers;
 
+use App\Models\Pregunta;
 use Filament\Forms;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
 
 class PreguntasRelationManager extends RelationManager
 {
@@ -18,18 +21,41 @@ class PreguntasRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('id')
+                TinyEditor::make('contenido')
+                    ->profile('default')
+                    ->setExternalPlugins([
+                        'tiny_mce_wiris' => 'https://www.wiris.net/demo/plugins/tiny_mce/plugin.js',
+                    ])
                     ->required()
-                    ->maxLength(255),
+                    ->columnSpanFull(),
+                TinyEditor::make('ayuda')
+                    ->profile('default')
+                    ->setExternalPlugins([
+                        'tiny_mce_wiris' => 'https://www.wiris.net/demo/plugins/tiny_mce/plugin.js',
+                    ])
+                    ->columnSpanFull(),
+                    Repeater::make('respuestas')
+                        ->relationship()
+                        ->schema([
+                            TinyEditor::make('contenido')
+                                ->profile('default')
+                                ->setExternalPlugins([
+                                    'tiny_mce_wiris' => 'https://www.wiris.net/demo/plugins/tiny_mce/plugin.js',
+                                ])
+                                ->required()
+                                ->columnSpanFull(),
+                            Forms\Components\Toggle::make('correcta')
+                                ->required(),
+                        ])->columnSpanFull()
             ]);
     }
 
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('id')
+            ->recordTitleAttribute('contenido')
             ->columns([
-                Tables\Columns\TextColumn::make('id'),
+                Tables\Columns\TextColumn::make('contenido')->description(fn (Pregunta $record): string => $record->ayuda)->wrap()->searchable(),
             ])
             ->filters([
                 //

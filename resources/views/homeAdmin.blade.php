@@ -157,7 +157,7 @@
                                                 <td scope="row">{{$c->id}}</td>
                                                 <td>{{$c->nombre}}</td>
                                                 <td class="text-center">{{$c->modulos->count()}}</td>
-                                                <td class="text-center">{{App\Tema::where('modulo_id', $c->modulos->pluck('id'))->count()}}</td>
+                                                <td class="text-center">{{App\Models\Tema::where('modulo_id', $c->modulos->pluck('id'))->count()}}</td>
                                                 <td class="text-center">{{$c->pruebas->count()}}</td>
                                                 <td class="text-center">{{$c->activo == 0 ? 'No' : 'Sí'}}</td>
                                                 <td class="text-center">

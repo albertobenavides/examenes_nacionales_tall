@@ -9,6 +9,7 @@ use App\Http\Controllers\IntentoController;
 use App\Http\Controllers\ModuloController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PruebaController;
+use App\Http\Controllers\TemaController;
 use App\Models\Intento;
 use App\Models\User;
 use App\Models\Pago;

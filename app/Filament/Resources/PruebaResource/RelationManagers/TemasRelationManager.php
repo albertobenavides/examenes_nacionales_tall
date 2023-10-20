@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\PruebaResource\RelationManagers;
 
+use App\Filament\Resources\TemaResource;
+use App\Models\Tema;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -32,7 +34,7 @@ class TemasRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('nombre')
             ->columns([
-                TextColumn::make('nombre')->searchable(),
+                TextColumn::make('nombre')->searchable()->url(fn (Tema $record): string => TemaResource::getUrl('edit', ['record' => $record])),
                 TextInputColumn::make('preguntas')->rules(['required', 'numeric', 'min:0'])->type('number'),
             ])
             ->groups([
@@ -47,9 +49,9 @@ class TemasRelationManager extends RelationManager
             ->actions([
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                // Tables\Actions\BulkActionGroup::make([
+                //     Tables\Actions\DeleteBulkAction::make(),
+                // ]),
             ]);
     }
 }

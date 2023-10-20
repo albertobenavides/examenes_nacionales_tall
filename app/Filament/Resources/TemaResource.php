@@ -33,13 +33,8 @@ class TemaResource extends Resource
                     ->image(),
                 Forms\Components\FileUpload::make('pdf'),
                 Forms\Components\FileUpload::make('video'),
-                Forms\Components\TextInput::make('modulo_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('preguntar')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
+                Forms\Components\Select::make('modulo_id')->relationship(name: 'modulo', titleAttribute: 'nombre')->searchable(['nombre'])
+                    ->required(),
             ]);
     }
 
@@ -69,9 +64,6 @@ class TemaResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('preguntar')
-                    ->numeric()
-                    ->sortable(),
             ])
             ->filters([
                 //

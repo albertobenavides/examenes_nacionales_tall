@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pregunta;
 use App\Respuesta;
 use Illuminate\Http\Request;
-use App\Tema;
+use App\Models\Tema;
 use Illuminate\Support\Facades\Auth;
 use Carbon;
 use stdClass;

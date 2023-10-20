@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\CursoResource\RelationManagers;
 
+use App\Filament\Resources\ModuloResource;
+use App\Models\Modulo;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -33,9 +35,6 @@ class ModulosRelationManager extends RelationManager
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('imagen')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('curso.nombre')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -55,7 +54,7 @@ class ModulosRelationManager extends RelationManager
                 Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('editar')->url(fn (Modulo $record): string => ModuloResource::getUrl('edit', ['record' => $record])),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([

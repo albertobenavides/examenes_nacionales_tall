@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\ModuloResource\RelationManagers;
 
+use App\Filament\Resources\TemaResource;
+use App\Models\Tema;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -39,8 +41,8 @@ class TemasRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('nombre')
             ->columns([
-                Tables\Columns\TextColumn::make('orden'),
                 Tables\Columns\TextColumn::make('nombre'),
+                Tables\Columns\TextColumn::make('orden'),
             ])
             ->filters([
                 //
@@ -49,7 +51,7 @@ class TemasRelationManager extends RelationManager
                 Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('editar')->url(fn (Tema $record): string => TemaResource::getUrl('edit', ['record' => $record])),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([

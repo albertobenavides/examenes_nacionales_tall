@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Tema;
+use App\Models\Tema;
 use App\Models\Modulo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -84,7 +84,7 @@ class TemaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Tema  $tema
+     * @param  \App\Models\Tema  $tema
      * @return \Illuminate\Http\Response
      */
     public function show(Tema $tema)
@@ -95,7 +95,7 @@ class TemaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Tema  $tema
+     * @param  \App\Models\Tema  $tema
      * @return \Illuminate\Http\Response
      */
     public function edit(Tema $tema)
@@ -109,7 +109,7 @@ class TemaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Tema  $tema
+     * @param  \App\Models\Tema  $tema
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Tema $tema)
@@ -168,7 +168,7 @@ class TemaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Tema  $tema
+     * @param  \App\Models\Tema  $tema
      * @return \Illuminate\Http\Response
      */
     public function destroy(Tema $tema)
