@@ -10,14 +10,16 @@
             $('#pregunta_contenido').html(preguntas[pregunta_id].contenido);
 
             respuestas = '';
+            let i = 1;
             preguntas[pregunta_id].respuestas.forEach(respuesta => {
                 respuestas += `<div class="list-group-item list-group-item-action respuesta" respuesta_id="${respuesta.id}" pregunta_id="${respuesta.pregunta_id}">
-                    <ol type="A">
+                    <ol type="A" start="${i}">
                         <li>
                             ${respuesta.contenido}
                         </li>
                     </ol>
                 </div>`;
+                i += 1;
             });
 
             $('#respuestas').html(respuestas);
