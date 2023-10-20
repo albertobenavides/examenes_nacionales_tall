@@ -44,8 +44,7 @@ class ModuloResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('nombre')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('imagen')
-                    ->searchable(),
+                Tables\Columns\ImageColumn::make('imagen'),
                 Tables\Columns\TextColumn::make('curso.nombre')
                     ->numeric()
                     ->sortable(),

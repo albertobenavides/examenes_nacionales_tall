@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\CursoResource\RelationManagers;
 
 use Filament\Forms;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
@@ -10,9 +11,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ModulosRelationManager extends RelationManager
+class PruebaRelationManager extends RelationManager
 {
-    protected static string $relationship = 'modulos';
+    protected static string $relationship = 'pruebas';
 
     public function form(Form $form): Form
     {
@@ -21,6 +22,8 @@ class ModulosRelationManager extends RelationManager
                 Forms\Components\TextInput::make('nombre')
                     ->required()
                     ->maxLength(255),
+                RichEditor::make('descripcion'),
+                
             ]);
     }
 
@@ -29,24 +32,7 @@ class ModulosRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('nombre')
             ->columns([
-                Tables\Columns\TextColumn::make('nombre')
-                    ->searchable(),
-                Tables\Columns\ImageColumn::make('imagen')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('curso.nombre')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('orden')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('nombre'),
             ])
             ->filters([
                 //
@@ -62,7 +48,6 @@ class ModulosRelationManager extends RelationManager
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ])
-            ->reorderable('orden');
+            ]);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\TemaResource\Pages;
 use App\Filament\Resources\TemaResource\RelationManagers;
+use App\Filament\Resources\TemaResource\RelationManagers\PreguntasRelationManager;
 use App\Models\Tema;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -88,7 +89,7 @@ class TemaResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            PreguntasRelationManager::class
         ];
     }
     
