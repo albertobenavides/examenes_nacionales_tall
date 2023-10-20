@@ -116,8 +116,9 @@ class PruebaController extends Controller
                         // });
                 });
                 $preguntas = Pregunta::select('id', 'contenido', 'tema_id')->whereIn('id', $preguntas_ids)
-                        ->with('respuestas:id,contenido,pregunta_id')
-                        ->get();
+                    ->with(['respuestas' => function($query) {
+                        $query->select('id','contenido','pregunta_id')->inRandomOrder();
+                    }])->get();
                 $groups = $preguntas->groupby('tema_id');
                 $groups_t = $groups;
                 foreach ($groups as $key => $g) {
@@ -150,7 +151,9 @@ class PruebaController extends Controller
                     return Pregunta::whereIn('id', $tema->preguntas->pluck('id'))->pluck('id');
                 });
                 $preguntas = Pregunta::select('id', 'contenido', 'tema_id')->whereIn('id', $preguntas_ids)
-                        ->with('respuestas:id,contenido,pregunta_id')
+                        ->with(['respuestas' => function($query) {
+                            $query->select('id','contenido','pregunta_id')->inRandomOrder();
+                        }])
                         ->get();
                 $preguntas = $preguntas->take($tema->preguntar);
                 $prueba = new Prueba;

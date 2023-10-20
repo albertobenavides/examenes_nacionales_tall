@@ -31,9 +31,9 @@
             <li class="nav-item">
               <a class="nav-link" href="/cursos/{{ $curso->id }}/logros">Logros</a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
               <a class="nav-link" href="/cursos/{{ $curso->id }}/examenes">Simulaciones</a>
-            </li>
+            </li> --}}
         </ul>
     </div>
 </div>

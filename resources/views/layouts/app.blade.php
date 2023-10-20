@@ -123,63 +123,14 @@
                         <div class="nav-item">
                             <a class="nav-link" href="{{ url('/promos') }}">PLANES</a>
                         </div>
-                        <div class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                CURSOS
-                            </a>
-
-                            <div class="dropdown-menu py-0 mt-2" aria-labelledby="navbarDropdown" style="width: 900px;left:-150px">
-                                <div class="row">
-                                    <div class="col-3 pr-0 py-0">
-                                        <div class="list-group list-group-flush" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                            
-                                        </div>
-                                    </div>
-                                    <div class="col-9">
-                                        <div class="tab-content" id="v-pills-tabContent">
-                                            
-                                        </div>
-                                    </div>
-                                    <!--Aqui es mas trabajo necesitas renderizar todo esto-->
-                                    
-                                </div>
-                            </div>
+                        <div class="nav-item">
+                            <a class="nav-link" href="{{ url('/cursos') }}">CURSOS</a>
                         </div>
                         @auth
                             @if (Auth::user()->rol_id == 1)
                                 {{--Ajustes de administrador--}}
-                                <div class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Administrar
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="/ajustes">Plataforma</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="/cursos">
-                                            <span class="badge badge-pill">{{App\Models\Curso::count()}}</span>
-                                            Cursos
-                                        </a>
-                                        <a class="dropdown-item" href="/usuarios">
-                                            <span class="badge badge-pill">{{App\Models\User::count()}}</span>
-                                            Usuarios
-                                        </a>     
-                                        <a class="dropdown-item" href="/pagos">
-                                            <span class="badge badge-pill">{{App\Models\Pago::count()}}</span>
-                                            Pagos
-                                        </a>
-                                        <a class="dropdown-item" href="/calificaciones">
-                                            Calificaciones
-                                        </a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="/pagos">
-                                            <span class="badge badge-pill">{{App\Models\Examen::count()}}</span>
-                                            Exámenes
-                                        </a>
-                                        <a class="dropdown-item" href="/pagos">
-                                            <span class="badge badge-pill">{{App\Models\Institucion::count()}}</span>
-                                            Instituciones
-                                        </a>
-                                    </div>
+                                <div class="nav-item">
+                                    <a class="nav-link" href="{{ url('/admin') }}">Administración</a>
                                 </div>
                             @endif
                             @if (Auth::user()->rol_id == 3)
@@ -249,22 +200,6 @@
             $("#preloder").delay(200).fadeOut("slow");
         });
         $(document).ready(function(){
-            $(".list-group-item-course").hover(function(){
-                $(this).tab('show');
-                $(this).addClass('bg-warning');
-                $(this).removeClass('text-white');
-                $(this).removeClass('bg-primary');
-            });
-            $(".list-group-item-course").mouseout( function(){
-                $(this).addClass('bg-primary');
-                $(this).addClass('text-white');
-                $(this).removeClass('bg-warning');
-            });
-            $(".list-group-item-course").click( function(){
-                var curso_id = $(this).attr('curso_id')
-                window.location.href = `/cursos/${curso_id}`;
-            });
-
             $('#cerrar_sesion').click(function(){
                 sessionStorage.clear();
                 localStorage.clear(); 

@@ -7,6 +7,7 @@ use App\Filament\Resources\UserResource\RelationManagers;
 use App\Filament\Resources\UserResource\RelationManagers\PagosRelationManager;
 use App\Models\Curso;
 use App\Models\User;
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
@@ -55,10 +56,10 @@ class UserResource extends Resource
                 Forms\Components\Repeater::make('pagos')
                     ->relationship()
                     ->schema([
-                        Forms\Components\DatePicker::make('inicio')->default(Carbon\Carbon::today()),
-                        Forms\Components\DatePicker::make('fin')->default(Carbon\Carbon::today()->addMonths(2)),
+                        Forms\Components\DatePicker::make('inicio')->default(Carbon::today()),
+                        Forms\Components\DatePicker::make('fin')->default(Carbon::today()->addMonths(2)),
                         Select::make('promo_id')->relationship(name: 'promo', titleAttribute: 'nombre'),
-                        Select::make('curso_id')->relationship(name: 'curso', titleAttribute: 'nombre')->required(),
+                        Select::make('curso_id')->options(Curso::where('activo', 1)->pluck('nombre', 'id'))->label('Curso')->required(),
                     ])->columnSpanFull()
             ]);
     }

@@ -149,9 +149,9 @@
             <li class="nav-item">
                 <a class="nav-link active" href="/cursos/{{ $modulo->curso->id }}/clases">Clases</a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link" href="/cursos/{{ $modulo->curso->id }}/examenes">Exámenes</a>
-            </li>
+            </li> --}}
         </ul>
     </div>
 </div>

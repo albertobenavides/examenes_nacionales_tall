@@ -65,4 +65,9 @@ class User extends Authenticatable
     {
         return $this->hasRole(['super-admin', 'consulta']);
     }
+
+    public function canImpersonate()
+    {
+        return $this->hasRole(['super_admin']);
+    }
 }
