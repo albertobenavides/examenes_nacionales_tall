@@ -13,7 +13,7 @@
 </div>
 <div class="container">
     <div class="card-columns">
-        @foreach (App\Promo::all() as $p)
+        @foreach (App\Models\Promo::all() as $p)
         @if ($p->id > 3)
             @break
         @endif

@@ -5,7 +5,7 @@
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 <script>
     $(function(){
-        roles = {!! App\Rol::select('id', 'nombre')->get() !!};
+        roles = {!! Spatie\Permission\Models\Role::select('id', 'name')->get() !!};
         usuarios_tabla = $('#usuarios_tabla').DataTable({
             "order": [[ 0, "desc" ]],
             "language": {
@@ -194,10 +194,10 @@
                                 <th class="text-center">Acciones</th>
                             </thead>
                             <tbody>
-                                @foreach(App\Models\User::with('rol')->select(['id', 'name', 'email', 'rol_id'])->get()->sortByDesc('id')->take(500) as $u)
+                                @foreach(App\Models\User::with('roles')->select(['id', 'name', 'email', 'rol_id'])->get()->sortByDesc('id')->take(500) as $u)
                                 <tr>
                                     <td>{{$u->id}}</td>
-                                    <td>{{$u->rol->nombre}}</td>
+                                    <td>{{$u->rol_id}}</td>
                                     <td>{{$u->name}}</td>
                                     <td>{{$u->email}}</td>
                                     <td class="text-center">
@@ -253,7 +253,7 @@
                                 <label>Promoción</label>
                                 <select name="promo" class="custom-select custom-select-sm" form="crearPago" required>
                                     <option selected disabled>Selecciona</option>                                            
-                                    @foreach (App\Promo::select('id', 'nombre')->get() as $p)
+                                    @foreach (App\Models\Promo::select('id', 'nombre')->get() as $p)
                                         <option value="{{$p->id}}">{{$p->nombre}}</option>
                                     @endforeach
                                 </select>

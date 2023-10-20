@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Curso;
 use App\Models\Pago;
-use App\Promo;
+use App\Models\Promo;
 use Illuminate\Http\Request;
 
 use App\Models\User;

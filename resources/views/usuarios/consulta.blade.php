@@ -119,7 +119,7 @@
                         <label>Plan</label>
                         <select name="promo_id" class="custom-select custom-select-sm" required>
                             <option value="-1" selected disbled>Elige un curso</option>
-                            @foreach (App\Promo::select('id', 'nombre') as $p)
+                            @foreach (App\Models\Promo::select('id', 'nombre') as $p)
                                 <option value="{{ $p->id }}">{{ $p->nombre }}</option>
                             @endforeach
                         </select>

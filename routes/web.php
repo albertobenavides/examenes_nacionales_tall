@@ -10,6 +10,7 @@ use App\Http\Controllers\ModuloController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PruebaController;
 use App\Http\Controllers\TemaController;
+use App\Http\Controllers\UsuarioController;
 use App\Models\Intento;
 use App\Models\User;
 use App\Models\Pago;
@@ -56,8 +57,8 @@ Route::group(['middleware' => 'revisar.acceso'], function() {
         '/usuarios' => UsuarioController::class,
     ]);
 
-    Route::post('/usuarios/pagina', 'UsuarioController@paginate');
-    Route::post('/usuarios/pagina/tabla', 'UsuarioController@paginate_tabla');
+    Route::post('/usuarios/pagina', [UsuarioController::class, 'paginate']);
+    Route::post('/usuarios/pagina/tabla', [UsuarioController::class, 'paginate_tabla']);
 
     Route::post('/pagos/pagina/tabla', [PagoController::class, 'paginate_tabla']);
 
@@ -105,7 +106,7 @@ Route::group(['middleware' => 'revisar.acceso'], function() {
 Route::post('/stripe/intent', function(Request $request){
     \Stripe\Stripe::setApiKey(setting('stripe_sk'));
 
-    $promo = App\Promo::find($request->promo_id);
+    $promo = App\Models\Promo::find($request->promo_id);
 
     $intent = \Stripe\PaymentIntent::create([
         'amount' => $promo->costo * 100, // Se multiplica por 100 para tener centavos

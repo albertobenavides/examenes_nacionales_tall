@@ -52,7 +52,7 @@
                             @if (!$pago)
                             <option value="-1" selected disabled>Elige un plan</option>
                             @endif
-                            @foreach (App\Promo::select('id', 'nombre')->get() as $p)
+                            @foreach (App\Models\Promo::select('id', 'nombre')->get() as $p)
                                 <option value="{{ $p->id }}" {{ $pago && $p->id == $pago->promo_id ? 'selected' : '' }}>{{ $p->nombre }}</option>
                             @endforeach
                         </select>

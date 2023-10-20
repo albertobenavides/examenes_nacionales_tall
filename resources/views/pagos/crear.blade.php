@@ -183,7 +183,7 @@
                 <select class="custom-select mb-3 promo" name="promo_id">
                     <option selected disabled>Selecciona una subscripción</option>
                     @if (Auth::user()->pagos->where('curso_id', 16)->count() > 0)
-                        <option value="6">Premium ${{App\Promo::find(6)->costo}}</option>
+                        <option value="6">Premium ${{App\Models\Promo::find(6)->costo}}</option>
                     @elseif (Auth::user()->rol_id == 3 || Auth::user()->rol_id == 1)
                         @foreach ($promos as $p)
                             @if ($p->id > 3)
