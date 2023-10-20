@@ -15,13 +15,16 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 use STS\FilamentImpersonate\Tables\Actions\Impersonate;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-s-users';
+
+    protected static ?string $modelLabel = 'usuario';
 
     public static function form(Form $form): Form
     {
@@ -41,10 +44,7 @@ class UserResource extends Resource
                     ->dehydrated(fn (?string $state): bool => filled($state))
                     ->required(fn (string $operation): bool => $operation === 'create')
                     ->maxLength(255),
-                Select::make('rol_id'),
-                Forms\Components\Section::make('Roles')->schema([
-                    Forms\Components\CheckboxList::make('roles')->relationship('roles','name'),
-                ])
+                Select::make('rol_id')->options(Role::all()->pluck('name', 'id'))
             ]);
     }
 
