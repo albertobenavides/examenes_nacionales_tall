@@ -78,26 +78,26 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ])
-            ->navigation(function (NavigationBuilder $builder): NavigationBuilder {
-                return $builder
-                    ->groups([
-                        NavigationGroup::make()
-                            ->items([
-                                ...CursoResource::getNavigationItems(),
-                                ...UserResource::getNavigationItems()
-                            ]),
-                        NavigationGroup::make('Educación')
-                            ->items([
-                                ...ExamenResource::getNavigationItems(),
-                                ...InstitucionResource::getNavigationItems(),
-                            ]),
-                        NavigationGroup::make()
-                            ->items([
-                                ...PreguntaResource::getNavigationItems()
-                            ]),
-                    ]);
-            })
-            ->topNavigation();
+            ]);
+            // ->navigation(function (NavigationBuilder $builder): NavigationBuilder {
+            //     return $builder
+            //         ->groups([
+            //             NavigationGroup::make()
+            //                 ->items([
+            //                     ...CursoResource::getNavigationItems(),
+            //                     ...UserResource::getNavigationItems()
+            //                 ]),
+            //             NavigationGroup::make('Educación')
+            //                 ->items([
+            //                     ...ExamenResource::getNavigationItems(),
+            //                     ...InstitucionResource::getNavigationItems(),
+            //                 ]),
+            //             NavigationGroup::make()
+            //                 ->items([
+            //                     ...PreguntaResource::getNavigationItems()
+            //                 ]),
+            //         ]);
+            // })
+            // ->topNavigation();
     }
 }
