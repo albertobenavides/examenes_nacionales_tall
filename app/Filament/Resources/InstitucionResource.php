@@ -7,6 +7,7 @@ use App\Filament\Resources\InstitucionResource\RelationManagers;
 use App\Models\Examen;
 use App\Models\Institucion;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -20,6 +21,8 @@ class InstitucionResource extends Resource
     protected static ?string $model = Institucion::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    protected static ?string $pluralModelLabel = 'instituciones';
 
     public static function form(Form $form): Form
     {
@@ -39,8 +42,7 @@ class InstitucionResource extends Resource
                     ->maxLength(191),
                 Forms\Components\Select::make('examen_id')
                     ->relationship('curso', 'nombre'),
-                Forms\Components\TextInput::make('imagen')
-                    ->maxLength(191),
+                FileUpload::make('imagen')->image(),
             ]);
     }
 

@@ -10,7 +10,7 @@
     cursos = {!!$cursos_activos!!};
     pagos = {!! json_encode(Auth::user()->pagos->where('fin', '>=', Carbon\Carbon::today())) !!};
     $(function(){
-        var stripe = Stripe('{{setting('stripe_pk')}}');
+        var stripe = Stripe({!! $settings->stripe_pk !!});
         var elements = stripe.elements();
 
         var style = {

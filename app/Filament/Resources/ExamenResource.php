@@ -21,9 +21,9 @@ class ExamenResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function getPluralModelLabel(): string
-{
-    return 'exámenes';
-}
+    {
+        return 'exámenes';
+    }
 
     public static function form(Form $form): Form
     {

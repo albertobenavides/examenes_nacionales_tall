@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CalificacionController;
 use App\Models\Curso;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\ExamenController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\InstitucionController;
 use App\Http\Controllers\IntentoController;
 use App\Http\Controllers\ModuloController;
 use App\Http\Controllers\PagoController;
+use App\Http\Controllers\PromoController;
 use App\Http\Controllers\PruebaController;
 use App\Http\Controllers\TemaController;
 use App\Http\Controllers\UsuarioController;
@@ -79,11 +81,11 @@ Route::group(['middleware' => 'revisar.acceso'], function() {
 
     Route::post('/examenes/revisar', [PruebaController::class, 'revisar']);
 
-    Route::get('/calificaciones', 'CalificacionController@index');
-    Route::get('/calificaciones/simulaciones', 'CalificacionController@index_simulaciones');
-    Route::post('/calificaciones/usuarios', 'CalificacionController@usuarios');
-    Route::post('/calificaciones/simulaciones', 'CalificacionController@simulaciones');
-    Route::post('/calificaciones', 'CalificacionController@calificaciones');
+    Route::get('/calificaciones', [CalificacionController::class, 'index']);
+    Route::get('/calificaciones/simulaciones', [CalificacionController::class, 'index_simulaciones']);
+    Route::post('/calificaciones/usuarios', [CalificacionController::class, 'usuarios']);
+    Route::post('/calificaciones/simulaciones', [CalificacionController::class, 'simulaciones']);
+    Route::post('/calificaciones', [CalificacionController::class, 'calificaciones']);
 
     Route::get('/descargar/{dir}/{archivo}', function($dir, $archivo){
         $fileContents = Storage::get($dir . '/' . $archivo);

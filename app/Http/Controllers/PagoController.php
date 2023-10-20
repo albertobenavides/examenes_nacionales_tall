@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 use App\Notifications\OxxoPay;
+use App\Settings\GeneralSettings;
 use Illuminate\Support\Facades\Cache;
 
 // require_once(env('APP_BASE') . "/vendor/conekta/conekta-php/lib/Conekta.php");
@@ -59,7 +60,7 @@ class PagoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Request $request, GeneralSettings $settings)
     {
         $promos = Cache::remember('promos', 3600, function () {
             return Promo::all();
@@ -67,6 +68,7 @@ class PagoController extends Controller
         return view('pagos.crear', [
             'promos' => $promos,
             'cursos_activos' => Curso::where('activo', 1)->get(),
+            'settings' => $settings
         ]);
     }
 

@@ -3,6 +3,9 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Resources\CursoResource;
+use App\Filament\Resources\ExamenResource;
+use App\Filament\Resources\InstitucionResource;
+use App\Filament\Resources\PreguntaResource;
 use App\Filament\Resources\UserResource;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -78,15 +81,21 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->navigation(function (NavigationBuilder $builder): NavigationBuilder {
                 return $builder
-                    ->items([
-                        ...CursoResource::getNavigationItems(),
-                        ...UserResource::getNavigationItems()
-                    ])
                     ->groups([
-                        // NavigationGroup::make('Educación')
-                        //     ->items([
-                        //         ...CursoResource::getNavigationItems()
-                        //     ]),
+                        NavigationGroup::make()
+                            ->items([
+                                ...CursoResource::getNavigationItems(),
+                                ...UserResource::getNavigationItems()
+                            ]),
+                        NavigationGroup::make('Educación')
+                            ->items([
+                                ...ExamenResource::getNavigationItems(),
+                                ...InstitucionResource::getNavigationItems(),
+                            ]),
+                        NavigationGroup::make()
+                            ->items([
+                                ...PreguntaResource::getNavigationItems()
+                            ]),
                     ]);
             })
             ->topNavigation();

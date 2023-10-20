@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Curso;
 use App\Models\Intento;
+use App\Models\Modulo;
 use App\Models\Pago;
 use App\Models\User;
 use Carbon\Carbon;
@@ -74,7 +75,7 @@ class CalificacionController extends Controller
             $gran_pasados = 0.0;
             $gran_val = 0;
             $modulos = [];
-            foreach (Curso::find($request->curso_id)->modulos->sortBy('orden') as $m) {
+            foreach (Modulo::where('curso_id', $request->curso_id)->sortBy('orden') as $m) {
                 $totales = 0.0;
                 $pasados = 0.0;
                 $val = 0;
