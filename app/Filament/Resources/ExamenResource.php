@@ -20,6 +20,8 @@ class ExamenResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Educación';
+
     public static function getPluralModelLabel(): string
     {
         return 'exámenes';

@@ -24,6 +24,8 @@ class InstitucionResource extends Resource
 
     protected static ?string $pluralModelLabel = 'instituciones';
 
+    protected static ?string $navigationGroup = 'Educación';
+
     public static function form(Form $form): Form
     {
         return $form

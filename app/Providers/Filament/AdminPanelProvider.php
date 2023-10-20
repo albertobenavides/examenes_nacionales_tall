@@ -94,7 +94,8 @@ class AdminPanelProvider extends PanelProvider
             //                 ]),
             //             NavigationGroup::make()
             //                 ->items([
-            //                     ...PreguntaResource::getNavigationItems()
+            //                     ...PreguntaResource::getNavigationItems(),
+            //                     ...\BezhanSalleh\FilamentShield\Resources\RoleResource::getNavigationItems()
             //                 ]),
             //         ]);
             // })

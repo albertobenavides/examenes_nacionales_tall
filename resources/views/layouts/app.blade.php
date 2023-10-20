@@ -184,13 +184,8 @@
                             @endif
                             @if (Auth::user()->rol_id == 3)
                                 <div class="nav-item">
-                                    <a class="nav-link" href="/inicio">
-                                        Usuarios
-                                    </a>
-                                </div>
-                                <div class="nav-item">
-                                    <a class="nav-link" href="/calificaciones">
-                                        Calificaciones
+                                    <a class="nav-link" href="/admin/users">
+                                        Administración
                                     </a>
                                 </div>
                             @endif

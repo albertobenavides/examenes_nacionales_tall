@@ -9,6 +9,7 @@
 @endsection
 
 @section('content')
+    @guest
     <div class="modal" tabindex="-1" role="dialog" id="login_modal">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -74,6 +75,7 @@
             </div>
         </div>
     </div>
+    @endguest
     <div id="banner" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">

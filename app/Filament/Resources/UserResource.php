@@ -30,6 +30,8 @@ class UserResource extends Resource
 
     protected static ?string $modelLabel = 'usuario';
 
+    protected static ?string $navigationGroup = 'Administración';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -41,14 +43,23 @@ class UserResource extends Resource
                     ->email()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
                     ->dehydrated(fn (?string $state): bool => filled($state))
                     ->required(fn (string $operation): bool => $operation === 'create')
                     ->maxLength(255),
-                Select::make('rol_id')->options(Role::all()->pluck('name', 'id'))
+                Select::make('rol_id')->options(
+                    auth()->user()->hasRole('consulta') ? Role::where('id', 2)->pluck('name', 'id') : Role::all()->pluck('name', 'id')
+                )->default('2'),
+                Forms\Components\Repeater::make('pagos')
+                    ->relationship()
+                    ->schema([
+                        Forms\Components\DatePicker::make('inicio')->default(Carbon\Carbon::today()),
+                        Forms\Components\DatePicker::make('fin')->default(Carbon\Carbon::today()->addMonths(2)),
+                        Select::make('promo_id')->relationship(name: 'promo', titleAttribute: 'nombre'),
+                        Select::make('curso_id')->relationship(name: 'curso', titleAttribute: 'nombre')->required(),
+                    ])->columnSpanFull()
             ]);
     }
 
