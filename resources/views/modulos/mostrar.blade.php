@@ -43,7 +43,7 @@
                     $('#preguntasTema').hide();
                     $('#videoTema').parent().hide();
                     $('#videoYoutube').hide();
-                    $('#pdfTema').attr('src', '/ViewerJS/#../descargar/' + $(this).attr('data-url') + '?curso_id={{ $modulo->curso->id }}');
+                    $('#pdfTema').attr('src', '/ViewerJS/index.html#../descargar/' + $(this).attr('data-url') + '?curso_id={{ $modulo->curso->id }}');
                     var t = $('#pdfTema').clone();
                     var p = $('#pdfTema').parent();
                     $('#pdfTema').remove();

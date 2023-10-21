@@ -52,15 +52,7 @@ class UserResource extends Resource
                     ->maxLength(255),
                 Select::make('rol_id')->options(
                     auth()->user()->hasRole('consulta') ? Role::where('id', 2)->pluck('name', 'id') : Role::all()->pluck('name', 'id')
-                )->default('2'),
-                Forms\Components\Repeater::make('pagos')
-                    ->relationship()
-                    ->schema([
-                        Forms\Components\DatePicker::make('inicio')->default(Carbon::today()),
-                        Forms\Components\DatePicker::make('fin')->default(Carbon::today()->addMonths(2)),
-                        Select::make('promo_id')->relationship(name: 'promo', titleAttribute: 'nombre'),
-                        Select::make('curso_id')->options(Curso::where('activo', 1)->pluck('nombre', 'id'))->label('Curso')->required(),
-                    ])->columnSpanFull()
+                )->default('2')
             ]);
     }
 
