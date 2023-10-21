@@ -53,7 +53,7 @@ class UserResource extends Resource
                     ->maxLength(255),
                 Select::make('rol_id')->options(
                     auth()->user()->hasRole('consulta') ? Role::where('id', 2)->pluck('name', 'id') : Role::all()->pluck('name', 'id')
-                )->default('2'),
+                )->default('2')->label('Rol'),
                 Forms\Components\Repeater::make('pagos')
                     ->relationship()
                     ->schema([
