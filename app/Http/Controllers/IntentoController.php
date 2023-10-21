@@ -85,25 +85,17 @@ class IntentoController extends Controller
             $prueba->nombre = $tema->nombre;
             $prueba->curso_id = $tema->modulo->curso_id;
         }
-
-        $preguntas_ids = Cache::remember("preguntas_prueba$id", 3600, function () use ($prueba) {
-            return Pregunta::whereIn('tema_id', $prueba->temas->where('pivot.preguntas', '>', 0)->pluck('id'))
-                ->pluck('id');
-                // ->sortBy(function($order) use($prueba){
-                //     return array_search($order['tema_id'], $prueba->temas->pluck('id')->toArray());
-                // });
-        });
         
-        $preguntas = Pregunta::find(json_decode($intento->preguntas))->with('respuestas');
+        $preguntas = Pregunta::find(json_decode($intento->preguntas))->toQuery()->with('respuestas')->get();
         $respuestas = $intento->respuestas;
-        dd($respuestas);
-
+        $preguntas->pluck('respuestas')->flatten()->map(function($item) use ($respuestas) {
+            return $item['elegida'] = in_array($item->id, $respuestas);
+        });
         
         return view('pruebas.revision', [
             'prueba' => $prueba,
             'intento' => $intento,
-            'preguntas' => $preguntas,
-            'respuestas' => $respuestas
+            'preguntas' => $preguntas
         ]);
     }
 
