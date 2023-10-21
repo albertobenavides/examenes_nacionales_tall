@@ -40,8 +40,7 @@ class PromoResource extends Resource
                 Forms\Components\TextInput::make('examenes')
                     ->required()
                     ->numeric(),
-                Forms\Components\Toggle::make('duracion')
-                    ->required(),
+                Forms\Components\TextInput::make('duracion')->numeric()->required(),
                 Forms\Components\RichEditor::make('descripcion')
                     ->maxLength(191),
                 Forms\Components\RichEditor::make('contenido')
@@ -70,7 +69,7 @@ class PromoResource extends Resource
                 Tables\Columns\TextColumn::make('examenes')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\IconColumn::make('duracion')
+                Tables\Columns\TextColumn::make('duracion')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
