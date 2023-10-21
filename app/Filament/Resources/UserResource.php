@@ -56,11 +56,12 @@ class UserResource extends Resource
                 Forms\Components\Repeater::make('pagos')
                     ->relationship()
                     ->schema([
-                        Forms\Components\DatePicker::make('inicio')->default(Carbon::today()),
-                        Forms\Components\DatePicker::make('fin')->default(Carbon::today()->addMonths(2)),
-                        Select::make('promo_id')->relationship(name: 'promo', titleAttribute: 'nombre'),
-                        Select::make('curso_id')->options(Curso::where('activo', 1)->pluck('nombre', 'id'))->label('Curso')->required(),
+                        Forms\Components\DatePicker::make('inicio')->default(Carbon::today())->columnSpan(2),
+                        Forms\Components\DatePicker::make('fin')->default(Carbon::today()->addMonths(2))->columnSpan(2),
+                        Select::make('promo_id')->relationship(name: 'promo', titleAttribute: 'nombre')->columnSpan(2),
+                        Select::make('curso_id')->options(Curso::where('activo', 1)->pluck('nombre', 'id'))->label('Curso')->required()->columnSpan(2),
                     ])->columnSpanFull()
+                    ->columns(4)
             ]);
     }
 
