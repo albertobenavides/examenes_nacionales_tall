@@ -9,6 +9,7 @@ use App\Models\Respuesta;
 use App\Models\Tema;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class IntentoController extends Controller
 {
@@ -84,9 +85,18 @@ class IntentoController extends Controller
             $prueba->nombre = $tema->nombre;
             $prueba->curso_id = $tema->modulo->curso_id;
         }
+
+        $preguntas_ids = Cache::remember("preguntas_prueba$id", 3600, function () use ($prueba) {
+            return Pregunta::whereIn('tema_id', $prueba->temas->where('pivot.preguntas', '>', 0)->pluck('id'))
+                ->pluck('id');
+                // ->sortBy(function($order) use($prueba){
+                //     return array_search($order['tema_id'], $prueba->temas->pluck('id')->toArray());
+                // });
+        });
         
-        $preguntas = Pregunta::find(json_decode($intento->preguntas));
-        $respuestas = Respuesta::find($intento->respuestas);
+        $preguntas = Pregunta::find(json_decode($intento->preguntas))->with('respuestas');
+        $respuestas = $intento->respuestas;
+        dd($respuestas);
 
         
         return view('pruebas.revision', [
