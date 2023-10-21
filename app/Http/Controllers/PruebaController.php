@@ -50,17 +50,11 @@ class PruebaController extends Controller
         $intento = Intento::find($request->intento_id);
         
         $preguntas = json_decode($request->respuestas);
-        $respuestas = [];
+        $preguntas = (array)$preguntas;
+        $respuestas = array_values($preguntas);
         $correctas = 0;
-        foreach ($preguntas as $p => $r) {
-            array_push($respuestas, $r);
-            $respuesta = Respuesta::find($r);
-            $pregunta = Pregunta::find($p);
-            $c = $pregunta->respuestas->where('correcta')->first();
-            if ($c->id == $respuesta->id){
-                $correctas += 1;
-            }
-        }
+        // $preguntas = Pregunta::find(array_keys((array)$preguntas))->toQuery()->with('respuestas:id,correcta,pregunta_id')->get();
+        $correctas = Respuesta::whereIn('pregunta_id', array_keys($preguntas))->where('correcta', 1)->whereIn('id', array_values($respuestas))->get()->count();
         $total = count(json_decode($intento->preguntas));
         $calificacion = round( $correctas / $total * 100);
 
