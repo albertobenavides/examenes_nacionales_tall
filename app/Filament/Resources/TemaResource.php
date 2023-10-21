@@ -36,7 +36,7 @@ class TemaResource extends Resource
                     ->maxLength(191),
                 Forms\Components\FileUpload::make('imagen')
                     ->image(),
-                Forms\Components\FileUpload::make('pdf'),
+                Forms\Components\FileUpload::make('pdf')->visibility('private')->directory('pdf'),
                 Forms\Components\FileUpload::make('video'),
                 Forms\Components\Select::make('modulo_id')->relationship(name: 'modulo', titleAttribute: 'nombre')->searchable(['nombre'])
                     ->required(),
