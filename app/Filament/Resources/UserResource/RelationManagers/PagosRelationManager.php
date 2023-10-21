@@ -2,11 +2,18 @@
 
 namespace App\Filament\Resources\UserResource\RelationManagers;
 
+use App\Models\Curso;
+use App\Models\Intento;
+use App\Models\Pago;
+use App\Models\Tema;
+use App\Models\User;
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -19,12 +26,10 @@ class PagosRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\DatePicker::make('inicio'),
-                Forms\Components\DatePicker::make('fin'),
+                Forms\Components\DatePicker::make('inicio')->default(Carbon::now()),
+                Forms\Components\DatePicker::make('fin')->default(Carbon::now()->addMonths(2)),
                 Select::make('promo_id')->relationship(name: 'promo', titleAttribute: 'nombre'),
-                Select::make('curso_id')->relationship(name: 'curso', titleAttribute: 'nombre')->required(),
-                Forms\Components\TextInput::make('oxxo')
-                    ->maxLength(191),
+                Select::make('curso_id')->options(Curso::where('activo', 1)->pluck('nombre', 'id'))->label('Curso')->required(),
             ]);
     }
 
@@ -38,6 +43,11 @@ class PagosRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('curso.nombre'),
                 Tables\Columns\TextColumn::make('promo.nombre'),
                 Tables\Columns\TextColumn::make('oxxo'),
+                TextColumn::make('avance')->state(function (Pago $record) {
+                    $intentos = Intento::where('user_id', $record->user_id)->where('calificacion', '>=', 90)->count();
+                    $temas = Tema::whereIn('modulo_id', $record->curso->modulos->pluck('id'))->where('preguntar', '>', 0)->count();
+                    return round(($intentos / $temas * 100), 2) . '%';
+                })
             ])
             ->filters([
                 //
