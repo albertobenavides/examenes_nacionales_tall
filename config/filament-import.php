@@ -10,7 +10,7 @@ return [
         'txt',
     ],
     'temporary_files' => [
-        'disk' => 'local',
+        'disk' => 'public',
         'directory' => 'filament-import',
     ],
 ];

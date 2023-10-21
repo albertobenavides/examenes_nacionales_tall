@@ -27,7 +27,7 @@ class HomeController extends Controller
     {
         //echo Auth::user()->rol_id ;
         if (Auth::user()->rol_id == 3){
-            return view('usuarios.consulta');
+            return redirect('/admin');
         }
         if (Auth::user()->rol_id == 1){
             return redirect('admin');

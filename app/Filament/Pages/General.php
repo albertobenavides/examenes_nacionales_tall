@@ -15,6 +15,16 @@ class General extends SettingsPage
 
     protected static string $settings = GeneralSettings::class;
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->hasRole(['super_admin']);
+    }
+
+    public function mount(): void
+    {
+        abort_unless(auth()->user()->hasRole(['super_admin']), 403);
+    }
+
     public function form(Form $form): Form
     {
         return $form

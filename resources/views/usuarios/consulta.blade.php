@@ -18,7 +18,7 @@
 <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.colVis.min.js"></script>
 <script>
     $(function(){
-        roles = {!! App\Rol::select('id', 'nombre')->get() !!};
+        roles = {!! Spatie\Permission\Models\Role::select('id', 'name')->get() !!};
         usuarios_tabla = $('#usuarios_tabla').DataTable({
             "order": [[ 0, "desc" ]],
             "language": {

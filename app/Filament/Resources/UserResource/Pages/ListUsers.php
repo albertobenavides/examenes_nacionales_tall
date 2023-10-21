@@ -30,28 +30,31 @@ class ListUsers extends ListRecords
                 ->fields([
                     ImportField::make('name')->label('Nombre')->required(),
                     ImportField::make('email')->label('Correo')->required(),
-                    TextInput::make('password')->label('Contraseña alternativa'),
-                    Select::make('curso')->options(Curso::all()->pluck('nombre', 'id')),
+                    TextInput::make('password')->label('Contraseña')->required(),
+                    Select::make('curso')->options(Curso::where('activo', 1)->pluck('nombre', 'id')),
                     Select::make('promo')->options(Promo::all()->pluck('nombre', 'id')),
-                    DatePicker::make('fin')->required()
+                    DatePicker::make('fin')->default(Carbon::now()->addMonths(2))->required()
                 ])
-                ->mutateBeforeCreate(function($row){
-                    if ($row['password'] == null || $row['password'] == '') {
-                        $row['password'] = Hash::make($row('alternative_password'));
-                    }
-                    $row['rol_id'] = 2;
-                    return $row;
-                })
                 ->handleRecordCreation(function($data){
-                    dd($data);
-                    $u = User::create($data);
-                    $pago = new Pago();
-                    $pago->user_id = $u->id;
-                    $pago->curso_id = $data['curso'];
-                    $pago->promo_id = $data['promo'];
-                    $pago->inicio = Carbon::today();
-                    $pago->fin = $request->fin;
-                    $pago->save();
+                    if ($data['name'] != null && $data['email'] != null && $data['name'] != '' && $data['email'] != '') {
+                        $u = User::create([
+                            'name' => $data['name'], 
+                            'email' => $data['email'], 
+                            'password' => $data['password'], 
+                            'rol_id' => 2,
+                            'por_admin' => 1
+                        ]);
+                        $u->assignRole('alumno');
+    
+                        $pago = new Pago();
+                        $pago->user_id = $u->id;
+                        $pago->curso_id = $data['curso'];
+                        $pago->promo_id = $data['promo'];
+                        $pago->inicio = Carbon::today();
+                        $pago->fin = $data['fin'];
+                        $pago->save();
+                    }
+
                     return $u;
                 })
         ];
