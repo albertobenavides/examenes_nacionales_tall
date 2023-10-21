@@ -9,6 +9,7 @@ use App\Http\Controllers\InstitucionController;
 use App\Http\Controllers\IntentoController;
 use App\Http\Controllers\ModuloController;
 use App\Http\Controllers\PagoController;
+use App\Http\Controllers\PreguntaController;
 use App\Http\Controllers\PromoController;
 use App\Http\Controllers\PruebaController;
 use App\Http\Controllers\TemaController;
@@ -23,6 +24,9 @@ use Carbon\Carbon;
 use App\Notifications\OxxoPagado;
 use App\Settings\GeneralSettings;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,7 +81,7 @@ Route::group(['middleware' => 'revisar.acceso'], function() {
         ]);
     });
 
-    Route::post('/preguntas/revisar/{pregunta_id}', 'PreguntaController@revisar');
+    Route::post('/preguntas/revisar/{pregunta_id}', [PreguntaController::class, 'revisar']);
 
     Route::post('/examenes/revisar', [PruebaController::class, 'revisar']);
 
@@ -142,4 +146,9 @@ Route::post('/oxxo', function(Request $request){
         //http_response_code(200); // Return 200 OK
         return response("Error en referencia $reference", 200);
     }
+});
+
+//DocumentViewer Library
+Route::any('ViewerJS/{all?}', function(){
+    return View::make('ViewerJS.index');
 });
