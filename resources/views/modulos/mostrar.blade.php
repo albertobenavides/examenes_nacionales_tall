@@ -8,6 +8,47 @@
     @filamentScripts
     <script>
         $(function() {
+            let tabla_temas = '';
+            let temas = {!! $temas !!};
+            for (const [key, t] of Object.entries(temas)) {
+                tabla_temas += 
+                `<tr class="bg-white">
+                    <td>
+                        <h5>${t['nombre']}</h5>
+                    </td>
+                    <td class="text-center">`;
+                        if (t['pdf'] != null){
+                            tabla_temas += `<a href="#" data-toggle="modal" data-target="#mostrarVideo" class="mostrarPDF" data-url="${t['pdf']}" data-nombre="${t['nombre']}"><i class="fas fa-file-pdf fa-2x"></i></a>`;
+                        }
+                    tabla_temas += `</td>
+                    <td class="text-center">`;
+                        if (t['video'] != null){
+                            tabla_temas += `<a href="#" data-toggle="modal" data-target="#mostrarVideo" class="mostrarVideo" data-url="${t['video']}" data-nombre="${t['nombre']}"><i class="fas fa-film fa-2x"></i></a>`;
+                        }
+                        tabla_temas += `</td>
+                    <td class="text-center">`;
+
+                        if (t['preguntar'] > 0){
+                            tabla_temas += `<a href="#" data-toggle="modal" data-nombre="${t['nombre']}" data-target="#mostrarVideo" class="mostrarPreguntas button" tema_id="${t['id']}"><i class="fas fa-tasks fa-2x"></i></a>`;
+                        }
+                        tabla_temas += `</td>
+                    <td class="text-center">
+                        <a href="/examenes/-${t['id']}">`;
+                            if (t['max'] >= 90){
+                                tabla_temas += `<span class="text-secondary"><i class="fas fa-medal fa-2x"></i></span>`;
+                            }
+                            else{
+                                tabla_temas += `<i class="fas fa-flag-checkered fa-2x"></i>`;
+                            }
+                            tabla_temas += `</a>
+                    </td>
+                    <td class='text-center'>
+                        ${t['max'] == null ? '' : t['max'] }
+                    </td>
+                </tr>`;
+            };
+            $('#tabla_temas').html(tabla_temas);
+
             $('#siguiente').hide();
             $('#videoYoutube').hide();
             $('#videoTema').parent().hide();
@@ -192,8 +233,7 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-md-9">
-                <livewire:mostrar-temas temas="{!! $temas->pluck('id') !!}" />
-                {{-- <div class="table-responsive">
+                <div class="table-responsive">
                     <table class="table table-sm table-stripped">
                         <thead>
                             <tr>
@@ -207,50 +247,11 @@
                                 <th style="width:15%" class="text-center">Mejor calif.</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach ($temas as $t)
-                                <tr class="bg-white">
-                                    <td>
-                                        <h5>{{ $t->nombre }}</h5>
-                                    </td>
-                                    <td class="text-center">
-                                        @if ($t->pdf != null)
-                                            <a href="#" data-toggle="modal" data-target="#mostrarVideo" class="mostrarPDF" data-url="{{ $t->pdf }}" data-nombre="{{ $t->nombre }}"><i class="fas fa-file-pdf fa-2x"></i></a>
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                        @if ($t->video != null)
-                                            <a href="#" data-toggle="modal" data-target="#mostrarVideo" class="mostrarVideo" data-url="{{ $t->video }}" data-nombre="{{ $t->nombre }}"><i class="fas fa-film fa-2x"></i></a>
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                        @if ($t->preguntas->count() > 0)
-                                            <a href="#" data-toggle="modal" data-nombre="{{ $t->nombre }}" data-target="#mostrarVideo" class="mostrarPreguntas button" tema_id="{{ $t->id }}"><i
-                                                    class="fas fa-tasks fa-2x"></i></a>
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                        @if ($t->preguntar > 0)
-                                            <a href="/examenes/-{{ $t->id }}">
-                                                @if ($t->max >= 90)
-                                                    <span class="text-secondary"><i class="fas fa-medal fa-2x"></i></span>
-                                                @else
-                                                    <i class="fas fa-flag-checkered fa-2x"></i>
-                                                @endif
-                                            </a>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        {{ $t->max }}
-                                    </td>
-                                </tr>
-                            @endforeach
-                            @if ($temas->count() == 0)
-                                <h4 class="text-center my-4">Estamos actualizando esta sección.</h4>
-                            @endif
+                        <tbody id="tabla_temas">
+                            
                         </tbody>
                     </table>
-                </div> --}}
+                </div>
             </div>
         </div>
     </div>

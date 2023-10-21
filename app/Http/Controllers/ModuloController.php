@@ -83,13 +83,13 @@ class ModuloController extends Controller
         $pago = Pago::where('user_id', Auth::id())->where('curso_id', $modulo->curso_id)->where('fin', '>=', Carbon::today())->orderByDesc('promo_id')->first();
         $temas = $modulo->temas->sortBy('orden');
         $totales = 0.0;
-        $pasados = 0.0;
-        foreach ($temas->where('preguntar', '>', 0) as $t) {
-            $totales = $totales + 1;
-            $t->max = Intento::where('user_id', Auth::id())->where('prueba_id', $t->id * -1)->where('calificacion', '>', -1)->max('calificacion');
-            $pasados = $t->max >= 90 ? $pasados + 1 : $pasados;
-        }
-
+        $temas->where('preguntar', '>', 0)->map(function($t){
+            $t['max'] = Intento::where('user_id', Auth::id())->where('prueba_id', $t->id * -1)->where('calificacion', '>', -1)->max('calificacion');
+            return $t;
+        });
+        $temas->where('preguntar', '>', 0)->count();
+        $temas->where('preguntar', '>', 0);
+        $pasados = Intento::where('user_id', Auth::id())->whereIn('prueba_id', array_map(function($el) { return $el * -1; }, $temas->pluck('id')->all()))->where('calificacion', '>', -1)->max('calificacion');
         return view('modulos.mostrar', [
             'modulo' => $modulo,
             'pago' => $pago,
