@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
+@section('styles')
+    @filamentStyles
+@endsection
+
 @section('scripts')
+    @filamentScripts
     <script>
         $(function() {
             $('#siguiente').hide();
@@ -186,53 +191,9 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            {{-- <div class="col-md-3">
-            @if ($modulo->imagen == null)
-                <img src="https://fakeimg.pl/320x200/?text={{$modulo->nombre}}" class="img-fluid">
-            @endif
-            <div class="d-flex flex-column-reverse">
-                <div>
-                    <h2>Intentos</h2>
-                    <div class="table-responsive">
-                        <table class="table table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Tema</th>
-                                    <th>Mejor calif.</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php
-                                    $totales = 0.0;
-                                    $pasados = 0.0;
-                                @endphp
-                                @foreach ($temas as $t)
-                                    @if ($t->preguntar <= 0)
-                                        @continue
-                                    @endif
-                                    @php
-                                        $totales = $totales + 1;
-                                        $max = App\Models\Intento::where('user_id', Auth::id())->where('prueba_id', $t->id * -1)->where('calificacion', '>', -1)->max('calificacion');
-                                        $pasados = $max >= 90 ? $pasados + 1 : $pasados;
-                                    @endphp
-                                    <tr>
-                                        <td>{{$t->nombre}}</td>
-                                        <td>{{App\Models\Intento::where('user_id', Auth::id())->where('prueba_id', $t->id * -1)->where('calificacion', '>', -1)->max('calificacion')}}</td>
-                                    </tr>
-                                @endforeach
-                                @if ($totales == 0)
-                                    <tr>
-                                    <td colspan="2">No has presentado</td>
-                                @endif
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-            </div>
-        </div> --}}
             <div class="col-md-9">
-                <div class="table-responsive">
+                <livewire:mostrar-temas temas="{!! $temas->pluck('id') !!}" />
+                {{-- <div class="table-responsive">
                     <table class="table table-sm table-stripped">
                         <thead>
                             <tr>
@@ -289,7 +250,7 @@
                             @endif
                         </tbody>
                     </table>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

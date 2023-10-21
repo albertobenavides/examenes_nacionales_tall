@@ -84,10 +84,7 @@ class ModuloController extends Controller
         $temas = $modulo->temas->sortBy('orden');
         $totales = 0.0;
         $pasados = 0.0;
-        foreach ($temas as $t) {
-            if ($t->preguntar <= 0){
-                continue;
-            }
+        foreach ($temas->where('preguntar', '>', 0) as $t) {
             $totales = $totales + 1;
             $t->max = Intento::where('user_id', Auth::id())->where('prueba_id', $t->id * -1)->where('calificacion', '>', -1)->max('calificacion');
             $pasados = $t->max >= 90 ? $pasados + 1 : $pasados;
