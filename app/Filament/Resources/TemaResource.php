@@ -7,7 +7,12 @@ use App\Filament\Resources\TemaResource\RelationManagers;
 use App\Filament\Resources\TemaResource\RelationManagers\PreguntasRelationManager;
 use App\Models\Tema;
 use Filament\Forms;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -29,17 +34,13 @@ class TemaResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nombre')
-                    ->required()
-                    ->maxLength(191),
-                Forms\Components\TextInput::make('descripcion')
-                    ->maxLength(191),
-                Forms\Components\FileUpload::make('imagen')
-                    ->image(),
-                Forms\Components\FileUpload::make('pdf')->visibility('private')->directory('pdf'),
-                Forms\Components\FileUpload::make('video'),
-                Forms\Components\Select::make('modulo_id')->relationship(name: 'modulo', titleAttribute: 'nombre')->searchable(['nombre'])
-                    ->required(),
+                TextInput::make('nombre')->required()->maxLength(191),
+                TextInput::make('descripcion')->maxLength(191),
+                FileUpload::make('imagen')->image(),
+                FileUpload::make('pdf')->visibility('private')->directory('pdf'),
+                TextInput::make('video'),
+                FileUpload::make('video_file'),
+                Select::make('modulo_id')->relationship(name: 'modulo', titleAttribute: 'nombre')->searchable(['nombre'])->required(),
             ]);
     }
 
