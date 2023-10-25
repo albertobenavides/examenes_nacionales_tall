@@ -6,6 +6,8 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Filament\Resources\UserResource\RelationManagers\PagosRelationManager;
 use App\Models\Curso;
+use App\Models\Intento;
+use App\Models\Tema;
 use App\Models\User;
 use Carbon\Carbon;
 use Filament\Forms;
@@ -20,6 +22,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Hash;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use Spatie\Permission\Models\Role;
 use STS\FilamentImpersonate\Tables\Actions\Impersonate;
 
@@ -74,6 +77,15 @@ class UserResource extends Resource
                 TextColumn::make('email')->label('Correo-e')->searchable(),
                 TextColumn::make('rol_id')->label('Rol')->formatStateUsing(fn (string $state): string => Role::find(intval($state))->name),
                 TextColumn::make('pagos.curso_id')->listWithLineBreaks()->formatStateUsing(fn (string $state): string => Curso::find(intval($state))->nombre),
+                TextColumn::make('avance')->state(function (User $record) {
+                    if ($record->hasRole('alumno')){
+                        $intentos = $record->intentos->where('calificacion', '>=', 90)->count();
+                        $temas = Tema::whereIn('modulo_id', $record->pagos->first()->curso->modulos->pluck('id'))->where('preguntar', '>', 0)->count();
+                        return round(($intentos / $temas * 100), 2) . '%';
+                    } else {
+                        return 't';
+                    }
+                }),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -94,6 +106,7 @@ class UserResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    ExportBulkAction::make(),
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
