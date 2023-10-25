@@ -83,7 +83,7 @@ class UserResource extends Resource
                         $temas = Tema::whereIn('modulo_id', $record->pagos->first()->curso->modulos->pluck('id'))->where('preguntar', '>', 0)->count();
                         return round(($intentos / $temas * 100), 2) . '%';
                     } else {
-                        return 't';
+                        return '';
                     }
                 }),
                 TextColumn::make('created_at')
