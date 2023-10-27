@@ -27,6 +27,7 @@ class ListUsers extends ListRecords
         return [
             Actions\CreateAction::make(),
             ImportAction::make()
+                ->uniqueField('email')
                 ->fields([
                     ImportField::make('name')->label('Nombre')->required(),
                     ImportField::make('email')->label('Correo')->required(),
