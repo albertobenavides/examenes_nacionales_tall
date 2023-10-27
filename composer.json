@@ -22,6 +22,7 @@
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.2",
         "mohamedsabil83/filament-forms-tinyeditor": "^2.0",
+        "pxlrbt/filament-excel": "^2.1",
         "spatie/eloquent-sortable": "^4.0",
         "spatie/laravel-settings": "^3.2",
         "stechstudio/filament-impersonate": "^3.5",
