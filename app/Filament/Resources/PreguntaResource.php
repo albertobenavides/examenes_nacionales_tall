@@ -6,6 +6,8 @@ use App\Filament\Resources\PreguntaResource\Pages;
 use App\Filament\Resources\PreguntaResource\RelationManagers;
 use App\Models\Pregunta;
 use Filament\Forms;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -43,6 +45,19 @@ class PreguntaResource extends Resource
                 Forms\Components\Select::make('tema_id')
                     ->relationship(name: 'tema', titleAttribute: 'nombre')
                     ->required(),
+                Section::make('Respuestas')->schema([
+                    Repeater::make('respuestas')->relationship()->schema([
+                        TinyEditor::make('contenido')
+                            ->profile('default')
+                            ->setExternalPlugins([
+                                'tiny_mce_wiris' => 'https://www.wiris.net/demo/plugins/tiny_mce/plugin.js',
+                            ])
+                            ->required()
+                            ->columnSpanFull(),
+                        Forms\Components\Toggle::make('correcta')
+                            ->required(),
+                    ])->grid(2)->columnSpanFull()->minItems(2)
+                ])->collapsible()
             ]);
     }
 
@@ -50,9 +65,7 @@ class PreguntaResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('contenido')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('contenido')->numeric()->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('tema.nombre')
                     ->numeric()
                     ->sortable(),
@@ -80,14 +93,14 @@ class PreguntaResource extends Resource
                 ]),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -95,5 +108,5 @@ class PreguntaResource extends Resource
             'create' => Pages\CreatePregunta::route('/create'),
             'edit' => Pages\EditPregunta::route('/{record}/edit'),
         ];
-    }    
+    }
 }

@@ -55,7 +55,7 @@ class PreguntasRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('contenido')
             ->columns([
-                Tables\Columns\TextColumn::make('contenido')->description(fn (Pregunta $record): string => $record->ayuda)->wrap()->searchable(),
+                Tables\Columns\TextColumn::make('contenido')->description(fn (Pregunta $record): string => $record->ayuda ?? '')->wrap()->searchable()->html(),
             ])
             ->filters([
                 //
