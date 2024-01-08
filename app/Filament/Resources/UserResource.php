@@ -77,11 +77,9 @@ class UserResource extends Resource
                 TextColumn::make('email')->label('Correo-e')->searchable(),
                 TextColumn::make('rol_id')->label('Rol')->formatStateUsing(fn (string $state): string => Role::find(intval($state))->name),
                 TextColumn::make('pagos.curso_id')->listWithLineBreaks()->formatStateUsing(fn (string $state): string => Curso::find(intval($state))->nombre),
-                TextColumn::make('avance')->state(function (User $record) {
+                TextColumn::make('notes.avance')->state(function (User $record) {
                     if ($record->hasRole('alumno') && ($record->pagos->count() > 0)){
-                        $intentos = $record->intentos->where('calificacion', '>=', 90)->count();
-                        $temas = Tema::whereIn('modulo_id', $record->pagos->first()->curso->modulos->pluck('id'))->where('preguntar', '>', 0)->count();
-                        return round(($intentos / $temas * 100), 2) . '%';
+                        return $record->notes['avance'];
                     } else {
                         return '';
                     }
