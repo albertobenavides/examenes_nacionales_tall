@@ -79,11 +79,11 @@ class UserResource extends Resource
                 TextColumn::make('pagos.curso_id')->listWithLineBreaks()->formatStateUsing(fn (string $state): string => Curso::find(intval($state))->nombre),
                 TextColumn::make('notes.avance')->state(function (User $record) {
                     if ($record->hasRole('alumno') && ($record->pagos->count() > 0)){
-                        return $record->notes['avance'];
+                        return $record->notes['avance'] ?? '';
                     } else {
                         return '';
                     }
-                }),
+                })->label('Avance'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
