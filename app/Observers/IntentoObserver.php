@@ -14,7 +14,9 @@ class IntentoObserver
     {
         $usuario = $intento->usuario;
         if ($usuario->hasRole('alumno') && ($usuario->pagos->count() > 0)){
-            $intentos = $usuario->intentos->where('calificacion', '>=', 90)->count();
+            $intentos = Intento::where('user_id', $usuario->user_id)->where('calificacion',  '>=', '90')
+                ->get(['prueba_id', 'calificacion'])->flatten()
+                ->sortByDesc('calificacion')->groupBy('prueba_id')->flatten()->unique('prueba_id')->count();
             $temas = Tema::whereIn('modulo_id', $usuario->pagos->first()->curso->modulos->pluck('id'))->where('preguntar', '>', 0)->count();
             $usuario->update(['notes->avance' => round(($intentos / $temas * 100), 2) . '%']);
             $usuario->save();

@@ -44,7 +44,7 @@ class PagosRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('promo.nombre'),
                 Tables\Columns\TextColumn::make('oxxo'),
                 TextColumn::make('avance')->state(function (Pago $record) {
-                    $intentos = Intento::where('user_id', $record->user_id)->where('calificacion', '>=', 90)->count();
+                    $intentos = Intento::where('user_id', $record->user_id)->where('calificacion',  '>=', '90')->get(['prueba_id', 'calificacion'])->flatten()->sortByDesc('calificacion')->groupBy('prueba_id')->flatten()->unique('prueba_id')->count();
                     $temas = Tema::whereIn('modulo_id', $record->curso->modulos->pluck('id'))->where('preguntar', '>', 0)->count();
                     return round(($intentos / $temas * 100), 2) . '%';
                 })
