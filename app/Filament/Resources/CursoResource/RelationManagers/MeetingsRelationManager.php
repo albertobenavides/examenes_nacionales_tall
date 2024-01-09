@@ -21,9 +21,7 @@ class MeetingsRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                TextInput::make('meetingName')->required(),
-                // TextInput::make('attendeePW'),
-                // TextInput::make('moderatorPW'),
+                TextInput::make('meetingName')->required()->label('Nombre'),
             ]);
     }
 
@@ -53,7 +51,7 @@ class MeetingsRelationManager extends RelationManager
                                 'userId' =>  auth()->id(),
                             ])
                         );
-                    })->visible(fn ($record) => $record->status != null),
+                    })->visible(fn ($record) => $record->status == null),
                 Action::make('Unirse')
                     ->action(function (Meeting $record) {
                         return redirect()->to(
@@ -64,7 +62,7 @@ class MeetingsRelationManager extends RelationManager
                                 'userId' =>  auth()->id(),
                             ])
                         );
-                    })->visible(fn ($record) => $record->status != null),
+                    })->visible(fn ($record) => $record->status == null),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
