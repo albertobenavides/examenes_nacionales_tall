@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\CursoResource\Pages;
 use App\Filament\Resources\CursoResource\RelationManagers;
+use App\Filament\Resources\CursoResource\RelationManagers\MeetingsRelationManager;
 use App\Filament\Resources\CursoResource\RelationManagers\ModulosRelationManager;
 use App\Filament\Resources\CursoResource\RelationManagers\PruebaRelationManager;
 use App\Models\Curso;
@@ -83,7 +84,8 @@ class CursoResource extends Resource
     {
         return [
             ModulosRelationManager::class,
-            PruebaRelationManager::class
+            PruebaRelationManager::class,
+            MeetingsRelationManager::class,
         ];
     }
 

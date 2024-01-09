@@ -15,6 +15,7 @@ use App\Http\Controllers\PruebaController;
 use App\Http\Controllers\TemaController;
 use App\Http\Controllers\UsuarioController;
 use App\Models\Intento;
+use App\Models\Meeting;
 use App\Models\User;
 use App\Models\Pago;
 use Illuminate\Http\Request;
@@ -151,4 +152,12 @@ Route::post('/oxxo', function(Request $request){
 //DocumentViewer Library
 Route::any('ViewerJS/{all?}', function(){
     return View::make('ViewerJS.index');
+});
+
+Route::get('/meeting/{id}', function($id){
+    $m = Meeting::find($id);
+    $m->status = 'terminada';
+    $m->save();
+    Log::alert("message");
+    return 'te';
 });

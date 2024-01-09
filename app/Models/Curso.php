@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Curso extends Model
@@ -34,5 +35,15 @@ class Curso extends Model
     public function pruebas()
     {
         return $this->hasMany(Prueba::class);
+    }
+
+    /**
+     * Get all of the meetings for the Curso
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function meetings(): HasMany
+    {
+        return $this->hasMany(Meeting::class);
     }
 }
