@@ -156,8 +156,6 @@ Route::any('ViewerJS/{all?}', function(){
 
 Route::get('/meeting/{id}', function($id){
     $m = Meeting::find($id);
-    $m->status = 'terminada';
+    $m->status = '';
     $m->save();
-    Log::alert("message");
-    return 'te';
 });

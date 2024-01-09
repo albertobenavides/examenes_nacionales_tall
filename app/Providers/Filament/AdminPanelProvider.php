@@ -54,11 +54,6 @@ class AdminPanelProvider extends PanelProvider
                         hasAvatars: true, // Enables the avatar upload form component (default = false)
                         slug: 'my-profile' // Sets the slug for the profile page (default = 'my-profile')
                     ),
-                \BezhanSalleh\FilamentLanguageSwitch\FilamentLanguageSwitchPlugin::make(),
-                // \Awcodes\Overlook\OverlookPlugin::make()
-                //     ->excludes([
-                //         \BezhanSalleh\FilamentShield\Resources\RoleResource::class
-                //     ]),
             ])
             ->widgets([
                 // \Awcodes\Overlook\Widgets\OverlookWidget::class,

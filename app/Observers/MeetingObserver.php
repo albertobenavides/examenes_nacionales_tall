@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Meeting;
+use BigBlueButton\Parameters\CreateMeetingParameters;
 
 class MeetingObserver
 {
@@ -11,14 +12,15 @@ class MeetingObserver
      */
     public function saved(Meeting $meeting): void
     {
-        \Bigbluebutton::create([
-            'meetingID' => $meeting->id,
-            'meetingName' => $meeting->meetingName,
-            'attendeePW' => 'attendee',
-            'moderatorPW' => 'moderator',
-            'endCallbackUrl'  => env('APP_URL') . 'meeting/' . $meeting->id,
-            'logoutUrl' => env('APP_URL') . 'admin/cursos/' . $meeting->curso_id . '/edit?activeRelationManager=2',
-        ]);
+
+        $meetingParams = new CreateMeetingParameters($meeting->id, $meeting->meetingName);
+        $meetingParams->setAttendeePW('attendee');
+        $meetingParams->setModeratorPW('moderator');
+        $meetingParams->setEndCallbackUrl('env('APP_URL') . 'meeting/' . $meeting->id');
+        $meetingParams->setLogoutURL(env('APP_URL') . 'admin/cursos/' . $meeting->curso_id . '/edit?activeRelationManager=2');
+        $meetingParams->setRecord(true);
+        $meetingParams->setRecordingReadyCallbackUrl(env('APP_URL') . 'meeting/' . $meeting->id);
+        \Bigbluebutton::create($meetingParams);
     }
 
     /**
