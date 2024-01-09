@@ -154,8 +154,8 @@ Route::any('ViewerJS/{all?}', function(){
     return View::make('ViewerJS.index');
 });
 
-Route::get('/meeting/{id}', function($id){
+Route::get('/meeting/{id}/{status}', function($id, $status){
     $m = Meeting::find($id);
-    $m->status = '';
+    $m->status = $status;
     $m->save();
 });

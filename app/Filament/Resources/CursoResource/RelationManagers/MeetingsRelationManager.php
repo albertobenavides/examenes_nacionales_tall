@@ -53,7 +53,7 @@ class MeetingsRelationManager extends RelationManager
                                 'userId' =>  auth()->id(),
                             ])
                         );
-                    }),
+                    })->visible(fn ($record) => $record->status != null),
                 Action::make('Unirse')
                     ->action(function (Meeting $record) {
                         return redirect()->to(
@@ -64,7 +64,7 @@ class MeetingsRelationManager extends RelationManager
                                 'userId' =>  auth()->id(),
                             ])
                         );
-                    }),
+                    })->visible(fn ($record) => $record->status != null),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
