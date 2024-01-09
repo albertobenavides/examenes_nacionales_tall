@@ -16,7 +16,7 @@ class MeetingObserver
         $meetingParams = new CreateMeetingParameters($meeting->id, $meeting->meetingName);
         $meetingParams->setAttendeePW('attendee');
         $meetingParams->setModeratorPW('moderator');
-        $meetingParams->setEndCallbackUrl('env('APP_URL') . 'meeting/' . $meeting->id');
+        $meetingParams->setEndCallbackUrl(env('APP_URL') . 'meeting/' . $meeting->id);
         $meetingParams->setLogoutURL(env('APP_URL') . 'admin/cursos/' . $meeting->curso_id . '/edit?activeRelationManager=2');
         $meetingParams->setRecord(true);
         $meetingParams->setRecordingReadyCallbackUrl(env('APP_URL') . 'meeting/' . $meeting->id);
