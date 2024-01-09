@@ -157,5 +157,5 @@ Route::any('ViewerJS/{all?}', function(){
 Route::get('/meeting/{id}/{status}', function($id, $status){
     $m = Meeting::find($id);
     $m->status = $status;
-    $m->save();
+    $m->saveQuietly();
 });

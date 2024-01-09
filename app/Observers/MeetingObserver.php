@@ -8,11 +8,10 @@ use BigBlueButton\Parameters\CreateMeetingParameters;
 class MeetingObserver
 {
     /**
-     * Handle the Meeting "saved" event.
+     * Handle the Meeting "created" event.
      */
-    public function saved(Meeting $meeting): void
+    public function created(Meeting $meeting): void
     {
-
         $meetingParams = new CreateMeetingParameters($meeting->id, $meeting->meetingName);
         $meetingParams->setAttendeePW('attendee');
         $meetingParams->setModeratorPW('moderator');

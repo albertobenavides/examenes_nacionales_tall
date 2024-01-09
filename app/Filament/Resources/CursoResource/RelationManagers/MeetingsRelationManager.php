@@ -30,9 +30,8 @@ class MeetingsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('meetingName')
             ->columns([
-                Tables\Columns\TextColumn::make('id'),
-                Tables\Columns\TextColumn::make('meetingName'),
-                Tables\Columns\TextColumn::make('status'),
+                Tables\Columns\TextColumn::make('meetingName')->label('Nombre'),
+                Tables\Columns\TextColumn::make('status')->label('Estado'),
             ])
             ->filters([
                 //
