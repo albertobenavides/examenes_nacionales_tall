@@ -6,6 +6,7 @@ use App\Models\Meeting;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
@@ -62,6 +63,18 @@ class MeetingsRelationManager extends RelationManager
                             ])
                         );
                     })->visible(fn ($record) => $record->status == null),
+                Action::make('Grabación')
+                    ->action(function (Meeting $record) {
+                        try {
+                            $video = \Bigbluebutton::getRecordings(['meetingID' => $record->id])[0]['playback']['format'][0]['url'];
+                            return redirect()->to($video);
+                        } catch (\Throwable $th) {
+                            Notification::make()
+                                ->title('Video no disponible')
+                                ->warning()
+                                ->send();
+                        }
+                    })->visible(fn ($record) => $record->status != null),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
