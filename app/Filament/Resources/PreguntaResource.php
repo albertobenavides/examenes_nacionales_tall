@@ -64,6 +64,7 @@ class PreguntaResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultGroup('contenido')
             ->columns([
                 Tables\Columns\TextColumn::make('contenido')->numeric()->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('tema.nombre')

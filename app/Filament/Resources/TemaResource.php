@@ -7,8 +7,11 @@ use App\Filament\Resources\TemaResource\RelationManagers;
 use App\Filament\Resources\TemaResource\RelationManagers\PreguntasRelationManager;
 use App\Models\Tema;
 use Filament\Forms;
+use Filament\Forms\Components\Builder as ComponentsBuilder;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -40,6 +43,32 @@ class TemaResource extends Resource
                 FileUpload::make('pdf')->visibility('private')->directory('pdf'),
                 TextInput::make('video'),
                 FileUpload::make('video_file'),
+                ComponentsBuilder::make('contenido')->columnSpanFull()
+                    ->blocks([
+                        ComponentsBuilder\Block::make('texto')
+                            ->schema([
+                                RichEditor::make('texto')
+                                    ->required(),
+                            ])
+                            ->columns(1),
+                        ComponentsBuilder\Block::make('imagen')
+                            ->schema([
+                                FileUpload::make('url')
+                                    ->label('Image')
+                                    ->image()
+                                    ->required(),
+                            ]),
+                        ComponentsBuilder\Block::make('video')
+                            ->schema([
+                                FileUpload::make('video')
+                                    ->required(),
+                            ]),
+                        ComponentsBuilder\Block::make('h5p')
+                            ->schema([
+                                FileUpload::make('h5p')
+                                    ->required(),
+                            ]),
+                    ]),
                 Select::make('modulo_id')->relationship(name: 'modulo', titleAttribute: 'nombre')->searchable(['nombre'])->required(),
             ]);
     }
@@ -83,14 +112,14 @@ class TemaResource extends Resource
                 ]),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             PreguntasRelationManager::class
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -98,5 +127,5 @@ class TemaResource extends Resource
             'create' => Pages\CreateTema::route('/create'),
             'edit' => Pages\EditTema::route('/{record}/edit'),
         ];
-    }    
+    }
 }
