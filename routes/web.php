@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InstitucionController;
 use App\Http\Controllers\IntentoController;
 use App\Http\Controllers\ModuloController;
+use App\Http\Controllers\ModuloTemaController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PreguntaController;
 use App\Http\Controllers\PromoController;
@@ -63,6 +64,8 @@ Route::group(['middleware' => 'revisar.acceso'], function() {
         '/intentos' => IntentoController::class,
         '/usuarios' => UsuarioController::class,
     ]);
+
+    Route::resource('modulos.temas', ModuloTemaController::class);
 
     Route::post('/usuarios/pagina', [UsuarioController::class, 'paginate']);
     Route::post('/usuarios/pagina/tabla', [UsuarioController::class, 'paginate_tabla']);

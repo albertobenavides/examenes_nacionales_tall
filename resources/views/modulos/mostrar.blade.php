@@ -6,173 +6,6 @@
 
 @section('scripts')
     @filamentScripts
-    <script>
-        $(function() {
-            let tabla_temas = '';
-            let temas = {!! $temas !!};
-            for (const [key, t] of Object.entries(temas)) {
-                tabla_temas += 
-                `<tr class="bg-white">
-                    <td>
-                        <h5>${t['nombre']}</h5>
-                    </td>
-                    <td class="text-center">`;
-                        if (t['pdf'] != null){
-                            tabla_temas += `<a href="#" data-toggle="modal" data-target="#mostrarVideo" class="mostrarPDF" data-url="${t['pdf']}" data-nombre="${t['nombre']}"><i class="fas fa-file-pdf fa-2x"></i></a>`;
-                        }
-                    tabla_temas += `</td>
-                    <td class="text-center">`;
-                        if (t['video'] != null){
-                            tabla_temas += `<a href="#" data-toggle="modal" data-target="#mostrarVideo" class="mostrarVideo" data-url="${t['video']}" data-nombre="${t['nombre']}"><i class="fas fa-film fa-2x"></i></a>`;
-                        }
-                        tabla_temas += `</td>
-                    <td class="text-center">`;
-
-                        if (t['preguntar'] > 0){
-                            tabla_temas += `<a href="#" data-toggle="modal" data-nombre="${t['nombre']}" data-target="#mostrarVideo" class="mostrarPreguntas button" tema_id="${t['id']}"><i class="fas fa-tasks fa-2x"></i></a>`;
-                        }
-                        tabla_temas += `</td>
-                    <td class="text-center">
-                        <a href="/examenes/-${t['id']}">`;
-                            if (t['max'] >= 90){
-                                tabla_temas += `<span class="text-secondary"><i class="fas fa-medal fa-2x"></i></span>`;
-                            }
-                            else{
-                                tabla_temas += `<i class="fas fa-flag-checkered fa-2x"></i>`;
-                            }
-                            tabla_temas += `</a>
-                    </td>
-                    <td class='text-center'>
-                        ${t['max'] == null ? '' : t['max'] }
-                    </td>
-                </tr>`;
-            };
-            $('#tabla_temas').html(tabla_temas);
-
-            $('#siguiente').hide();
-            $('#videoYoutube').hide();
-            $('#videoTema').parent().hide();
-            respuesta = $('#respuesta').clone();
-            $('#respuesta').remove();
-            $('.modal').on('hidden.bs.modal', function(e) {
-                $('#videoYoutube').removeAttr('src');
-                $('#videoTema').attr('src', '');
-                $('#videoTema').parent().get(0).load();
-            })
-            $('.mostrarVideo').click(function() {
-                @if (Auth::user()->rol_id == 1 or
-                        Auth::user()->pagos->where('curso_id', $modulo->curso->id)->where('fin', '>=', Carbon\Carbon::today())->count() >
-                            0 and
-                            Auth::user()->pagos->where('curso_id', $modulo->curso->id)->where('fin', '>=', Carbon\Carbon::today())->sortByDesc('promo_id')->first()->promo->videos ==
-                                true)
-                    $('.modal-title').html($(this).attr('data-nombre'));
-                    if ($(this).attr('data-url').indexOf(".") === -1) {
-                        $('#videoYoutube').attr('src', 'https://www.youtube.com/embed/' + $(this).attr('data-url'));
-                        $('#videoYoutube').show();
-                    } else {
-                        $('#videoTema').attr('src', '/mostrar/' + $(this).attr('data-url') + '?curso_id={{ $modulo->curso->id }}');
-                        // https://www.w3schools.com/Tags/av_met_load.asp
-                        // https://stackoverflow.com/a/47592688/3113008
-                        $('#videoTema').parent().get(0).load();
-                        $('#videoTema').parent().show();
-                    }
-                    $('#pdfTema').hide();
-                    $('#preguntasTema').hide();
-                @else
-                    window.location = '/pagos/crear?curso_id={{ $modulo->curso->id }}';
-                @endif
-            });
-            $('.mostrarPDF').click(function() {
-                @if (Auth::user()->rol_id == 1 ||
-                        Auth::user()->pagos->where('curso_id', $modulo->curso->id)->where('fin', '>=', Carbon\Carbon::today())->count() > 0)
-                    $('.modal-title').html($(this).attr('data-nombre'));
-                    $('#preguntasTema').hide();
-                    $('#videoTema').parent().hide();
-                    $('#videoYoutube').hide();
-                    $('#pdfTema').attr('src', '/ViewerJS/index.html#../descargar/' + $(this).attr('data-url') + '?curso_id={{ $modulo->curso->id }}');
-                    var t = $('#pdfTema').clone();
-                    var p = $('#pdfTema').parent();
-                    $('#pdfTema').remove();
-                    p.append(t.clone());
-                    $('#pdfTema').show();
-                @else
-                    window.location = '/pagos/crear?curso_id={{ $modulo->curso->id }}';
-                @endif
-            });
-            $('.mostrarPreguntas').click(function() {
-                $('#ayuda').html('');
-                @if (Auth::user()->rol_id == 1 or
-                        Auth::user()->pagos->where('curso_id', $modulo->curso->id)->where('fin', '>=', Carbon\Carbon::today())->count() >
-                            0 and
-                            Auth::user()->pagos->where('curso_id', $modulo->curso->id)->where('fin', '>=', Carbon\Carbon::today())->sortByDesc('promo_id')->first()->promo->examenes ==
-                                true)
-                    if (!$(this).hasClass('button')) {
-                        $(this).hide();
-                    }
-                    $('#revisar').hide();
-                    $('.modal-title').html($(this).attr('data-nombre'));
-                    $('#videoTema').parent().hide();
-                    $('#videoYoutube').hide();
-                    $('#pdfTema').hide();
-                    $('#preguntasTema').show();
-                    $('#siguiente').attr('tema_id', $(this).attr('tema_id'));
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-                    $.ajax({
-                        url: '/preguntas/' + $(this).attr('tema_id'),
-                        type: 'GET',
-                        success: function(data) {
-                            $('#revisar').attr('pregunta_id', data.id);
-                            $('#contenido').html(data.contenido);
-                            $('#respuestas').empty();
-                            for (var i = 0; i < _.size(data.r); i++) {
-                                var t = respuesta.clone();
-                                t.removeAttr('id');
-                                t.addClass('respuesta');
-                                t.attr('respuesta_id', data.r[i].id);
-                                t.html(data.r[i].contenido);
-                                $('#respuestas').append(t);
-                                $('.respuesta').click(function() {
-                                    $('.respuesta').removeClass('bg-info');
-                                    $(this).addClass('bg-info');
-                                    $('#revisar').show();
-                                });
-                            }
-                            MathJax.typeset();
-                        }
-                    });
-                @else
-                    window.location = '/pagos/crear?curso_id={{ $modulo->curso->id }}';
-                @endif
-            });
-            $('#revisar').click(function(e) {
-                $('#revisar').hide();
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url: '/preguntas/revisar/' + $(this).attr('pregunta_id'),
-                    type: 'POST',
-                    success: function(data) {
-                        console.log(data);
-                        $('#siguiente').show();
-                        var t = $('.respuesta[respuesta_id="' + data.id + '"]');
-                        t.addClass('bg-success');
-                        if (t.hasClass('bg-info')) {
-                            t.removeClass('bg-info');
-                        }
-                        $('.respuesta').off('click');
-                        $('#ayuda').html(data.ayuda)
-                    }
-                });
-            });
-        });
-    </script>
 @endsection
 
 @section('content')
@@ -240,48 +73,18 @@
                                 <th style="width:55%">
                                     <h2>Temas</h2>
                                 </th>
-                                <th style="width:15%" class="text-center">PDF</th>
-                                <th style="width:15%" class="text-center">Videos</th>
-                                <th style="width:15%" class="text-center">Ejercicios</th>
-                                <th style="width:15%" class="text-center">Examen</th>
-                                <th style="width:15%" class="text-center">Mejor calif.</th>
                             </tr>
                         </thead>
                         <tbody id="tabla_temas">
-                            
+                            @foreach ($temas as $tema)
+                            <tr>
+                                <th>
+                                    <a href="/modulos/{{ $modulo->id }}/temas/{{ $tema['id'] }}">{{ $tema['nombre'] }}</a> 
+                                </th>
+                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="mostrarVideo" class="modal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <iframe width="100%" height="480" id="videoYoutube" src="#" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    <video controls class="w-100" controlsList="nodownload">
-                        <source id="videoTema" src="" type="video/mp4">
-                        Tu navegador no soporta videos.
-                    </video>
-                    {{-- https://stackoverflow.com/a/36234568/3113008 --}}
-                    <iframe id="pdfTema" src = "" style="height:80vh; width:100%" allowfullscreen webkitallowfullscreen></iframe>
-                    <div id="preguntasTema">
-                        <p class="lead text-center" id="contenido"></p>
-                        <div class="list-group" id="respuestas">
-                            <div class="list-group-item list-group-item-action" id="respuesta">lala</div>
-                        </div>
-                        <div id="ayuda"></div>
-                        <button class="btn btn-primary mt-2" id="revisar">Revisar</button>
-                        <button class="btn btn-primary mt-2 mostrarPreguntas" id="siguiente">Siguiente</button>
-                    </div>
                 </div>
             </div>
         </div>

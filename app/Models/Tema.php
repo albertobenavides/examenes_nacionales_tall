@@ -12,6 +12,10 @@ class Tema extends Model implements Sortable
     use HasFactory;
     use SortableTrait;
 
+    protected $casts =  [
+        'contenido' => 'array'
+    ];
+
     public function modulo()
     {
         return $this->belongsTo(Modulo::class, 'modulo_id');

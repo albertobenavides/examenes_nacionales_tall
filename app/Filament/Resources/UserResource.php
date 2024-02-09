@@ -71,17 +71,6 @@ class UserResource extends Resource
 
     public static function table(Table $table): Table
     {
-        // $us = Role::where('name', 'alumno')->first()->users()->offset(4000)->limit(200)->get(['id']);
-        // foreach ($us as $u) {
-        //     if ($u->hasRole('alumno') && ($u->pagos->count() > 0)){
-        //         $intentos = Intento::where('user_id', $u->user_id)->where('calificacion',  '>=', '90')
-        //             ->get(['prueba_id', 'calificacion'])->flatten()
-        //             ->sortByDesc('calificacion')->groupBy('prueba_id')->flatten()->unique('prueba_id')->count();
-        //         $temas = Tema::whereIn('modulo_id', $u->pagos->first()->curso->modulos->pluck('id'))->where('preguntar', '>', 0)->count();
-        //         $u->update(['notes->avance' => round(($intentos / $temas * 100), 2) . '%']);
-        //         $u->save();
-        //     }
-        // }
         return $table
             ->columns([
                 TextColumn::make('name')->label('Nombre')->searchable(),

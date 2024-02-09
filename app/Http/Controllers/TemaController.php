@@ -89,7 +89,9 @@ class TemaController extends Controller
      */
     public function show(Tema $tema)
     {
-        //
+        return view('temas.mostrar', [
+            'tema' => $tema
+        ]);
     }
 
     /**
