@@ -74,7 +74,7 @@ class UserResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')->label('Nombre')->searchable(),
-                TextColumn::make('email')->label('Correo-e')->searchable(),
+                TextColumn::make('email')->label('Correo-e')->searchable()->copyable()->copyMessage('Color code copied'),
                 TextColumn::make('rol_id')->label('Rol')->formatStateUsing(fn (string $state): string => Role::find(intval($state))->name),
                 TextColumn::make('pagos.curso_id')->listWithLineBreaks()->formatStateUsing(fn (string $state): string => Curso::find(intval($state))->nombre),
                 TextColumn::make('notes.avance')->state(function (User $record) {

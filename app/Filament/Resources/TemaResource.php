@@ -13,11 +13,13 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -39,10 +41,6 @@ class TemaResource extends Resource
             ->schema([
                 TextInput::make('nombre')->required()->maxLength(191),
                 TextInput::make('descripcion')->maxLength(191),
-                FileUpload::make('imagen')->image(),
-                FileUpload::make('pdf')->visibility('private')->directory('pdf'),
-                TextInput::make('video'),
-                FileUpload::make('video_file'),
                 ComponentsBuilder::make('contenido')->columnSpanFull()
                     ->blocks([
                         ComponentsBuilder\Block::make('texto')
@@ -51,12 +49,19 @@ class TemaResource extends Resource
                                     ->required(),
                             ])
                             ->columns(1),
-                        ComponentsBuilder\Block::make('imagen')
+                        ComponentsBuilder\Block::make('embebido')
+                            ->schema([
+                                Textarea::make('embebido')
+                                    ->required(),
+                            ])
+                            ->columns(1),
+                        ComponentsBuilder\Block::make('pdf')
                             ->schema([
                                 FileUpload::make('url')
-                                    ->label('Image')
+                                    ->label('PDF')
                                     ->image()
-                                    ->required(),
+                                    ->required()
+                                    ->acceptedFileTypes(['application/pdf']),
                             ]),
                         ComponentsBuilder\Block::make('video')
                             ->schema([
@@ -69,7 +74,7 @@ class TemaResource extends Resource
                                     ->required(),
                             ]),
                     ]),
-                Select::make('modulo_id')->relationship(name: 'modulo', titleAttribute: 'nombre')->searchable(['nombre'])->required(),
+                // Select::make('modulo_id')->relationship(name: 'modulo', titleAttribute: 'nombre')->searchable(['nombre'])->required(),
             ]);
     }
 
@@ -79,11 +84,6 @@ class TemaResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('nombre')
                     ->description(fn (Tema $record): string => $record->description ?? '')
-                    ->searchable(),
-                Tables\Columns\ImageColumn::make('imagen'),
-                Tables\Columns\TextColumn::make('pdf')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('video')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('orden')
                     ->numeric()
@@ -109,6 +109,25 @@ class TemaResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    BulkAction::make('Actualizar')->visible(auth()->user()->hasRole('super_admin'))
+                        ->action(function ($records) {
+                            foreach ($records as $tema) {
+                                $contenido = [];
+                                if ($tema->pdf != null) {
+                                    $contenido[] = ["data" => ["url" => $tema->pdf], "type" => "pdf"];
+                                }
+                                if ($tema->video != null) {
+                                    if (str_contains($tema->video, 'http')){
+                                        $contenido[] = ["data" => ["embebido" => $tema->video], "type" => "embebido"];
+                                    }
+                                    if (!str_contains($tema->video, 'http')){
+                                        $contenido[] = ["data" => ["video" => $tema->video], "type" => "video"];
+                                    }
+                                }
+                                $tema->contenido = $contenido;
+                                $tema->save();
+                            }
+                        })
                 ]),
             ]);
     }

@@ -194,7 +194,7 @@ return [
          *
          * var @bool
          */
-        'lockSettingsDisableCam'             => false,
+        'lockSettingsDisableCam'             => true,
 
         /**
          * Default lockSettingsDisableMic=false.
@@ -202,7 +202,7 @@ return [
          *
          * var @bool
          */
-        'lockSettingsDisableMic'             => false,
+        'lockSettingsDisableMic'             => true,
 
         /**
          * Default lockSettingsDisablePrivateChat=false.
@@ -210,7 +210,7 @@ return [
          *
          * var @bool
          */
-        'lockSettingsDisablePrivateChat'     => false,
+        'lockSettingsDisablePrivateChat'     => true,
 
         /**
          * Default lockSettingsDisablePublicChat=false.
@@ -226,7 +226,7 @@ return [
          *
          * var @bool
          **/
-        'lockSettingsDisableNote'            => false,
+        'lockSettingsDisableNote'            => true,
 
         /**
          * Default lockSettingsLockedLayout=false.
@@ -261,7 +261,7 @@ return [
          *
          * var @string
          */
-        'guestPolicy'                        => 'ALWAYS_ACCEPT',
+        'guestPolicy'                        => 'ALWAYS_DENY',
 
         /**
          * Defaults to the value of defaultKeepEvents.

@@ -9,34 +9,36 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            @for ($i = 0; $i < count($tema->contenido); $i++)
-                @if ($tema->contenido[$i]['type'] == 'h5p')
-                    var iframe = document.getElementById('embebed-{{ $i }}');
-                    iframe.height = iframe.contentWindow.document.body.scrollHeight;
+            @if ($tema->contenido != null)
+                @for ($i = 0; $i < count($tema->contenido); $i++)
+                    @if ($tema->contenido[$i]['type'] == 'h5p')
+                        var iframe = document.getElementById('embebed-{{ $i }}');
+                        iframe.height = iframe.contentWindow.document.body.scrollHeight;
 
-                    document.getElementById('embebed-{{ $i }}').contentWindow.H5P.externalDispatcher.on('xAPI', function(event) {
-                        try {
-                            let score = event.data.statement.result.score;
-                            if (score.scaled > 0.9) {
-                                confetti({
-                                    particleCount: 100,
-                                    spread: 70,
-                                    origin: {
-                                        y: 0.6
-                                    }
-                                });
-                                var audio = new Audio('/sounds/success.mp3');
-                                audio.play();
-                            } else {
-                                var audio = new Audio('/sounds/error.mp3');
-                                audio.play();
+                        document.getElementById('embebed-{{ $i }}').contentWindow.H5P.externalDispatcher.on('xAPI', function(event) {
+                            try {
+                                let score = event.data.statement.result.score;
+                                if (score.scaled > 0.9) {
+                                    confetti({
+                                        particleCount: 100,
+                                        spread: 70,
+                                        origin: {
+                                            y: 0.6
+                                        }
+                                    });
+                                    var audio = new Audio('/sounds/success.mp3');
+                                    audio.play();
+                                } else {
+                                    var audio = new Audio('/sounds/error.mp3');
+                                    audio.play();
+                                }
+                            } catch (error) {
+                                //
                             }
-                        } catch (error) {
-                            //
-                        }
-                    });
-                @endif
-            @endfor
+                        });
+                    @endif
+                @endfor
+            @endif
         });
     </script>
 @endsection
@@ -78,16 +80,18 @@
             <div class="col-md-9">
                 <h1 class="lead">{{ $tema->nombre }}</h1>
                 <hr>
-                @for ($i = 0; $i < count($tema->contenido); $i++)
-                    <div>
-                        @if ($tema->contenido[$i]['type'] == 'texto')
-                            {!! $tema->contenido[$i]['data']['texto'] !!}
-                        @elseif ($tema->contenido[$i]['type'] == 'h5p')
-                            <iframe onload="this.height=this.contentWindow.document.body.scrollHeight * 1.5;" src="/storage/{{ $tema->contenido[$i]['data']['h5p'] }}" id='embebed-{{ $i }}' frameborder="0" width="100%"
-                                allow="geolocation *; microphone *; camera *; midi *; encrypted-media *"></iframe>
-                        @endif
-                    </div>
-                @endfor
+                @if ($tema->contenido != null)
+                    @for ($i = 0; $i < count($tema->contenido); $i++)
+                        <div>
+                            @if ($tema->contenido[$i]['type'] == 'texto')
+                                {!! $tema->contenido[$i]['data']['texto'] !!}
+                            @elseif ($tema->contenido[$i]['type'] == 'h5p')
+                                <iframe onload="this.height=this.contentWindow.document.body.scrollHeight * 1.5;" src="/storage/{{ $tema->contenido[$i]['data']['h5p'] }}" id='embebed-{{ $i }}' frameborder="0" width="100%"
+                                    allow="geolocation *; microphone *; camera *; midi *; encrypted-media *"></iframe>
+                            @endif
+                        </div>
+                    @endfor
+                @endif
             </div>
         </div>
     </div>
