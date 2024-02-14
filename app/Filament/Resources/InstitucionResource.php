@@ -20,7 +20,7 @@ class InstitucionResource extends Resource
 {
     protected static ?string $model = Institucion::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-building-library';
 
     protected static ?string $pluralModelLabel = 'instituciones';
 

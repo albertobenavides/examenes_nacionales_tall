@@ -64,7 +64,7 @@ class PreguntasRelationManager extends RelationManager
                 Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->modalHeading('Pregunta'),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
