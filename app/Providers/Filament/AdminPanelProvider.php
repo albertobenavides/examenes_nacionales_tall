@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\AvatarProviders\BoringAvatarsProvider;
 use App\Filament\Resources\CursoResource;
 use App\Filament\Resources\ExamenResource;
 use App\Filament\Resources\InstitucionResource;
@@ -73,7 +74,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->defaultAvatarProvider(BoringAvatarsProvider::class);
             // ->navigation(function (NavigationBuilder $builder): NavigationBuilder {
             //     return $builder
             //         ->groups([
