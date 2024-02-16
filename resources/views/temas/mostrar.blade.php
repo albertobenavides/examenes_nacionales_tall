@@ -85,8 +85,6 @@
                         <div>
                             @if ($tema->contenido[$i]['type'] == 'texto')
                                 {!! $tema->contenido[$i]['data']['texto'] !!}
-                            @elseif ($tema->contenido[$i]['type'] == 'pdf')
-                            <iframe src = "{{ '/ViewerJS/index.html#../descargar/' . $tema->contenido[$i]['data']['url'] . '?curso_id= $modulo->curso->id ' }}'}}" style="height:80vh; width:100%" allowfullscreen webkitallowfullscreen></iframe>
                             @elseif ($tema->contenido[$i]['type'] == 'h5p')
                                 <iframe onload="this.height=this.contentWindow.document.body.scrollHeight * 1.5;" src="/storage/{{ $tema->contenido[$i]['data']['h5p'] }}" id='embebed-{{ $i }}' frameborder="0" width="100%"
                                     allow="geolocation *; microphone *; camera *; midi *; encrypted-media *"></iframe>

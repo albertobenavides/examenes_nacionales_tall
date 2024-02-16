@@ -95,13 +95,6 @@ Route::group(['middleware' => 'revisar.acceso'], function() {
     Route::post('/calificaciones/simulaciones', [CalificacionController::class, 'simulaciones']);
     Route::post('/calificaciones', [CalificacionController::class, 'calificaciones']);
 
-    Route::get('/descargar/{dir}/{archivo}', function($dir, $archivo){
-        $fileContents = Storage::get($dir . '/' . $archivo);
-        $response = Response::make($fileContents, 200);
-        $response->header('Content-Type', 'application/pdf');
-        return $response;
-    })->middleware(['auth', 'revisar.pago']);
-
     Route::get('/mostrar/{dir}/{archivo}', function($dir, $archivo){
         // https://github.com/imanghafoori1/laravel-video
         VideoStreamer::streamFile(__DIR__ . "/../storage/app/video/$archivo");
