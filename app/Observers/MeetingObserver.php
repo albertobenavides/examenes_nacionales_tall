@@ -26,13 +26,11 @@ class MeetingObserver
             'lockSettingsDisableMic' => true,
             'lockSettingsDisablePrivateChat' => true,
             'lockSettingsDisableNotes' => true,
-            // 'lockSettingsLockOnJoin' => true,
-            // 'lockSettingsLockOnJoinConfigurable' => true,
-            // 'guestPolicy' => 'ALWAYS_DENY',
+            'lockSettingsLockOnJoin' => true,
             'endWhenNoModerator' => true,
             'disabledFeatures' => 'sharedNotes'
 
-        ]); 
+        ]);
     }
 
     /**
