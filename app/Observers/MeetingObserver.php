@@ -27,19 +27,10 @@ class MeetingObserver
             'lockSettingsDisablePrivateChat' => true,
             'lockSettingsDisableNotes' => true,
             'lockSettingsLockOnJoinConfigurable' => true,
-            'guestPolicy' => 'ALWAYS_DENY',
             'endWhenNoModerator' => true,
             'disabledFeatures' => 'sharedNotes'
 
         ]); 
-        // $meetingParams = new CreateMeetingParameters($meeting->id, $meeting->meetingName);
-        // $meetingParams->setAttendeePW('attendee');
-        // $meetingParams->setModeratorPW('moderator');
-        // $meetingParams->setRecord(true);
-        // $meetingParams->setEndCallbackUrl(env('APP_URL') . 'meeting/' . $meeting->id . '/terminada');
-        // $meetingParams->setRecordingReadyCallbackUrl(env('APP_URL') . 'meeting/' . $meeting->id . '/grabada');
-        // $meetingParams->setLogoutURL(env('APP_URL') . 'admin/cursos/' . $meeting->curso_id . '/edit?activeRelationManager=2');
-        // \Bigbluebutton::create($meetingParams);
     }
 
     /**
