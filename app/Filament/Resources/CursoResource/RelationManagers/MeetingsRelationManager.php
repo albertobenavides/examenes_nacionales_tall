@@ -47,7 +47,7 @@ class MeetingsRelationManager extends RelationManager
                             \Bigbluebutton::join([
                                 'meetingID' => $record->id,
                                 'userName' => auth()->user()->name,
-                                'password' => 'moderator',
+                                'role' => 'MODERATOR',
                                 'userId' =>  auth()->id(),
                             ])
                         );

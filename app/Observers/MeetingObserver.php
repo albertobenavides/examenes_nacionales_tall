@@ -15,8 +15,8 @@ class MeetingObserver
         \Bigbluebutton::create([
             'meetingID' => $meeting->id,
             'meetingName' => $meeting->meetingName,
-            'attendeePW' => 'attendee',
-            'moderatorPW' => 'moderator',
+            // 'attendeePW' => 'attendee',
+            // 'moderatorPW' => 'moderator',
             'record' => true,
             'endCallbackUrl'  => env('APP_URL') . 'meeting/' . $meeting->id . '/terminada',
             'bbb-recording-ready-url'  => env('APP_URL') . 'meeting/' . $meeting->id . '/grabada',
@@ -26,7 +26,8 @@ class MeetingObserver
             'lockSettingsDisableMic' => true,
             'lockSettingsDisablePrivateChat' => true,
             'lockSettingsDisableNotes' => true,
-            'lockSettingsLockOnJoinConfigurable' => true,
+            // 'lockSettingsLockOnJoin' => true,
+            // 'lockSettingsLockOnJoinConfigurable' => true,
             // 'guestPolicy' => 'ALWAYS_DENY',
             'endWhenNoModerator' => true,
             'disabledFeatures' => 'sharedNotes'
