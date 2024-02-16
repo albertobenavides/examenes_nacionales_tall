@@ -5,8 +5,13 @@ return [
      * Default BigBlueButton Server Configurations
      * By default load this configuration not a multiple server configuration.
      */
-    'BBB_SECURITY_SALT'   => env('BBB_SECURITY_SALT', ''),
+    'BBB_SECURITY_SALT' => env('BBB_SECURITY_SALT', ''),
     'BBB_SERVER_BASE_URL' => env('BBB_SERVER_BASE_URL', ''),
+
+    /*
+    * available hash algorithm sha1,sha256,sha512,sha384
+    */
+    'hash_algorithm' => 'sha1',
 
     /**
      * For Multiple BigBlueButton Server Configurations
@@ -15,51 +20,51 @@ return [
      */
     'servers' => [
         'server1' => [
-            'BBB_SECURITY_SALT'    => '',
+            'BBB_SECURITY_SALT' => '',
             'BBB_SERVER_BASE_URL' => '',
         ],
         'server2' => [
-            'BBB_SECURITY_SALT'    => '',
+            'BBB_SECURITY_SALT' => '',
             'BBB_SERVER_BASE_URL' => '',
         ],
     ],
 
-    'create'              => [
+    'create' => [
         /**
          * if user does not pass attendee or moderator password then
          * generate random password (length should be there).
          *
          * var @numeric
          */
-        'passwordLength'                     => 8,
+        'passwordLength' => 8,
 
         /**
          * A welcome message that gets displayed on the chat window when the participant joins
          * if null then default server welcome message will be show..
          * var @mixed.
          **/
-        'welcomeMessage'                     => null,
+        'welcomeMessage' => null,
 
         /**
          * The dial access number that participants can call in using regular phone.
          *
          * var @string
          */
-        'dialNumber'                         => null,
+        'dialNumber' => null,
 
         /**
          *    Set the maximum number of users allowed to joined the conference at the same time.
          *    Note :  zero means unlimited participants
          *    var @numeric.
          */
-        'maxParticipants'                    => 0,
+        'maxParticipants' => 0,
 
         /**
          * The URL that the BigBlueButton client will go to after users click the OK button.
          *
          * var @string
          */
-        'logoutUrl'                          => null,
+        'logoutUrl' => null,
 
         /**
          * Setting ‘record=true’ instructs the BigBlueButton server to record the media and
@@ -71,7 +76,7 @@ return [
          * See also the autoStartRecording and allowStartStopRecording parameters
          * var @bool
          */
-        'record'                             => false,
+        'record' => false,
 
         /**
          * The maximum length (in minutes) for the meeting.
@@ -81,14 +86,14 @@ return [
          *
          * var @numeric
          */
-        'duration'                           => 0,
+        'duration' => 0,
 
         /**
          *    Must be set to true to create a breakout room. default set false.
          *
          * var @bool
          */
-        'isBreakout'                         => false,
+        'isBreakout' => false,
 
         /**
          * Display a message to all moderators in the public chat.
@@ -96,7 +101,7 @@ return [
          *
          * var @string
          */
-        'moderatorOnlyMessage'               => null,
+        'moderatorOnlyMessage' => null,
 
         /**
          * Whether to automatically start recording when first user joins (default false).
@@ -108,7 +113,7 @@ return [
          *
          * var @bool
          */
-        'autoStartRecording'                 => false,
+        'autoStartRecording' => false,
 
         /**
          * Allow the user to start/stop recording. (default true)
@@ -118,7 +123,7 @@ return [
          *
          * var @bool
          */
-        'allowStartStopRecording'            => true,
+        'allowStartStopRecording' => true,
 
         /**
          * Setting webcamsOnlyForModerator=true will cause all webcams
@@ -126,21 +131,21 @@ return [
          *
          * var @bool
          */
-        'webcamsOnlyForModerator'            => false,
+        'webcamsOnlyForModerator' => false,
 
         /**
          * Will set the banner text in the client. (added 2.0).
          *
          * var @string
          */
-        'bannerText'            => null,
+        'bannerText' => null,
 
         /**
          * Will set the banner background color in the client. The required format is color hex #FFFFFF. (added 2.0).
          *
          * var @string
          */
-        'bannerColor'            => '#FFFFFF',
+        'bannerColor' => '#FFFFFF',
 
         /**
          * Setting logo=http://www.example.com/my-custom-logo.png will replace
@@ -148,7 +153,7 @@ return [
          *
          * var @string
          */
-        'logo'                               => null,
+        'logo' => null,
 
         /**
          * Will set the banner text in the client. (added 2.0).
@@ -171,14 +176,14 @@ return [
          *
          * var @string
          */
-        'copyright'                          => null,
+        'copyright' => null,
 
         /**
          * Setting muteOnStart=true will mute all users when the meeting starts. (added 2.0).
          *
          * var @bool
          */
-        'muteOnStart'                        => false,
+        'muteOnStart' => false,
 
         /**
          * Default allowModsToUnmuteUsers=false.
@@ -186,7 +191,7 @@ return [
          *
          * var @bool
          */
-        'allowModsToUnmuteUsers'             => false,
+        'allowModsToUnmuteUsers' => false,
 
         /**
          *  Default lockSettingsDisableCam=false.
@@ -194,7 +199,7 @@ return [
          *
          * var @bool
          */
-        'lockSettingsDisableCam'             => true,
+        'lockSettingsDisableCam' => false,
 
         /**
          * Default lockSettingsDisableMic=false.
@@ -202,7 +207,7 @@ return [
          *
          * var @bool
          */
-        'lockSettingsDisableMic'             => true,
+        'lockSettingsDisableMic' => false,
 
         /**
          * Default lockSettingsDisablePrivateChat=false.
@@ -210,7 +215,7 @@ return [
          *
          * var @bool
          */
-        'lockSettingsDisablePrivateChat'     => true,
+        'lockSettingsDisablePrivateChat' => false,
 
         /**
          * Default lockSettingsDisablePublicChat=false.
@@ -218,7 +223,7 @@ return [
          *
          * var @bool
          */
-        'lockSettingsDisablePublicChat'      => false,
+        'lockSettingsDisablePublicChat' => false,
 
         /**
          * Default lockSettingsDisableNote=false.
@@ -226,7 +231,7 @@ return [
          *
          * var @bool
          **/
-        'lockSettingsDisableNote'            => true,
+        'lockSettingsDisableNote' => false,
 
         /**
          * Default lockSettingsLockedLayout=false.
@@ -234,7 +239,7 @@ return [
          *
          * var @bool
          */
-        'lockSettingsLockedLayout'           => false,
+        'lockSettingsLockedLayout' => false,
 
         /**
          * Default lockSettingsLockOnJoin=true.
@@ -242,7 +247,7 @@ return [
          *
          * var @bool
          */
-        'lockSettingsLockOnJoin'             => false,
+        'lockSettingsLockOnJoin' => false,
 
         /**
          * Default lockSettingsLockOnJoinConfigurable=false.
@@ -261,7 +266,7 @@ return [
          *
          * var @string
          */
-        'guestPolicy'                        => 'ALWAYS_DENY',
+        'guestPolicy' => 'ALWAYS_ACCEPT',
 
         /**
          * Defaults to the value of defaultKeepEvents.
@@ -330,13 +335,13 @@ return [
          */
         'userCameraCap' => 3,
     ],
-    'join'                => [
+    'join' => [
         /**
          * var @bool.
          */
-        'redirect'     => true,
+        'redirect' => true,
     ],
-    'getRecordings'       => [
+    'getRecordings' => [
         /**
          * if the recording is [processing|processed|published|unpublished|deleted].
          * The parameter state can be used to filter results. It can be a set of states separate by commas.
