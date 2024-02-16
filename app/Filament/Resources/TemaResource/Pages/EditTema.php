@@ -17,16 +17,4 @@ class EditTema extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
-
-    protected function handleRecordUpdate(Model $record, array $data): Model
-    {
-        if ($data['video'] == null) {
-            $data['video'] = $data['video_file'];
-        }
-        unset($data['video_file']);
-
-        $record->update($data);
-    
-        return $record;
-    }
 }

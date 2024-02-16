@@ -28,6 +28,7 @@ class MeetingObserver
             'lockSettingsDisableNotes' => true,
             'lockSettingsLockOnJoin' => true,
             'endWhenNoModerator' => true,
+            'disabledFeatures' => 'sharedNotes'
 
         ]);
     }
