@@ -27,6 +27,7 @@ class MeetingObserver
             'lockSettingsDisablePrivateChat' => true,
             'lockSettingsDisableNotes' => true,
             'lockSettingsLockOnJoinConfigurable' => true,
+            // 'guestPolicy' => 'ALWAYS_DENY',
             'endWhenNoModerator' => true,
             'disabledFeatures' => 'sharedNotes'
 
