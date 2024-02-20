@@ -45,18 +45,21 @@ class TemaResource extends Resource
                     ->blocks([
                         ComponentsBuilder\Block::make('texto')
                             ->schema([
+                                TextInput::make('titulo')->label('Título'),
                                 RichEditor::make('texto')
                                     ->required(),
                             ])
                             ->columns(1),
                         ComponentsBuilder\Block::make('embebido')
                             ->schema([
+                                TextInput::make('titulo')->label('Título'),
                                 Textarea::make('embebido')
                                     ->required(),
                             ])
                             ->columns(1),
                         ComponentsBuilder\Block::make('pdf')
                             ->schema([
+                                TextInput::make('titulo')->label('Título'),
                                 FileUpload::make('url')
                                     ->label('PDF')
                                     ->image()
@@ -65,11 +68,13 @@ class TemaResource extends Resource
                             ]),
                         ComponentsBuilder\Block::make('video')
                             ->schema([
+                                TextInput::make('titulo')->label('Título'),
                                 FileUpload::make('video')
                                     ->required(),
                             ]),
                         ComponentsBuilder\Block::make('h5p')
                             ->schema([
+                                TextInput::make('titulo')->label('Título'),
                                 FileUpload::make('h5p')->required(),
                             ]),
                     ]),
