@@ -4,10 +4,11 @@
     @filamentStyles
     <style>
         .sidebar {
-  position: fixed;
-  right: 0;
-  z-index: 100; /* Behind the navbar */
-}
+            position: fixed;
+            right: 0;
+            z-index: 100;
+            /* Behind the navbar */
+        }
     </style>
 @endsection
 
@@ -51,7 +52,7 @@
                     "menu",
                     progress => {
                         console.log(progress);
-                        document.getElementById(progress.Id + '-p').innerHTML = progress.Percent;
+                        document.getElementById(progress.Id + '-p').style.width=progress.Percent + '%';
                     },
                     id => {
                         document.querySelectorAll('a[href*="embebed-"]').forEach(element => element.classList.remove('active-meny-item'));
@@ -131,7 +132,12 @@
                     <menu>
                         <ul>
                             @for ($i = 0; $i < count($tema->contenido); $i++)
-                                <li><a href="#embebed-{{ $i }}">Tema {{ $i + 1 }}</a> <span id='embebed-{{ $i }}-p'></span></li>
+                                <li>
+                                    <a href="#embebed-{{ $i }}">Tema {{ $i + 1 }}</a>
+                                    <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                        <div id='embebed-{{ $i }}-p' class="progress-bar" style="width: 0%"></div>
+                                    </div>
+                                </li>
                             @endfor
                         </ul>
                     </menu>
