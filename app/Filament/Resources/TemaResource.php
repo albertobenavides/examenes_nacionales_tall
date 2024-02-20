@@ -70,8 +70,7 @@ class TemaResource extends Resource
                             ]),
                         ComponentsBuilder\Block::make('h5p')
                             ->schema([
-                                FileUpload::make('h5p')
-                                    ->required(),
+                                FileUpload::make('h5p')->required(),
                             ]),
                     ]),
                 // Select::make('modulo_id')->relationship(name: 'modulo', titleAttribute: 'nombre')->searchable(['nombre'])->required(),

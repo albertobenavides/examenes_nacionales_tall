@@ -88,6 +88,16 @@
                             @elseif ($tema->contenido[$i]['type'] == 'h5p')
                                 <iframe onload="this.height=this.contentWindow.document.body.scrollHeight * 1.5;" src="/storage/{{ $tema->contenido[$i]['data']['h5p'] }}" id='embebed-{{ $i }}' frameborder="0" width="100%"
                                     allow="geolocation *; microphone *; camera *; midi *; encrypted-media *"></iframe>
+                            @elseif ($tema->contenido[$i]['type'] == 'embebido')
+                                <center class="my-5">
+                                    {!! $tema->contenido[$i]['data']['embebido'] !!}
+                                </center>
+                            @elseif ($tema->contenido[$i]['type'] == 'video')
+                                <center>
+                                    <video controls class="my-5">
+                                        <source src="/storage/{{ $tema->contenido[$i]['data']['video'] }}" type="video/mp4">
+                                    </video>
+                                </center>
                             @endif
                         </div>
                     @endfor
