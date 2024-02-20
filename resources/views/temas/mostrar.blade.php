@@ -2,18 +2,25 @@
 
 @section('styles')
     @filamentStyles
+    <style>
+        .sidebar {
+  position: fixed;
+  right: 0;
+  z-index: 100; /* Behind the navbar */
+}
+    </style>
 @endsection
 
 @section('scripts')
     @filamentScripts
-    <script src="/js/scroll-progress/scroll-progress.min.js"></script>
+    <script src="/js/scroll-progress/scroll-progress.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             @if ($tema->contenido != null)
                 @for ($i = 0; $i < count($tema->contenido); $i++)
                     @if ($tema->contenido[$i]['type'] == 'h5p')
-                        document.getElementById('link{{ $i + 1 }}').nextElementSibling.children[0].contentWindow.H5P.externalDispatcher.on('xAPI', function(event) {
+                        document.getElementById('embebed-{{ $i }}').nextElementSibling.children[0].contentWindow.H5P.externalDispatcher.on('xAPI', function(event) {
                             try {
                                 let score = event.data.statement.result.score;
                                 if (score.scaled > 0.9) {
@@ -36,23 +43,22 @@
                         });
                     @endif
                 @endfor
+                let currentParagraphName = document.getElementById('current-paragraph-name');
+                let currentParagraphPercent = document.getElementById('current-paragraph-percent');
+
+                new ScrollProgress.Init(
+                    "#cursor",
+                    "menu",
+                    progress => {
+                        console.log(progress);
+                        document.getElementById(progress.Id + '-p').innerHTML = progress.Percent;
+                    },
+                    id => {
+                        document.querySelectorAll('a[href*="embebed-"]').forEach(element => element.classList.remove('active-meny-item'));
+                        document.querySelector(`[href="#${id}"]`).classList.add('active-meny-item');
+                    }
+                );
             @endif
-
-            let currentParagraphName = document.getElementById('current-paragraph-name');
-            let currentParagraphPercent = document.getElementById('current-paragraph-percent');
-
-            new ScrollProgress.Init(
-                "#cursor",
-                "menu",
-                progress => {
-                    currentParagraphName.innerText = document.getElementById(progress.id).innerText;
-                    currentParagraphPercent.innerText = progress.percent + '%';
-                },
-                id => {
-                    document.querySelectorAll('a[href*="link"]').forEach(element => element.classList.remove('active-meny-item'));
-                    document.querySelector(`[href="#${id}"]`).classList.add('active-meny-item');
-                }
-            );
         });
     </script>
 @endsection
@@ -91,18 +97,20 @@
             </div>
         </div>
         <div class="row justify-content-center mt-5">
-            <div class="col-md-9" style="overflow-y: scroll; height:400px">
+            <div class="col-md-9">
                 <h1 class="lead">{{ $tema->nombre }}</h1>
                 <hr>
                 @if ($tema->contenido != null)
+                    <img src="https://fakeimg.pl/650x480/">
                     @for ($i = 0; $i < count($tema->contenido); $i++)
-                        <h2 id='link{{ $i + 1 }}'>{{ $tema->contenido[$i]['data']['titulo'] }}</h2>
+                        <h2 class="lead mt-3" id='embebed-{{ $i }}'>{{ $tema->contenido[$i]['data']['titulo'] }}</h2>
                         @if ($tema->contenido[$i]['type'] == 'texto')
                             {!! $tema->contenido[$i]['data']['texto'] !!}
                         @elseif ($tema->contenido[$i]['type'] == 'h5p')
-                        <p>
-                            <iframe onload="this.height=this.contentWindow.document.body.scrollHeight * 1.5;" src="/storage/{{ $tema->contenido[$i]['data']['h5p'] }}" frameborder="0" width="100%" allow="geolocation *; microphone *; camera *; midi *; encrypted-media *"></iframe>
-                        </p>
+                            <p>
+                                <iframe onload="this.height=this.contentWindow.document.body.scrollHeight * 1.5;" src="/storage/{{ $tema->contenido[$i]['data']['h5p'] }}" frameborder="0" width="100%"
+                                    allow="geolocation *; microphone *; camera *; midi *; encrypted-media *"></iframe>
+                            </p>
                         @elseif ($tema->contenido[$i]['type'] == 'embebido')
                             <p class="my-5">
                                 {!! $tema->contenido[$i]['data']['embebido'] !!}
@@ -117,19 +125,17 @@
                     @endfor
                 @endif
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 sidebar">
                 <nav id="home">
                     <div id="cursor"></div>
                     <menu>
-                        @for ($i = 0; $i < count($tema->contenido); $i++)
-                            <a href="#link{{ $i + 1 }}">Tema {{ $i + 1 }}</a>
-                        @endfor
+                        <ul>
+                            @for ($i = 0; $i < count($tema->contenido); $i++)
+                                <li><a href="#embebed-{{ $i }}">Tema {{ $i + 1 }}</a> <span id='embebed-{{ $i }}-p'></span></li>
+                            @endfor
+                        </ul>
                     </menu>
                 </nav>
-                <status>
-                    <span id="current-paragraph-name"></span>
-                    <span id="current-paragraph-percent"></span>
-                </status>
             </div>
         </div>
     </div>
