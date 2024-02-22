@@ -38,6 +38,31 @@
     <script src="/js/scroll-progress/scroll-progress.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script>
+        function completar(contenido_id) {
+            console.log(contenido_id);
+            var xhr = new XMLHttpRequest();
+
+            //Esta función se ejecutará tras la petición
+            xhr.onload = function() {
+
+                //Si la petición es exitosa
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    //Mostramos un mensaje de exito y el contenido de la respuesta
+                    console.log('¡Éxito!', xhr.response);
+                } else {
+                    //Si la conexión falla
+                    console.log('Error en la petición!');
+                }
+            };
+            //Por el primer parametro enviamos el tipo de petición (GET, POST, PUT, DELETE)
+            //Por el segundo parametro la url de la API
+            xhr.open('POST', `/content/{{ $tema->id }}/${contenido_id}`);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+            token = document.querySelector('meta[name="csrf-token"]').content;
+            xhr.setRequestHeader('X-CSRF-TOKEN', token);
+            //Se envía la petición
+            xhr.send();
+        }
         document.addEventListener("DOMContentLoaded", function() {
             @if ($tema->contenido != null)
                 @for ($i = 0; $i < count($tema->contenido); $i++)
@@ -145,6 +170,15 @@
                                 </video>
                             </p>
                         @endif
+                        <div class="text-center my-2">
+                            <button class="btn btn-primary text-center" onclick="completar({{ $i }})">
+                                @if (isset(auth()->user()->notes) && array_key_exists($i, auth()->user()->notes[$tema->id]))
+                                    Desmarcar
+                                @else
+                                Completado
+                                @endif
+                            </button>
+                        </div>
                     @endfor
                 @endif
             </div>
@@ -158,10 +192,10 @@
                         </li>
                         @for ($i = 0; $i < count($tema->contenido); $i++)
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <a href="#embebed-{{ $i }}">{{ $tema->contenido[$i]['data']['titulo'] ?? 'Tema ' . $i + 1 }}</a>
-                              <span class="">
-                                <circle-progress id='embebed-{{ $i }}-p' value="0" max="100"></circle-progress>
-                              </span>
+                                <a href="#embebed-{{ $i }}">{{ $tema->contenido[$i]['data']['titulo'] ?? 'Sección ' . $i + 1 }}</a>
+                                <span class="">
+                                    <circle-progress id='embebed-{{ $i }}-p' value="0" max="100"></circle-progress>
+                                </span>
                             </li>
                         @endfor
                     </ul>

@@ -13,6 +13,7 @@ use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PreguntaController;
 use App\Http\Controllers\PromoController;
 use App\Http\Controllers\PruebaController;
+use App\Http\Controllers\RespuestaController;
 use App\Http\Controllers\TemaController;
 use App\Http\Controllers\UsuarioController;
 use App\Models\Intento;
@@ -66,6 +67,23 @@ Route::group(['middleware' => 'revisar.acceso'], function() {
     ]);
 
     Route::resource('modulos.temas', ModuloTemaController::class);
+
+    Route::post('/content/{tema_id}/{contenido_id}', function($tema_id, $contenido_id){
+        $notes = auth()->user()->notes;
+
+        if (isset($notes) && array_key_exists($contenido_id, $notes[$tema_id])){
+            unset($notes[$tema_id][$contenido_id]);
+        } else {
+            $notes[$tema_id][] = $contenido_id;
+        }
+
+
+        // Update the JSON column with the modified array
+        auth()->user()->update([
+            "notes" => $notes
+        ]);
+        return 'ok';
+    });
 
     Route::post('/usuarios/pagina', [UsuarioController::class, 'paginate']);
     Route::post('/usuarios/pagina/tabla', [UsuarioController::class, 'paginate_tabla']);
