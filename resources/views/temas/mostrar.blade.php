@@ -153,6 +153,9 @@
             <nav id="home" class="text-center">
                 <menu>
                     <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <h1 class="lead text-center">Tabla de contenidos</h1>
+                        </li>
                         @for ($i = 0; $i < count($tema->contenido); $i++)
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <a href="#embebed-{{ $i }}">{{ $tema->contenido[$i]['data']['titulo'] ?? 'Tema ' . $i + 1 }}</a>
