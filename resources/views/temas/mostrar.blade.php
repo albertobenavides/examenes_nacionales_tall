@@ -3,17 +3,38 @@
 @section('styles')
     @filamentStyles
     <style>
-        .sidebar {
-            position: fixed;
-            right: 0;
-            z-index: 100;
-            /* Behind the navbar */
+        .sidebar nav {
+            position: sticky;
+            top: 10%;
+            margin: auto;
+        }
+
+        circle-progress::part(base) {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        circle-progress::part(value) {
+            stroke-width: 50px;
+            width: 100%;
+            height: 100%;
+            stroke: rgb(0, 46, 91);
+        }
+
+        circle-progress::part(circle) {
+            stroke-width: 50px;
+            stroke: #999;
+        }
+
+        circle-progress::part(text) {
+            display: none;
         }
     </style>
 @endsection
 
 @section('scripts')
     @filamentScripts
+    <script src="https://cdn.jsdelivr.net/npm/js-circle-progress/dist/circle-progress.min.js" type="module"></script>
     <script src="/js/scroll-progress/scroll-progress.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script>
@@ -52,7 +73,7 @@
                     "menu",
                     progress => {
                         console.log(progress);
-                        document.getElementById(progress.Id + '-p').style.width=progress.Percent + '%';
+                        document.getElementById(progress.Id + '-p').value = progress.Percent;
                     },
                     id => {
                         document.querySelectorAll('a[href*="embebed-"]').forEach(element => element.classList.remove('active-meny-item'));
@@ -89,7 +110,7 @@
         </div>
     </div>
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="rowjustify-content-center">
             <div class="col-md-9">
                 <h5>TODO DETALLE CON LA PLATAFORMA, CONTENIDO, REACTIVOS Y EXÁMENES FAVOR DE COMUNICARSE AL 8131965935</h5>
             </div>
@@ -97,12 +118,13 @@
                 <p>Para avanzar en el porcentaje, tienes que sacar calificación mayor a 90 en los exámenes</p>
             </div>
         </div>
-        <div class="row justify-content-center mt-5">
-            <div class="col-md-9">
+    </div>
+    <div class="wrapper row">
+        <main class="col-md-9">
+            <div class="container p-4">
                 <h1 class="lead">{{ $tema->nombre }}</h1>
                 <hr>
                 @if ($tema->contenido != null)
-                    <img src="https://fakeimg.pl/650x480/">
                     @for ($i = 0; $i < count($tema->contenido); $i++)
                         <h2 class="lead mt-3" id='embebed-{{ $i }}'>{{ $tema->contenido[$i]['data']['titulo'] }}</h2>
                         @if ($tema->contenido[$i]['type'] == 'texto')
@@ -113,7 +135,7 @@
                                     allow="geolocation *; microphone *; camera *; midi *; encrypted-media *"></iframe>
                             </p>
                         @elseif ($tema->contenido[$i]['type'] == 'embebido')
-                            <p class="my-5">
+                            <p class="ratio ratio-16x9">
                                 {!! $tema->contenido[$i]['data']['embebido'] !!}
                             </p>
                         @elseif ($tema->contenido[$i]['type'] == 'video')
@@ -126,23 +148,23 @@
                     @endfor
                 @endif
             </div>
-            <div class="col-md-3 sidebar">
-                <nav id="home">
+        </main>
+        <nav class="col-md-3 sidebar pl-5">
+            <nav id="home" class="text-center">
+                <menu>
+                    <ul class="list-group">
+                        @for ($i = 0; $i < count($tema->contenido); $i++)
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <a href="#embebed-{{ $i }}">{{ $tema->contenido[$i]['data']['titulo'] ?? 'Tema ' . $i + 1 }}</a>
+                              <span class="">
+                                <circle-progress id='embebed-{{ $i }}-p' value="0" max="100"></circle-progress>
+                              </span>
+                            </li>
+                        @endfor
+                    </ul>
                     <div id="cursor"></div>
-                    <menu>
-                        <ul>
-                            @for ($i = 0; $i < count($tema->contenido); $i++)
-                                <li>
-                                    <a href="#embebed-{{ $i }}">Tema {{ $i + 1 }}</a>
-                                    <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                        <div id='embebed-{{ $i }}-p' class="progress-bar" style="width: 0%"></div>
-                                    </div>
-                                </li>
-                            @endfor
-                        </ul>
-                    </menu>
-                </nav>
-            </div>
-        </div>
+                </menu>
+            </nav>
+        </nav>
     </div>
 @endsection
