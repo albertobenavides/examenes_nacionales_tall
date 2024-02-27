@@ -8,4 +8,5 @@ export default {
         './vendor/filament/**/*.blade.php',
         './vendor/awcodes/overlook/resources/**/*.blade.php'
     ],
+    plugins: [],
 }
