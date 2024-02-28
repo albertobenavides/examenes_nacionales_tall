@@ -14,7 +14,7 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
-    @vite('resources/css/app.css', 'resources/js/app.js')
+    @vite('resources/css/app.css')
     <!-- Styles -->
     <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     @livewireStyles
@@ -40,10 +40,11 @@
             <a class="btn btn-ghost text-xl">Mis cursos</a>
         </div>
         <div class="navbar-end">
+            @auth
             <div class="dropdown dropdown-end">
                 <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
                     <div class="w-10 rounded-full">
-                        <img alt="Tailwind CSS Navbar component" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                        <img alt="Imagen de perfil" src="https://source.boringavatars.com/beam/120/{{ urlencode(auth()->user()->name)}}?colors=edf000,002e5b,fde428,0073d8,ffcc01" />
                     </div>
                 </div>
                 <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
@@ -57,12 +58,18 @@
                     <li><a>Logout</a></li>
                 </ul>
             </div>
+            @else
+            <ul class="menu menu-horizontal px-1">
+                <li><a href="/login">Iniciar sesión</a></li>
+            </ul>
+            @endauth
         </div>
     </div>
 
     @yield('content')
+    
     @livewireScripts
-    @yield('scripts')
+    @stack('scripts')
 </body>
 
 </html>
