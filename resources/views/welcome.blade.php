@@ -47,7 +47,11 @@
     </div>
     {{-- .ANUNCIOS --}}
 
-    <div class="flex items-center justify-center w-full h-full py-24 sm:py-8 px-4">
+    <div class="prose px-5 pt-12 pb-4">
+        <h1 class="text-primary">Tal vez te interesa</h1>
+    </div>
+    <hr>
+    <div class="flex items-center justify-center w-full h-full pb-12 px-4">
         <div class="w-full relative flex items-center justify-center">
             <button aria-label="slide backward" class="absolute z-30 left-0 ml-10 focus:outline-none focus:bg-gray-400 focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 cursor-pointer" id="prev">
                 <svg class="dark:text-gray-900" width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
