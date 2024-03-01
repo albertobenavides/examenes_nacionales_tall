@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.new_app')
 
 @push('scripts')
     <script>
