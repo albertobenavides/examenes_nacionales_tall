@@ -37,8 +37,8 @@
             @endif
             <div class="card-body">
                 <h4 class="card-title text-center">{{$c->nombre}}</h4>
-                <p class="card-text">{{$c->descripcion, 20}}</p>
-                <p><small class="text-muted">{{$c->examen->nombre}}</small></p>
+                <p class="card-text">{!! substr($c->descripcion, 0, 100) . '...'; !!}</p>
+                <p><small class="text-muted">{{ $c->examen->nombre }}</small></p>
                 <a href="/cursos/{{$c->id}}" class="btn btn-sm btn-primary btn-block mt-2" form="nuevoCurso">Ver</a>
             </div>
         </div>

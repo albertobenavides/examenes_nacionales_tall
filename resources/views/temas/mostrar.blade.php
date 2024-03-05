@@ -172,7 +172,7 @@
                         @endif
                         <div class="text-center my-2">
                             <button class="btn btn-primary text-center" onclick="completar({{ $i }})">
-                                @if (isset(auth()->user()->notes) && array_key_exists($i, auth()->user()->notes[$tema->id]))
+                                @if (isset(auth()->user()->notes) && isset(auth()->user()->notes[$tema->id]) && array_key_exists($i, auth()->user()->notes[$tema->id]))
                                     Desmarcar
                                 @else
                                 Completado
