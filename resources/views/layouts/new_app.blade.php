@@ -22,9 +22,9 @@
 </head>
 
 <body class="text-accent">
-    <x-impersonate::banner />
+    {{-- <x-impersonate::banner /> --}}
 
-    <div class="navbar">
+    <div class="navbar bg-white">
         <div class="navbar-start">
             <div class="sm:hidden inset-y-0 left-0 flex items-center">
                 <div class="dropdown dropdown-bottom">
