@@ -71,12 +71,11 @@ Route::group(['middleware' => 'revisar.acceso'], function() {
     Route::post('/content/{tema_id}/{contenido_id}', function($tema_id, $contenido_id){
         $notes = auth()->user()->notes;
 
-        if (isset($notes) && array_key_exists($contenido_id, $notes[$tema_id])){
+        if (isset($notes) && isset($notes[$tema_id]) && array_key_exists($contenido_id, $notes[$tema_id])){
             unset($notes[$tema_id][$contenido_id]);
         } else {
             $notes[$tema_id][] = $contenido_id;
         }
-
 
         // Update the JSON column with the modified array
         auth()->user()->update([

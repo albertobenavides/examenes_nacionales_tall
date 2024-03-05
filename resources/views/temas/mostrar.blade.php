@@ -18,7 +18,7 @@
                     console.log('¡Éxito!', xhr.response);
                 } else {
                     //Si la conexión falla
-                    console.log('Error en la petición!');
+                    console.log(xhr.error);
                 }
             };
             //Por el primer parametro enviamos el tipo de petición (GET, POST, PUT, DELETE)
@@ -64,7 +64,6 @@
                     "#cursor",
                     "menu",
                     progress => {
-                        console.log(progress);
                         document.getElementById(progress.Id + '-p').value = progress.Percent;
                     },
                     id => {
