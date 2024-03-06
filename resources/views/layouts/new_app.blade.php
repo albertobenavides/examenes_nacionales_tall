@@ -66,7 +66,7 @@
                 <div class="dropdown dropdown-end">
                     <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
                         <div class="w-10 rounded-full">
-                            <img alt="Imagen de perfil" src="https://source.boringavatars.com/beam/120/{{ urlencode(auth()->user()->name) }}?colors=edf000,002e5b,fde428,0073d8,ffcc01" />
+                            <img alt="Imagen de perfil" src="https://source.boringavatars.com/beam/120/{{ urlencode(str(Filament\Facades\Filament::getNameForDefaultAvatar(auth()->user()))->trim()->explode(' ')->map(fn (string $segment): string => filled($segment) ? mb_substr($segment, 0, 1) : '')->join(' ')) }}?colors=edf000,002e5b,fde428,0073d8,ffcc01" />
                         </div>
                     </div>
                     <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
