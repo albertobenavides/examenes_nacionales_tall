@@ -1,7 +1,6 @@
 @extends('layouts.new_app')
 
 @push('scripts')
-    @filamentScripts
     <script src="https://cdn.jsdelivr.net/npm/js-circle-progress/dist/circle-progress.min.js" type="module"></script>
     <script src="/js/scroll-progress/scroll-progress.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>

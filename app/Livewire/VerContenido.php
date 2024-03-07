@@ -25,26 +25,28 @@ class VerContenido extends Component
     }
 
     #[On('completar')]
-    public function completar(){
-        $notes = auth()->user()->notes;
-
-        if (!isset($notes[$this->tema->id])) {
-            $notes[$this->tema->id] = [];
+    public function completar($i = null){
+        if ($i == $this->i || $i == null){
+            $notes = auth()->user()->notes;
+    
+            if (!isset($notes[$this->tema->id])) {
+                $notes[$this->tema->id] = [];
+            }
+    
+            if (in_array($this->i, $notes[$this->tema->id])){
+                $key = array_search($this->i, $notes[$this->tema->id]);
+                array_splice($notes[$this->tema->id], $key, 1);
+            } else {
+                array_push($notes[$this->tema->id], $this->i);
+            }
+    
+            // Update the JSON column with the modified array
+            $u = auth()->user();
+            $u->notes = $notes;
+            $u->save();
+    
+            $this->completada = !$this->completada;
+            $this->dispatch('contenido_completado', id: $this->i);
         }
-
-        if (in_array($this->i, $notes[$this->tema->id])){
-            $key = array_search($this->i, $notes[$this->tema->id]);
-            array_splice($notes[$this->tema->id], $key, 1);
-        } else {
-            array_push($notes[$this->tema->id], $this->i);
-        }
-
-        // Update the JSON column with the modified array
-        $u = auth()->user();
-        $u->notes = $notes;
-        $u->save();
-
-        $this->completada = !$this->completada;
-        $this->dispatch('contenido_completado', id: $this->i);
     }
 }

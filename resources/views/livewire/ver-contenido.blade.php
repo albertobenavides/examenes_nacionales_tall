@@ -7,7 +7,7 @@
                     let score = event.data.statement.result.score;
                     if (score.scaled > 0.9) {
                         let i = {{ $i }};
-                        $wire.dispatch('completar');
+                        Livewire.dispatch('completar', { i: i });
                         console.log(i);
                         confetti({
                             particleCount: 100,
@@ -53,6 +53,7 @@
             </video>
         </p>
     @endif
+    @if ($tema->contenido[$i]['type'] != 'h5p')
     <div class="text-center flex justify-end">
         <button class="btn btn-primary text-center " wire:click="completar()">
             @if ($completada)
@@ -62,4 +63,5 @@
             @endif
         </button>
     </div>
+    @endif
 </div>
