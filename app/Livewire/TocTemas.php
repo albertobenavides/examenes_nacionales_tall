@@ -12,7 +12,11 @@ class TocTemas extends Component
     public $completada;
 
     public function mount(){
-        $this->completada = isset(auth()->user()->notes[$this->tema->id][$this->i]);
+        if (isset(auth()->user()->notes) && isset(auth()->user()->notes[$this->tema->id])){
+            $this->completada = in_array($this->i, auth()->user()->notes[$this->tema->id]);
+        } else {
+            $this->completada = false;
+        }
     }
 
     public function render()

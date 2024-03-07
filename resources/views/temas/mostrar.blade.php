@@ -8,40 +8,19 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             @if ($tema->contenido != null)
-                @for ($i = 0; $i < count($tema->contenido); $i++)
-                    @if ($tema->contenido[$i]['type'] == 'h5p')
-                        document.getElementById('embebed-{{ $i }}').nextElementSibling.children[0].contentWindow.H5P.externalDispatcher.on('xAPI', function(event) {
-                            try {
-                                let score = event.data.statement.result.score;
-                                if (score.scaled > 0.9) {
-                                    confetti({
-                                        particleCount: 100,
-                                        spread: 70,
-                                        origin: {
-                                            y: 0.6
-                                        }
-                                    });
-                                    var audio = new Audio('/sounds/success.mp3');
-                                    audio.play();
-                                } else {
-                                    var audio = new Audio('/sounds/error.mp3');
-                                    audio.play();
-                                }
-                            } catch (error) {
-                                //
-                            }
-                        });
-                    @endif
-                @endfor
                 let currentParagraphName = document.getElementById('current-paragraph-name');
                 let currentParagraphPercent = document.getElementById('current-paragraph-percent');
 
                 new ScrollProgress.Init(
                     "#cursor",
-                    "#menu",
+                    "#menu",    
                     progress => {
-                        let value_t = document.getElementById(progress.Id + '-p').value;
-                        document.getElementById(progress.Id + '-p').value = (value_t < progress.Percent) ? progress.Percent : value_t;
+                        try {
+                            let value_t = document.getElementById(progress.Id + '-p').value;
+                            document.getElementById(progress.Id + '-p').value = (value_t < progress.Percent) ? progress.Percent : value_t;
+                        } catch (error) {
+                            //
+                        }
                     },
                     id => {
                         document.querySelectorAll('a[href*="embebed-"]').forEach(element => element.classList.remove('active-meny-item'));

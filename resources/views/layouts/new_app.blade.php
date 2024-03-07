@@ -18,7 +18,7 @@
     <!-- Styles -->
     <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     @livewireStyles
-    @yield('styles')
+    @stack('styles')
 </head>
 
 <body class="text-accent">

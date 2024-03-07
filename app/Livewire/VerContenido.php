@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class VerContenido extends Component
@@ -11,7 +12,7 @@ class VerContenido extends Component
     public $completada;
 
     public function mount(){
-        $this->completada = isset(auth()->user()->notes) && isset(auth()->user()->notes[$this->tema->id]) && array_key_exists($this->i, auth()->user()->notes[$this->tema->id]);
+        $this->completada = isset(auth()->user()->notes) && isset(auth()->user()->notes[$this->tema->id]) && in_array($this->i, auth()->user()->notes[$this->tema->id]);
     }
 
     public function render()
@@ -23,19 +24,25 @@ class VerContenido extends Component
         ]);
     }
 
+    #[On('completar')]
     public function completar(){
         $notes = auth()->user()->notes;
 
-        if (isset($notes) && isset($notes[$this->tema->id]) && array_key_exists($this->i, $notes[$this->tema->id])){
-            unset($notes[$this->tema->id][$this->i]);
+        if (!isset($notes[$this->tema->id])) {
+            $notes[$this->tema->id] = [];
+        }
+
+        if (in_array($this->i, $notes[$this->tema->id])){
+            $key = array_search($this->i, $notes[$this->tema->id]);
+            array_splice($notes[$this->tema->id], $key, 1);
         } else {
-            $notes[$this->tema->id][] = $this->i;
+            array_push($notes[$this->tema->id], $this->i);
         }
 
         // Update the JSON column with the modified array
-        auth()->user()->update([
-            "notes" => $notes
-        ]);
+        $u = auth()->user();
+        $u->notes = $notes;
+        $u->save();
 
         $this->completada = !$this->completada;
         $this->dispatch('contenido_completado', id: $this->i);
