@@ -10,7 +10,6 @@ class VerContenido extends Component
     public $tema;
     public $i;
     public $completada;
-    public $id;
 
     public function mount(){
         $this->completada = isset(auth()->user()->notes) && isset(auth()->user()->notes[$this->tema->id]) && in_array($this->i, auth()->user()->notes[$this->tema->id]);
@@ -46,7 +45,11 @@ class VerContenido extends Component
             $u->notes = $notes;
             $u->save();
     
-            $this->completada = !$this->completada;
+            if ($i == $this->i) {
+                $this->completada = true;
+            } else {
+                $this->completada = !$this->completada;
+            }
             $this->dispatch('contenido_completado', id: $this->i);
         }
     }
