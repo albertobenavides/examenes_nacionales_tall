@@ -55,7 +55,7 @@
                 @endif
             </div>
         </div>
-        <div class="fixed md:static bottom-0 md:bottom-auto w-full h-1/4 md:h-auto md:w-1/3 lg:w-1/4 md:block bg-white">
+        <div class="fixed md:static bottom-0 md:bottom-auto w-full h-1/4 md:h-auto md:w-1/3 lg:w-1/4 md:block bg-white border-t-2 border-t-primary md:border-t-0 shadow-md">
             <div class="h-full md:h-screen bg-white sticky top-0 overflow-scroll">
                 <div class="sticky col-start-5">
                     <ul class="menu menu-xs">
