@@ -32,7 +32,6 @@
 @endpush
 
 @section('content')
-
     <div class="navbar bg-primary text-white">
         <div class="text-sm breadcrumbs">
             <ul class="text-xl">
@@ -43,9 +42,9 @@
             </ul>
         </div>
     </div>
-    <div class="grid grid-cols-5">
-        <div class="mr-auto w-full px-4 col-span-4 prose">
-            <main class="col-md-9">
+    <div class="flex">
+        <div class="md:w-2/3 lg:w-3/4 prose">
+
                 <div class="container p-4">
                     <h1 class="lead">{{ $tema->nombre }}</h1>
                     <hr>
@@ -55,9 +54,8 @@
                         @endfor
                     @endif
                 </div>
-            </main>
         </div>
-        <div class="bg-white h-full">
+        <div class="fixed md:static bottom-0 md:bottom-auto w-full h:1/3     md:h-auto md:w-1/3 lg:w-1/4 md:block bg-white">
             <div class="h-32 bg-white sticky top-0">
                 <div class="sticky col-start-5">
                     <ul class="menu">
@@ -83,5 +81,4 @@
             </div>
         </div>
     </div>
-
 @endsection

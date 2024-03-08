@@ -1,29 +1,34 @@
 @push('scripts')
     <script>
         @if ($tema->contenido[$i]['type'] == 'h5p')
-            console.log(document.getElementById('embebed-{{ $i }}').nextElementSibling.children[0].contentWindow.H5P.externalDispatcher);
-            document.getElementById('embebed-{{ $i }}').nextElementSibling.children[0].contentWindow.H5P.externalDispatcher.on('xAPI', function(event) {
-                if (typeof event.data.statement.result !== 'undefined'){
-                    let score = event.data.statement.result.score;
-                    if (score.scaled > 0.9) {
-                        let i = {{ $i }};
-                        Livewire.dispatch('completar', { i: i });
-                        console.log(i);
-                        confetti({
-                            particleCount: 100,
-                            spread: 70,
-                            origin: {
-                                y: 0.6
-                            }
-                        });
-                        var audio = new Audio('/sounds/success.mp3');
-                        audio.play();
-                    } else {
-                        var audio = new Audio('/sounds/error.mp3');
-                        audio.play();
+            try {
+                document.getElementById('embebed-{{ $i }}').nextElementSibling.children[0].contentWindow.H5P.externalDispatcher.on('xAPI', function(event) {
+                    if (typeof event.data.statement.result !== 'undefined') {
+                        let score = event.data.statement.result.score;
+                        if (score.scaled > 0.9) {
+                            let i = {{ $i }};
+                            Livewire.dispatch('completar', {
+                                i: i
+                            });
+                            console.log(i);
+                            confetti({
+                                particleCount: 100,
+                                spread: 70,
+                                origin: {
+                                    y: 0.6
+                                }
+                            });
+                            var audio = new Audio('/sounds/success.mp3');
+                            audio.play();
+                        } else {
+                            var audio = new Audio('/sounds/error.mp3');
+                            audio.play();
+                        }
                     }
-                }
-            });
+                });
+            } catch (error) {
+                //
+            }
         @endif
     </script>
 @endpush
@@ -54,14 +59,14 @@
         </p>
     @endif
     @if ($tema->contenido[$i]['type'] != 'h5p')
-    <div class="text-center flex justify-end">
-        <button class="btn btn-primary text-center " wire:click="completar()">
-            @if ($completada)
-                Desmarcar
-            @else
-                Completado
-            @endif
-        </button>
-    </div>
+        <div class="text-center flex justify-end">
+            <button class="btn btn-primary text-center " wire:click="completar()">
+                @if ($completada)
+                    Desmarcar
+                @else
+                    Completado
+                @endif
+            </button>
+        </div>
     @endif
 </div>
