@@ -39,7 +39,9 @@
     </script>
 @endpush
 <div>
-    {{-- <h2 class="lead mt-3" id='embebed-{{ $i }}'>{{ $tema->contenido[$i]['data']['titulo'] ?? 'Sección ' . $i + 1 }}</h2> --}}
+    @isset($tema->contenido[$i]['data']['titulo'])
+        <h2 class="lead mt-3" id='embebed-{{ $i }}'>{{ $tema->contenido[$i]['data']['titulo'] }}</h2>
+    @endisset
     @if ($tema->contenido[$i]['type'] == 'texto')
         {!! $tema->contenido[$i]['data']['texto'] !!}
     @elseif ($tema->contenido[$i]['type'] == 'h5p')
