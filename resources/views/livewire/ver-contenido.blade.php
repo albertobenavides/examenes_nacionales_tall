@@ -2,29 +2,31 @@
     <script>
         @if ($tema->contenido[$i]['type'] == 'h5p')
             try {
-                document.getElementById('embebed-{{ $i }}').nextElementSibling.children[0].contentWindow.H5P.externalDispatcher.on('xAPI', function(event) {
-                    if (typeof event.data.statement.result !== 'undefined') {
-                        let score = event.data.statement.result.score;
-                        if (score.scaled > 0.9) {
-                            let i = {{ $i }};
-                            Livewire.dispatch('completar', {
-                                i: i
-                            });
-                            console.log(i);
-                            confetti({
-                                particleCount: 100,
-                                spread: 70,
-                                origin: {
-                                    y: 0.6
-                                }
-                            });
-                            var audio = new Audio('/sounds/success.mp3');
-                            audio.play();
-                        } else {
-                            var audio = new Audio('/sounds/error.mp3');
-                            audio.play();
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.getElementById('embebed-{{ $i }}').nextElementSibling.children[0].contentWindow.H5P.externalDispatcher.on('xAPI', function(event) {
+                        if (typeof event.data.statement.result !== 'undefined') {
+                            let score = event.data.statement.result.score;
+                            if (score.scaled > 0.9) {
+                                let i = {{ $i }};
+                                Livewire.dispatch('completar', {
+                                    i: i
+                                });
+                                console.log(i);
+                                confetti({
+                                    particleCount: 100,
+                                    spread: 70,
+                                    origin: {
+                                        y: 0.6
+                                    }
+                                });
+                                var audio = new Audio('/sounds/success.mp3');
+                                audio.play();
+                            } else {
+                                var audio = new Audio('/sounds/error.mp3');
+                                audio.play();
+                            }
                         }
-                    }
+                    });
                 });
             } catch (error) {
                 //
