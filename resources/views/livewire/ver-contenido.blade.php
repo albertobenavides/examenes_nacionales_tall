@@ -3,13 +3,21 @@
         @if ($tema->contenido[$i]['type'] == 'h5p')
             setTimeout(function() {
                 let iframe = document.getElementById('embebed-{{ $i }}').nextElementSibling.contentWindow;
+                let t = document.getElementById('embebed-{{ $i }}').nextElementSibling;
+                // Tamaño de iframe h5p
+                var body = iframe.document.body,
+                    html = iframe.document.documentElement;
+                let height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+                t.height = height;
                 iframe.H5P.externalDispatcher.on('xAPI', function(event) {
                     if (typeof event.data.statement.result !== 'undefined') {
                         let score = event.data.statement.result.score;
                         if (score.scaled > 0.9) {
                             let i = {{ $i }};
                             if (!Livewire.getByName('ver-contenido')[i].get('completada')) {
-                                Livewire.dispatch('completar', {i: i});
+                                Livewire.dispatch('completar', {
+                                    i: i
+                                });
                             }
                             confetti({
                                 particleCount: 100,
@@ -35,7 +43,7 @@
     @if ($tema->contenido[$i]['type'] == 'texto')
         {!! $tema->contenido[$i]['data']['texto'] !!}
     @elseif ($tema->contenido[$i]['type'] == 'h5p')
-        <iframe onload="this.height=this.contentWindow.document.body.scrollHeight * 1.5;" src="/storage/{{ $tema->contenido[$i]['data']['h5p'] }}" class="w-full" frameborder="0"></script>
+        <iframe src="/storage/{{ $tema->contenido[$i]['data']['h5p'] }}" class="w-full md:w-1/2 mx-auto rounded-sm bg-white" frameborder="0" scrolling=no></script>
         </iframe>
         <p class="bg-white rounded"></p>
     @elseif ($tema->contenido[$i]['type'] == 'embebido')
