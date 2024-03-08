@@ -43,7 +43,7 @@
     @if ($tema->contenido[$i]['type'] == 'texto')
         {!! $tema->contenido[$i]['data']['texto'] !!}
     @elseif ($tema->contenido[$i]['type'] == 'h5p')
-        <iframe src="/storage/{{ $tema->contenido[$i]['data']['h5p'] }}" class="w-full md:w-1/2 mx-auto rounded-sm bg-white" frameborder="0" scrolling=no></script>
+        <iframe src="/storage/{{ $tema->contenido[$i]['data']['h5p'] }}" class="w-full md:w-2/3 mx-auto rounded-sm bg-white" frameborder="0" scrolling=no></script>
         </iframe>
         <p class="bg-white rounded"></p>
     @elseif ($tema->contenido[$i]['type'] == 'embebido')
