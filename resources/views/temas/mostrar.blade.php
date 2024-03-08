@@ -12,7 +12,7 @@
 
                 new ScrollProgress.Init(
                     "#cursor",
-                    "#menu",    
+                    "#menu",
                     progress => {
                         try {
                             let value_t = document.getElementById(progress.Id + '-p').value;
@@ -45,20 +45,21 @@
     <div class="flex">
         <div class="md:w-2/3 lg:w-3/4 prose">
 
-                <div class="container p-4">
-                    <h1 class="lead">{{ $tema->nombre }}</h1>
-                    <hr>
-                    @if ($tema->contenido != null)
-                        @for ($i = 0; $i < count($tema->contenido); $i++)
-                            <livewire:ver-contenido :tema="$tema" :i="$i" />
-                        @endfor
-                    @endif
-                </div>
+            <div class="container p-4">
+                <h1 class="lead">{{ $tema->nombre }}</h1>
+                <hr>
+                @if ($tema->contenido != null)
+                    @for ($i = 0; $i < count($tema->contenido); $i++)
+                        <livewire:ver-contenido :tema="$tema" :i="$i" />
+                    @endfor
+                @endif
+            </div>
         </div>
-        <div class="fixed md:static bottom-0 md:bottom-auto w-full h:1/3     md:h-auto md:w-1/3 lg:w-1/4 md:block bg-white">
-            <div class="h-32 bg-white sticky top-0">
+        <div class="fixed md:static bottom-0 md:bottom-auto w-full h-1/4 md:h-auto md:w-1/3 lg:w-1/4 md:block bg-white">
+            <div class="h-full md:h-screen bg-white sticky top-0 overflow-scroll">
                 <div class="sticky col-start-5">
-                    <ul class="menu">
+                    <ul class="menu menu-xs">
+                        <li class="prose h2 lead">CONTENIDO</li>
                         @foreach ($tema->modulo->temas->sortBy('order') as $t)
                             @if ($t->id == $tema->id)
                                 <li>
