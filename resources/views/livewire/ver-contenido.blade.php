@@ -1,16 +1,18 @@
 @push('scripts')
     <script>
         @if ($tema->contenido[$i]['type'] == 'h5p')
-            try {
-                document.addEventListener("DOMContentLoaded", () => {
-                    document.getElementById('embebed-{{ $i }}').nextElementSibling.children[0].contentWindow.H5P.externalDispatcher.on('xAPI', function(event) {
+            setTimeout(function() {
+                    let iframe = document.getElementById('embebed-{{ $i }}').nextElementSibling.contentWindow;
+                    iframe.H5P.externalDispatcher.on('xAPI', function(event) {
                         if (typeof event.data.statement.result !== 'undefined') {
                             let score = event.data.statement.result.score;
                             if (score.scaled > 0.9) {
                                 let i = {{ $i }};
+                                @if ( !$completada )
                                 Livewire.dispatch('completar', {
                                     i: i
                                 });
+                                @endif
                                 console.log(i);
                                 confetti({
                                     particleCount: 100,
@@ -27,10 +29,8 @@
                             }
                         }
                     });
-                });
-            } catch (error) {
-                //
-            }
+                }
+                , 1000);
         @endif
     </script>
 @endpush
@@ -39,16 +39,9 @@
     @if ($tema->contenido[$i]['type'] == 'texto')
         {!! $tema->contenido[$i]['data']['texto'] !!}
     @elseif ($tema->contenido[$i]['type'] == 'h5p')
-        <p class="bg-white rounded">
-            <iframe onload="this.height=this.contentWindow.document.body.scrollHeight * 1.5;" src="/storage/{{ $tema->contenido[$i]['data']['h5p'] }}" class="w-full" frameborder="0">
-                <style>
-                    * {
-                        overflow-y: none;
-                    }
-                </style>
-                <script src="https://raw.githubusercontent.com/h5p/h5p-php-library/master/js/h5p-resizer.js"></script>
-            </iframe>
-        </p>
+        <iframe onload="this.height=this.contentWindow.document.body.scrollHeight * 1.5;" src="/storage/{{ $tema->contenido[$i]['data']['h5p'] }}" class="w-full" frameborder="0"></script>
+        </iframe>
+        <p class="bg-white rounded"></p>
     @elseif ($tema->contenido[$i]['type'] == 'embebido')
         <p class="flex justify-center">
             {!! $tema->contenido[$i]['data']['embebido'] !!}
