@@ -8,7 +8,7 @@
                 var body = iframe.document.body,
                     html = iframe.document.documentElement;
                 let height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
-                t.height = height * 1.2;
+                t.height = height * 1.01;
                 iframe.H5P.externalDispatcher.on('xAPI', function(event) {
                     if (typeof event.data.statement.result !== 'undefined') {
                         let score = event.data.statement.result.score;
