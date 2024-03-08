@@ -10,6 +10,7 @@ class VerContenido extends Component
     public $tema;
     public $i;
     public $completada;
+    public $id;
 
     public function mount(){
         $this->completada = isset(auth()->user()->notes) && isset(auth()->user()->notes[$this->tema->id]) && in_array($this->i, auth()->user()->notes[$this->tema->id]);

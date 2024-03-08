@@ -2,35 +2,34 @@
     <script>
         @if ($tema->contenido[$i]['type'] == 'h5p')
             setTimeout(function() {
-                    let iframe = document.getElementById('embebed-{{ $i }}').nextElementSibling.contentWindow;
-                    iframe.H5P.externalDispatcher.on('xAPI', function(event) {
-                        if (typeof event.data.statement.result !== 'undefined') {
-                            let score = event.data.statement.result.score;
-                            if (score.scaled > 0.9) {
-                                let i = {{ $i }};
-                                @if ( !$completada )
+                let iframe = document.getElementById('embebed-{{ $i }}').nextElementSibling.contentWindow;
+                iframe.H5P.externalDispatcher.on('xAPI', function(event) {
+                    if (typeof event.data.statement.result !== 'undefined') {
+                        let score = event.data.statement.result.score;
+                        if (score.scaled > 0.9) {
+                            let i = {{ $i }};
+                            if (Livewire.getByName('ver-contenido')[{{ $i }}].get('completada')) {
                                 Livewire.dispatch('completar', {
                                     i: i
                                 });
-                                @endif
-                                console.log(i);
-                                confetti({
-                                    particleCount: 100,
-                                    spread: 70,
-                                    origin: {
-                                        y: 0.6
-                                    }
-                                });
-                                var audio = new Audio('/sounds/success.mp3');
-                                audio.play();
-                            } else {
-                                var audio = new Audio('/sounds/error.mp3');
-                                audio.play();
                             }
+                            console.log(i);
+                            confetti({
+                                particleCount: 100,
+                                spread: 70,
+                                origin: {
+                                    y: 0.6
+                                }
+                            });
+                            var audio = new Audio('/sounds/success.mp3');
+                            audio.play();
+                        } else {
+                            var audio = new Audio('/sounds/error.mp3');
+                            audio.play();
                         }
-                    });
-                }
-                , 1000);
+                    }
+                });
+            }, 1000);
         @endif
     </script>
 @endpush
