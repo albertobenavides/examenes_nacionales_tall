@@ -8,12 +8,11 @@
                         let score = event.data.statement.result.score;
                         if (score.scaled > 0.9) {
                             let i = {{ $i }};
-                            if (Livewire.getByName('ver-contenido')[{{ $i }}].get('completada')) {
+                            @if (!$completada)
                                 Livewire.dispatch('completar', {
                                     i: i
                                 });
-                            }
-                            console.log(i);
+                            @endif
                             confetti({
                                 particleCount: 100,
                                 spread: 70,
