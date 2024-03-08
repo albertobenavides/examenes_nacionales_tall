@@ -8,9 +8,9 @@
                 var body = iframe.document.body,
                     html = iframe.document.documentElement;
                 let height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
-                t.height = height * 1.01;
+                t.height = height * 1.05;
                 iframe.H5P.externalDispatcher.on('xAPI', function(event) {
-                    if (typeof event.data.statement.result !== 'undefined') {
+                    if (typeof event.data.statement.result !== 'undefined' && !('parent' in event.data.statement.context.contextActivities)) {
                         let score = event.data.statement.result.score;
                         if (score.scaled > 0.9) {
                             let i = {{ $i }};
@@ -43,7 +43,7 @@
     @if ($tema->contenido[$i]['type'] == 'texto')
         {!! $tema->contenido[$i]['data']['texto'] !!}
     @elseif ($tema->contenido[$i]['type'] == 'h5p')
-        <iframe src="/storage/{{ $tema->contenido[$i]['data']['h5p'] }}" class="w-full md:w-2/3 mx-auto rounded-sm bg-white" frameborder="0" scrolling=no></script>
+        <iframe src="/storage/{{ $tema->contenido[$i]['data']['h5p'] }}" class="w-full md:w-2/3 mx-auto rounded-sm bg-white" frameborder="0"></script>
         </iframe>
         <p class="bg-white rounded"></p>
     @elseif ($tema->contenido[$i]['type'] == 'embebido')
@@ -57,7 +57,7 @@
             </video>
         </p>
     @endif
-    @if ($tema->contenido[$i]['type'] != 'h5p')
+    @if ($tema->contenido[$i]['type'] != 'h5pa')
         <div class="text-center flex justify-end">
             <button class="btn btn-primary text-center " wire:click="completar()">
                 @if ($completada)
