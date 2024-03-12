@@ -44,7 +44,13 @@
     </div>
     <div class="flex">
         <div class="md:w-2/3 lg:w-3/4 prose">
-
+            <div class="px-4 flex bg-transparent text-white justify-between">
+                <div class="rounded-b-lg bg-primary px-4 py-0">Contenido</div>
+                <div class="flex gap-x-8">
+                    <div class="rounded-b-lg outline outline-2 outline-primary px-4 py-0 text-primary">Ejercicios</div>
+                    <div class="rounded-b-lg outline outline-2 outline-primary px-4 py-0 text-primary">Examen</div>
+                </div>
+            </div>
             <div class="container p-4">
                 <h1 class="lead">{{ $tema->nombre }}</h1>
                 <hr>
@@ -58,8 +64,8 @@
         <div class="fixed md:static bottom-0 md:bottom-auto w-full h-1/4 md:h-auto md:w-1/3 lg:w-1/4 md:block bg-white border-t-2 border-t-primary md:border-t-0 shadow-md">
             <div class="h-full md:h-screen bg-white sticky top-0 overflow-scroll">
                 <div class="sticky col-start-5">
-                    <ul class="menu menu-xs">
-                        <li class="prose h2 lead">CONTENIDO</li>
+                    <div class="pl-3 prose h2 lead bg-primary text-white text"><b>CONTENIDO</b></div>
+                    <ul class="menu">
                         @foreach ($tema->modulo->temas->sortBy('order') as $t)
                             @if ($t->id == $tema->id)
                                 <li>
