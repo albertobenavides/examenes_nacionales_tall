@@ -45,10 +45,10 @@
     <div class="flex">
         <div class="md:w-2/3 lg:w-3/4 prose">
             <div class="px-4 flex bg-transparent text-white justify-between">
-                <div class="rounded-b-lg bg-primary px-4 py-0">Contenido</div>
+                <a class="text-white no-underline" href="/modulos/{{ $modulo->id }}/temas/{{ $tema->id }}"><div class="rounded-b-lg bg-primary px-4 py-0">Contenido</div></a>
                 <div class="flex gap-x-8">
                     <div class="rounded-b-lg outline outline-2 outline-primary px-4 py-0 text-primary">Ejercicios</div>
-                    <div class="rounded-b-lg outline outline-2 outline-primary px-4 py-0 text-primary">Examen</div>
+                    <a href="/examenes/-{{ $tema->id }}"><div class="rounded-b-lg outline outline-2 outline-primary px-4 py-0 text-primary">Examen</div></a>
                 </div>
             </div>
             <div class="container p-4">
