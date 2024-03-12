@@ -7,7 +7,7 @@
             $('.pregunta')
                 .attr('id', parseInt(pregunta_id) + 1)
                 .attr('pregunta_id', preguntas[pregunta_id].id);
-            $('#pregunta_num').html(parseInt(pregunta_id) + 1);
+            $('#pregunta_num').html(parseInt(pregunta_id) + 1 + '/' + preguntas.length );
             $('#pregunta_contenido').html(preguntas[pregunta_id].contenido);
 
             respuestas = '';
@@ -104,74 +104,71 @@
 @endpush
 
 @section('contenido')
-    <div class="flex border-t-2 border-primary">
-        <div class="w-1/3 border-r-2 border-primary">
-            <h2 class="text-center bg-primary text-white mt-0">Preguntas</h2>
-            <div class="text-center">
-                @php
-                    $modules = $preguntas->groupby(function ($pregunta) {
-                        return $pregunta->tema->modulo;
-                    });
-                    $i = 0;
-                @endphp
-                @foreach ($modules as $m)
-                    <h5>{{ $m[0]->tema->modulo->nombre ?? '' }}</h5>
-                    @foreach ($m as $pregunta)
-                        <button class="btn btn-link mostrar {{ $i == 0 ? 'bg-light' : '' }}" data-toggle="{{ $i }}">{{ $i + 1 }}</button>
-                        @php
-                            $i += 1;
-                        @endphp
-                    @endforeach
-                @endforeach
-            </div>
-            <div id="leyenda">
-                <h5 class="mt-3 text-center">Calificación</h5>
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="calificacion"></div>
-                </div>
-                <h5 class="mt-3 text-center">Aciertos</h5>
-                <p class="text-center" id="calificacion2"></p>
-            </div>
-        </div>
-        <div class="w-2/3 px-2">
-            {{-- PREGUNTA --}}
-            <div class="pregunta" id="-1" pregunta_id="-1">
-                <h2 id='pregunta_num'></h2>
-                <p class="lead text-center" id="pregunta_contenido">CONTENIDO</p>
-                <div class="card-body px-0">
-                    {{-- RESPUESTA --}}
-                    <div class="menu menu-sm" id="respuestas">
+    {{-- PREGUNTA --}}
+    <div class="pregunta" id="-1" pregunta_id="-1">
+        <h2 class="text-center">Pregunta <span id='pregunta_num'></span></h2>
+        <p id="pregunta_contenido">CONTENIDO</p>
+        <div class="card-body px-0">
+            {{-- RESPUESTA --}}
+            <div class="menu menu-sm" id="respuestas">
 
-                    </div>
-                    {{-- .RESPUESTA --}}
-                </div>
-                <div class="card-footer">
-                </div>
             </div>
-            {{-- .PREGUNTA --}}
-            <div class="flex justify-between">
-                <button id="anterior" class="btn btn-sm btn-primary">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-                    </svg>
-                </button>
-                <form action="/examenes/revisar" method="post" id="revisar">
-                    @csrf
-                    <input type="hidden" name="intento_id" value="{{ $intento->id }}">
-                    <input type="hidden" name="respuestas" id="respuestas_input">
-                    <button class="btn btn-sm btn-primary">
-                        Terminar
-                        <div class="spinner-border text-light" role="status" id="revisando">
-                            <span class="sr-only">Revisando...</span>
-                        </div>
-                    </button>
-                </form>
-                <button id="siguiente" class="btn btn-sm btn-primary">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                    </svg>
-                </button>
-            </div>
+            {{-- .RESPUESTA --}}
         </div>
+        <div class="card-footer">
+        </div>
+    </div>
+    {{-- .PREGUNTA --}}
+    <div class="flex justify-between">
+        <button id="anterior" class="btn btn-sm btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+            </svg>
+        </button>
+        <form action="/examenes/revisar" method="post" id="revisar">
+            @csrf
+            <input type="hidden" name="intento_id" value="{{ $intento->id }}">
+            <input type="hidden" name="respuestas" id="respuestas_input">
+            <button class="btn btn-sm btn-primary">
+                Terminar
+                <div class="spinner-border text-light" role="status" id="revisando">
+                    <span class="sr-only">Revisando...</span>
+                </div>
+            </button>
+        </form>
+        <button id="siguiente" class="btn btn-sm btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+            </svg>
+        </button>
+    </div>
+@endsection
+
+@section('sidebar')
+    <div class="pl-3 prose h2 lead bg-primary text-white text"><b>PREGUNTAS</b></div>
+    <div class="text-center">
+        @php
+            $modules = $preguntas->groupby(function ($pregunta) {
+                return $pregunta->tema->modulo;
+            });
+            $i = 0;
+        @endphp
+        @foreach ($modules as $m)
+            <h5>{{ $m[0]->tema->modulo->nombre ?? '' }}</h5>
+            @foreach ($m as $pregunta)
+                <button class="btn btn-link mostrar {{ $i == 0 ? 'bg-light' : '' }}" data-toggle="{{ $i }}">{{ $i + 1 }}</button>
+                @php
+                    $i += 1;
+                @endphp
+            @endforeach
+        @endforeach
+    </div>
+    <div id="leyenda">
+        <h5 class="mt-3 text-center">Calificación</h5>
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="calificacion"></div>
+        </div>
+        <h5 class="mt-3 text-center">Aciertos</h5>
+        <p class="text-center" id="calificacion2"></p>
     </div>
 @endsection

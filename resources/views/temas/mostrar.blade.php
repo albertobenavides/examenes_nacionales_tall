@@ -29,13 +29,34 @@
 @endpush
 
 @section('contenido')
-    <div class="px-2">
-        <h1 class="lead">{{ $tema->nombre }}</h1>
-        <hr>
-        @if ($tema->contenido != null)
-            @for ($i = 0; $i < count($tema->contenido); $i++)
-                <livewire:ver-contenido :tema="$tema" :i="$i" />
-            @endfor
-        @endif
-    </div>
+    <h1 class="lead">{{ $tema->nombre }}</h1>
+    <hr>
+    @if ($tema->contenido != null)
+        @for ($i = 0; $i < count($tema->contenido); $i++)
+            <livewire:ver-contenido :tema="$tema" :i="$i" />
+        @endfor
+    @endif
+@endsection
+
+@section('sidebar')
+    <div class="pl-3 prose h2 lead bg-primary text-white text"><b>CONTENIDO</b></div>
+    <ul class="menu">
+        @foreach ($tema->modulo->temas->sortBy('order') as $t)
+            @if ($t->id == $tema->id)
+                <li>
+                    <details open>
+                        <summary><b>{{ $t->nombre }}</b></summary>
+                        <div id="cursor"></div>
+                        <ul id='menu'>
+                            @for ($i = 0; $i < count($tema->contenido); $i++)
+                                <livewire:toc-temas :tema="$tema" :i="$i" />
+                            @endfor
+                        </ul>
+                    </details>
+                </li>
+            @else
+                <li><a href="/modulos/{{ $t->modulo_id }}/temas/{{ $t->id }}">{{ $t->nombre }}</a></li>
+            @endif
+        @endforeach
+    </ul>
 @endsection

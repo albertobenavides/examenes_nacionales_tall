@@ -30,33 +30,14 @@
                     </a>
                 </div>
             </div>
-            <div class="container py-4">
+            <div class="container p-4">
                 @yield('contenido', 'asdfasdfdasdfasdfasd')
             </div>
         </div>
         <div class="fixed md:static bottom-0 md:bottom-auto w-full h-1/4 md:h-auto md:w-1/3 lg:w-1/4 md:block bg-white border-t-2 border-t-primary md:border-t-0 shadow-md">
             <div class="h-full md:h-screen bg-white sticky top-0 overflow-scroll">
                 <div class="sticky col-start-5">
-                    <div class="pl-3 prose h2 lead bg-primary text-white text"><b>CONTENIDO</b></div>
-                    <ul class="menu">
-                        @foreach ($tema->modulo->temas->sortBy('order') as $t)
-                            @if ($t->id == $tema->id)
-                                <li>
-                                    <details open>
-                                        <summary><b>{{ $t->nombre }}</b></summary>
-                                        <div id="cursor"></div>
-                                        <ul id='menu'>
-                                            @for ($i = 0; $i < count($tema->contenido); $i++)
-                                                <livewire:toc-temas :tema="$tema" :i="$i" />
-                                            @endfor
-                                        </ul>
-                                    </details>
-                                </li>
-                            @else
-                                <li><a href="{{ $t->id }}">{{ $t->nombre }}</a></li>
-                            @endif
-                        @endforeach
-                    </ul>
+                    @yield('sidebar', '')
                 </div>
             </div>
         </div>
