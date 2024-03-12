@@ -162,6 +162,8 @@ class PruebaController extends Controller
                 $intento->save();
 
                 return view('pruebas.mostrar', [
+                    'modulo' => $tema->modulo,
+                    'tema' => $tema,
                     'prueba' => $prueba,
                     'preguntas' => $preguntas,
                     'intento' => $intento

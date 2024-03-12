@@ -1,24 +1,21 @@
-@extends('layouts.app')
+@extends('temas.base')
 
-@section('scripts')
+@push('scripts')
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
         function actualizarPregunta(pregunta_id) {
             $('.pregunta')
                 .attr('id', parseInt(pregunta_id) + 1)
                 .attr('pregunta_id', preguntas[pregunta_id].id);
-            $('#pregunta_num').attr('src', `https://fakeimg.pl/75/?text=${parseInt(pregunta_id) + 1}`);
+            $('#pregunta_num').html(parseInt(pregunta_id) + 1);
             $('#pregunta_contenido').html(preguntas[pregunta_id].contenido);
 
             respuestas = '';
             let i = 1;
             preguntas[pregunta_id].respuestas.forEach(respuesta => {
-                respuestas += `<div class="list-group-item list-group-item-action respuesta" respuesta_id="${respuesta.id}" pregunta_id="${respuesta.pregunta_id}">
-                    <ol type="A" start="${i}">
-                        <li>
-                            ${respuesta.contenido}
-                        </li>
-                    </ol>
-                </div>`;
+                respuestas += `<li class="respuesta bg-neutral m-1 rounded" respuesta_id="${respuesta.id}" pregunta_id="${respuesta.pregunta_id}">
+                    ${respuesta.contenido}
+                </li>`;
                 i += 1;
             });
 
@@ -29,18 +26,27 @@
                 var q_id = parseInt($(this).attr('pregunta_id'));
                 respuestas_elegidas[q_id] = r_id;
 
-                $(this).siblings().removeClass('bg-info');
-                $(this).addClass('bg-info');
+                $(this).siblings().addClass('bg-neutral');
+                $(this).siblings().removeClass('bg-gray-400');
+
+                $(this).addClass('bg-gray-400');
+                $(this).removeClass('bg-neutral');
             });
 
             if (preguntas[pregunta_id].id in respuestas_elegidas) {
-                $(`[respuesta_id="${respuestas_elegidas[preguntas[pregunta_id].id]}"]`).siblings().removeClass('bg-info');
-                $(`[respuesta_id="${respuestas_elegidas[preguntas[pregunta_id].id]}"]`).addClass('bg-info');
+                $(`[respuesta_id="${respuestas_elegidas[preguntas[pregunta_id].id]}"]`).siblings().addClass('bg-neutral');
+                $(`[respuesta_id="${respuestas_elegidas[preguntas[pregunta_id].id]}"]`).siblings().removeClass('bg-gray-400');
+
+                $(`[respuesta_id="${respuestas_elegidas[preguntas[pregunta_id].id]}"]`).addClass('bg-gray-400');
+                $(`[respuesta_id="${respuestas_elegidas[preguntas[pregunta_id].id]}"]`).removeClass('bg-neutral');
             }
 
             MathJax.typeset();
         }
         $(function() {
+            window.onbeforeunload = function(e) {
+                return "¿Salir del examen?";
+            };
             preguntas = {!! $preguntas !!};
             respuestas_elegidas = {};
             actual = 0;
@@ -87,112 +93,84 @@
             });
         });
     </script>
-@endsection
+@endpush
 
-@section('content')
-    <div class="jumbotron pb-0">
-        <div class="container">
-            <h4>{{ Auth::user()->name }}</h4>
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">{{ $prueba->curso->nombre }}</li>
-                    <li class="breadcrumb-item">Simulaciones</li>
-                    <li class="breadcrumb-item">{{ $prueba->nombre }}</li>
-                    <li class="breadcrumb-item active">Revisión</li>
-                </ol>
-            </nav>
-            @php
-                $pago = App\Models\Pago::where('user_id', Auth::id())
-                    ->where('curso_id', $prueba->curso->id)
-                    ->where('fin', '>=', Carbon\Carbon::today())
-                    ->orderByDesc('promo_id')
-                    ->first();
-            @endphp
-            @if ($pago == null)
-                <a href="/pagos/crear" class="btn btn-secondary">Inscríbete</a>
-            @else
-                <h5>Vigencia: {{ Carbon\Carbon::parse($pago->fin)->format('d/m/Y') }}</h5>
-            @endif
+@push('styles')
+    <style>
+        p {
+            margin: 0% !important;
+        }
+    </style>
+@endpush
 
-            <ul class="nav nav-tabs mt-3">
-                <li class="nav-item">
-                    <a class="nav-link" href="/cursos/{{ $prueba->curso->id }}/logros">Logros</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/cursos/{{ $prueba->curso->id }}/clases">Clases</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/cursos/{{ $prueba->curso->id }}/examenes">Exámenes</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class="container">
-        <h5>TODO DETALLE CON LA PLATAFORMA, CONTENIDO, REACTIVOS Y EXÁMENES FAVOR DE COMUNICARSE AL 8131965935</h5>
-        <div class="row">
-            <div class="col-md-3">
-                <h2 class="mt-3 text-center">Preguntas</h2>
-                <div class="text-center">
-                    @php
-                        $modules = $preguntas->groupby(function ($pregunta) {
-                            return $pregunta->tema->modulo;
-                        });
-                        $i = 0;
-                    @endphp
-                    @foreach ($modules as $m)
-                        <h5>{{ $m[0]->tema->modulo->nombre ?? '' }}</h5>
-                        @foreach ($m as $pregunta)
-                            <button class="btn btn-link mostrar {{ $i == 0 ? 'bg-light' : '' }}" data-toggle="{{ $i }}">{{ $i + 1 }}</button>
-                            @php
-                                $i += 1;
-                            @endphp
-                        @endforeach
+@section('contenido')
+    <div class="flex border-t-2 border-primary">
+        <div class="w-1/3 border-r-2 border-primary">
+            <h2 class="text-center bg-primary text-white mt-0">Preguntas</h2>
+            <div class="text-center">
+                @php
+                    $modules = $preguntas->groupby(function ($pregunta) {
+                        return $pregunta->tema->modulo;
+                    });
+                    $i = 0;
+                @endphp
+                @foreach ($modules as $m)
+                    <h5>{{ $m[0]->tema->modulo->nombre ?? '' }}</h5>
+                    @foreach ($m as $pregunta)
+                        <button class="btn btn-link mostrar {{ $i == 0 ? 'bg-light' : '' }}" data-toggle="{{ $i }}">{{ $i + 1 }}</button>
+                        @php
+                            $i += 1;
+                        @endphp
                     @endforeach
+                @endforeach
+            </div>
+            <div id="leyenda">
+                <h5 class="mt-3 text-center">Calificación</h5>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="calificacion"></div>
                 </div>
-                <form action="/examenes/revisar" method="post" class="mt-3" id="revisar">
+                <h5 class="mt-3 text-center">Aciertos</h5>
+                <p class="text-center" id="calificacion2"></p>
+            </div>
+        </div>
+        <div class="w-2/3 px-2">
+            {{-- PREGUNTA --}}
+            <div class="pregunta" id="-1" pregunta_id="-1">
+                <h2 id='pregunta_num'></h2>
+                <p class="lead text-center" id="pregunta_contenido">CONTENIDO</p>
+                <div class="card-body px-0">
+                    {{-- RESPUESTA --}}
+                    <div class="menu menu-sm" id="respuestas">
+
+                    </div>
+                    {{-- .RESPUESTA --}}
+                </div>
+                <div class="card-footer">
+                </div>
+            </div>
+            {{-- .PREGUNTA --}}
+            <div class="flex justify-between">
+                <button id="anterior" class="btn btn-sm btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                    </svg>
+                </button>
+                <form action="/examenes/revisar" method="post" id="revisar">
                     @csrf
                     <input type="hidden" name="intento_id" value="{{ $intento->id }}">
                     <input type="hidden" name="respuestas" id="respuestas_input">
-                    <button class="btn btn-block btn-success btn-lg">
+                    <button class="btn btn-sm btn-primary">
                         Terminar
                         <div class="spinner-border text-light" role="status" id="revisando">
                             <span class="sr-only">Revisando...</span>
                         </div>
                     </button>
                 </form>
-                <div id="leyenda">
-                    <h5 class="mt-3 text-center">Calificación</h5>
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="calificacion"></div>
-                    </div>
-                    <h5 class="mt-3 text-center">Aciertos</h5>
-                    <p class="text-center" id="calificacion2"></p>
-                </div>
-            </div>
-            <div class="col-md-9">
-                {{-- PREGUNTA --}}
-                <div class="card pregunta" id="-1" pregunta_id="-1">
-                    <div class="card-header bg-primary text-white">
-                        <div class="media">
-                            <img id='pregunta_num' src="https://fakeimg.pl/75/?text=-1" class="mr-3 img-fluid rounded">
-                            <div class="media-body">
-                                <p class="lead text-center" id="pregunta_contenido">CONTENIDO</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        {{-- RESPUESTA --}}
-                        <div class="list-group list-group-flush" id="respuestas">
-
-                        </div>
-                        {{-- .REPUESTA --}}
-                    </div>
-                    <div class="card-footer">
-                    </div>
-                </div>
-                {{-- .PREGUNTA --}}
-                <button id="anterior" class="btn btn-primary">Anterior</button>
-                <button id="siguiente" class="btn btn-primary">Siguiente</button>
+                <button id="siguiente" class="btn btn-sm btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                    </svg>
+                </button>
             </div>
         </div>
     </div>
