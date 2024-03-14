@@ -22,7 +22,7 @@
 </head>
 
 <body class="text-accent">
-    {{-- <x-impersonate::banner /> --}}
+    <x-impersonate::banner />
 
     <div class="navbar bg-white">
         <div class="navbar-start">
