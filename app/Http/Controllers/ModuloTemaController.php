@@ -32,4 +32,12 @@ class ModuloTemaController extends Controller
             'tema' => $tema
         ]);
     }
+
+    public function ejercicios(Modulo $modulo, Tema $tema)
+    {
+        return view('ejercicios.mostrar', [
+            'modulo' => $modulo,
+            'tema' => $tema
+        ]);
+    }
 }

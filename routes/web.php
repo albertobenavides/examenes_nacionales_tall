@@ -68,6 +68,8 @@ Route::group(['middleware' => 'revisar.acceso'], function() {
 
     Route::resource('modulos.temas', ModuloTemaController::class);
 
+    Route::get('/modulos/{modulo}/temas/{tema}/ejercicios', [ModuloTemaController::class, 'ejercicios']);
+
     Route::post('/usuarios/pagina', [UsuarioController::class, 'paginate']);
     Route::post('/usuarios/pagina/tabla', [UsuarioController::class, 'paginate_tabla']);
 

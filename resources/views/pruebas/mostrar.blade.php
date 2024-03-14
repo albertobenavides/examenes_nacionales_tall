@@ -14,7 +14,9 @@
             let i = 1;
             preguntas[pregunta_id].respuestas.forEach(respuesta => {
                 respuestas += `<li class="respuesta bg-neutral m-1 rounded" respuesta_id="${respuesta.id}" pregunta_id="${respuesta.pregunta_id}">
+                    <div>
                     ${respuesta.contenido}
+                    </div>
                 </li>`;
                 i += 1;
             });
