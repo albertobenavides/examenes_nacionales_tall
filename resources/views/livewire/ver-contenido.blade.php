@@ -57,7 +57,7 @@
             </video>
         </p>
     @endif
-    @if ($tema->contenido[$i]['type'] != 'h5pa')
+    @if ($tema->contenido[$i]['type'] != 'h5p')
         <div class="text-center flex justify-end">
             <button class="btn btn-primary text-center " wire:click="completar()">
                 @if ($completada)
