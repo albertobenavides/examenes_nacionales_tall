@@ -83,7 +83,7 @@
                     </div>
                 </div>
             @empty
-                <p>No hay sesiones aún</p>
+                <p class="text-center">No hay sesiones aún</p>
             @endforelse
         </div>
     </div>
