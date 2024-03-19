@@ -7,7 +7,7 @@
         $avance = round(($intentos / $temas * 100));
     @endphp
         <div class="flex justify-center p-10">
-            <a href="/cursos/{{ $pago->curso_id }}" class="basis-1/4 card bg-base-100 shadow-xl rounded-md">
+            <a href="/cursos/{{ $pago->curso_id }}" class="md:basis-1/3 lg:basis-1/4 card bg-base-100 shadow-xl rounded-md">
                 <figure><img src="/storage/{{ $pago->curso->imagen }}" alt="{{ $pago->curso->nombre }}" /></figure>
                 <div class="card-body p-2">
                     <h2 class="card-title justify-center text-[1rem]">{{ $pago->curso->nombre }}</h2>

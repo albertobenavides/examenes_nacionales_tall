@@ -12,7 +12,7 @@ class UserCursoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(User $user)
+    public function index()
     {
         $intentos = Intento::where('user_id', auth()->id())->where('calificacion',  '>=', '90')
         ->get(['prueba_id', 'calificacion'])->flatten()
