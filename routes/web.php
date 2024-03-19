@@ -15,6 +15,7 @@ use App\Http\Controllers\PromoController;
 use App\Http\Controllers\PruebaController;
 use App\Http\Controllers\RespuestaController;
 use App\Http\Controllers\TemaController;
+use App\Http\Controllers\UserCursoController;
 use App\Http\Controllers\UsuarioController;
 use App\Models\Intento;
 use App\Models\Meeting;
@@ -66,7 +67,10 @@ Route::group(['middleware' => 'revisar.acceso'], function() {
         '/usuarios' => UsuarioController::class,
     ]);
 
-    Route::resource('modulos.temas', ModuloTemaController::class);
+    Route::resources([
+        'modulos.temas' => ModuloTemaController::class,
+        'users.cursos'=> UserCursoController::class
+    ]);
 
     Route::get('/modulos/{modulo}/temas/{tema}/ejercicios', [ModuloTemaController::class, 'ejercicios']);
 

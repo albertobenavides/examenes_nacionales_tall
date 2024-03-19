@@ -57,7 +57,7 @@
             </label> --}}
             @auth
             <ul class="menu menu-horizontal px-1">
-                <li><a href="/cursos" class="btn btn-ghost text-xl hidden sm:flex">Mis cursos</a></li>
+                <li><a href="users/{{ auth()->id() }}/cursos" class="btn btn-ghost text-xl hidden sm:flex">Mis cursos</a></li>
             </ul>
             @endauth
         </div>
