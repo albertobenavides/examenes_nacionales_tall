@@ -84,7 +84,7 @@
                 </div>
             @empty
             <div class="card shadow-lg my-3">
-                <div class="card-body bg-white rounded-b-md">
+                <div class="card-body bg-white rounded-md">
                     <p class="text-center">No hay sesiones aún</p>
                 </div>
             </div>
