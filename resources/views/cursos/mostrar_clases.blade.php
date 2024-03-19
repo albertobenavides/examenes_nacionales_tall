@@ -56,7 +56,7 @@
         </div>
         <div class="lg:basis-1/4 ms-4">
             <h2 class="text-center"><b>Sesiones</b></h2>
-            @foreach ($curso->meetings as $meeting)
+            @forelse ($curso->meetings as $meeting)
                 <div class="card shadow-lg my-3">
                     <div class="card-title flex bg-primary text-white p-1 rounded-t-md">
                         <div class="w-5">
@@ -82,7 +82,9 @@
                         <p class="text-center">{{ $meeting->meetingName }}</p>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <p>No hay sesiones aún</p>
+            @endforelse
         </div>
     </div>
 @endsection
