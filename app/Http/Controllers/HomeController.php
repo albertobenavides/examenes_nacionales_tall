@@ -35,14 +35,5 @@ class HomeController extends Controller
             return view('cursos.index');    
         }
         
-        /*
-        if (Auth::user()->rol_id == 1){
-            return redirect('ajustes');
-        } else if (Auth::user()->rol_id == 3){
-            return view('usuarios.consulta');
-        } else {
-            return view('cursos.index');
-        }*/
-        
     }
 }
