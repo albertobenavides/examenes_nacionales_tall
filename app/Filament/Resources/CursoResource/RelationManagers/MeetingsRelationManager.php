@@ -67,7 +67,7 @@ class MeetingsRelationManager extends RelationManager
                 Action::make('Grabación')
                     ->action(function (Meeting $record) {
                         try {
-                            $video = \Bigbluebutton::getRecordings(['meetingID' => $record->id])[0]['playback']['format'][0]['url'];
+                            $video = \Bigbluebutton::getRecordings(['meetingID' => $record->id])[0]['playback']['format']['url'];
                             return redirect()->to($video);
                         } catch (\Throwable $th) {
                             Notification::make()

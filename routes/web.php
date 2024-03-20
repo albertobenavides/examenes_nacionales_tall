@@ -164,13 +164,19 @@ Route::get('/meeting/{id}/{status}', function($id, $status){
 });
 
 Route::get('/meeting/{id}', function ($id){
-    return redirect()->to(
-        \Bigbluebutton::join([
-            'meetingID' => $id,
-            'userName' => auth()->user()->name,
-            'role' => 'VIEWER',
-            'guest' => true,
-            'userId' =>  auth()->id(),
-        ])
-    );
+    if (Meeting::find($id)->status == 'grabada') {
+        $video = \Bigbluebutton::getRecordings(['meetingID' => $id])[0]['playback']['format']['url'];
+        return redirect()->to($video);
+    } else {
+        return redirect()->to(
+            \Bigbluebutton::join([
+                'meetingID' => $id,
+                'userName' => auth()->user()->name,
+                'role' => 'VIEWER',
+                'guest' => true,
+                'userId' =>  auth()->id(),
+            ])
+        );
+    }
+    
 });
