@@ -73,7 +73,7 @@
                         </div>
                         <div class="w-full">
                             <h2 class="text-center">
-                                {{ $meeting->created_at }}
+                                Creado: {{ $meeting->created_at->format('d-m-Y') }}
                             </h2>
                         </div>
                     </div>
