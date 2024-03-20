@@ -10,7 +10,7 @@
     <div class="navbar bg-primary text-white">
         <div class="text-sm breadcrumbs">
             <ul class="text-xl">
-                <li><a href="/cursos">Cursos</a></li>
+                <li><a href="/users/{{ auth()->id() }}/cursos">Cursos</a></li>
                 <li><a href="/cursos/{{ $modulo->curso->id }}/clases">{{ $modulo->curso->nombre }}</a></li>
                 <li><a href="/modulos/{{ $modulo->id }}">{{ $modulo->nombre }}</a></li>
                 <li>{{ $tema->nombre }}</li>
