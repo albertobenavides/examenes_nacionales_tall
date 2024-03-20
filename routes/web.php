@@ -162,3 +162,15 @@ Route::get('/meeting/{id}/{status}', function($id, $status){
     $m->status = $status;
     $m->saveQuietly();
 });
+
+Route::get('/meeting/{id}', function ($id){
+    return redirect()->to(
+        \Bigbluebutton::join([
+            'meetingID' => $id,
+            'userName' => auth()->user()->name,
+            'role' => 'VIEWER',
+            'guest' => true,
+            'userId' =>  auth()->id(),
+        ])
+    );
+});
