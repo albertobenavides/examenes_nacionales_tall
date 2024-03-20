@@ -40,7 +40,7 @@
                         </svg>
                     </button>
                     <ul tabindex="0" class="menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 mt-4">
-                        <li><a href="/cursos">Mis cursos</a></li>
+                        <li><a href="/users/{{ auth()->id() }}/cursos">Mis cursos</a></li>
                       </ul>
                 </div>
             </div>
@@ -57,7 +57,7 @@
             </label> --}}
             @auth
             <ul class="menu menu-horizontal px-1">
-                <li><a href="users/{{ auth()->id() }}/cursos" class="btn btn-ghost text-xl hidden sm:flex">Mis cursos</a></li>
+                <li><a href="/users/{{ auth()->id() }}/cursos" class="btn btn-ghost text-xl hidden sm:flex">Mis cursos</a></li>
             </ul>
             @endauth
         </div>
