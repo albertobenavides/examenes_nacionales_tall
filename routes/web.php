@@ -164,7 +164,7 @@ Route::get('/meeting/{id}/{status}', function($id, $status){
 });
 
 Route::get('/meeting/{id}', function ($id){
-    if (Meeting::find($id)->status == 'grabada') {
+    if (Meeting::find($id)->status == 'terminada') {
         $video = \Bigbluebutton::getRecordings(['meetingID' => $id])[0]['playback']['format']['url'];
         return redirect()->to($video);
     } else {
