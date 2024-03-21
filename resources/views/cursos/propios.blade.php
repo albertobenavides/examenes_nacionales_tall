@@ -4,7 +4,11 @@
     @foreach (auth()->user()->pagos as $pago)
     @php
         $temas = App\Models\Tema::whereIn('modulo_id', $pago->curso->modulos->pluck('id'))->where('preguntar', '>', 0)->count();
-        $avance = round(($intentos / $temas * 100));
+        if ($temas > 0) {
+            $avance = round(($intentos / $temas * 100));
+        } else {
+            $avance = 0;
+        }
     @endphp
         <div class="flex justify-center p-10">
             <a href="/cursos/{{ $pago->curso_id }}" class="md:basis-1/3 lg:basis-1/4 card bg-base-100 shadow-xl rounded-md">
