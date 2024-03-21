@@ -12,7 +12,7 @@
             <ul class="text-xl">
                 <li><a href="/users/{{ auth()->id() }}/cursos">Cursos</a></li>
                 <li><a href="/cursos/{{ $modulo->curso->id }}/clases">{{ $modulo->curso->nombre }}</a></li>
-                <li><a href="/modulos/{{ $modulo->id }}">{{ $modulo->nombre }}</a></li>
+                <li>{{ $modulo->nombre }}</li>
                 <li>{{ $tema->nombre }}</li>
             </ul>
         </div>
@@ -36,7 +36,7 @@
                 @yield('contenido', 'asdfasdfdasdfasdfasd')
             </div>
         </div>
-        <div class="fixed md:static bottom-0 md:bottom-auto w-full h-1/4 md:h-auto md:w-1/3 lg:w-1/4 md:block bg-white border-t-2 border-t-primary md:border-t-0 shadow-md">
+        <div class="fixed md:static bottom-0 md:bottom-auto w-full md:w-1/3 lg:w-1/4 h-1/4 md:h-auto md:block bg-white border-t-2 border-t-primary md:border-t-0 shadow-md">
             <div class="h-full md:h-screen bg-white sticky top-0 overflow-scroll">
                 <div class="sticky col-start-5">
                     @yield('sidebar', '')

@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="lg:flex p-5">
-        <div class="lg:basis-3/4">
+        <div class="grow">
             <h2><b>Módulos del curso</b></h2>
             @foreach ($curso->modulos->sortby('orden') as $m)
                 @php
@@ -56,7 +56,7 @@
                 </a>
             @endforeach
         </div>
-        <div class="lg:basis-1/4 ms-4">
+        <div class="lg:w-[200px] ms-4">
             <h2 class="text-center"><b>Sesiones</b></h2>
             @forelse ($curso->meetings as $meeting)
                 <a href="/meeting/{{ $meeting->id }}" class="card shadow-lg my-3">
@@ -74,7 +74,7 @@
                             @endif
                         </div>
                         <div class="w-full">
-                            <h2 class="text-center">
+                            <h2 class="text-center text-sm">
                                 Creado: {{ $meeting->created_at->format('d-m-Y') }}
                             </h2>
                         </div>
