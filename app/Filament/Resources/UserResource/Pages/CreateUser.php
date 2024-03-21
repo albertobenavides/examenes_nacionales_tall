@@ -10,12 +10,4 @@ use Illuminate\Database\Eloquent\Model;
 class CreateUser extends CreateRecord
 {
     protected static string $resource = UserResource::class;
-
-    protected function handleRecordCreation(array $data): Model
-    {
-        $r = static::getModel()::create($data);
-        $r->syncRoles([$data['rol_id']]);
-        $r->update($data);
-        return $r;
-    }
 }
