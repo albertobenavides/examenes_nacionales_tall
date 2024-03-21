@@ -23,6 +23,7 @@ use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
 
 class TemaResource extends Resource
 {
@@ -46,8 +47,12 @@ class TemaResource extends Resource
                         ComponentsBuilder\Block::make('texto')
                             ->schema([
                                 TextInput::make('titulo')->label('Título'),
-                                RichEditor::make('texto')
-                                    ->required(),
+                                TinyEditor::make('texto')
+                                    ->profile('default')
+                                    ->setExternalPlugins([
+                                        'tiny_mce_wiris' => 'https://www.wiris.net/demo/plugins/tiny_mce/plugin.js',
+                                    ])
+                                    ->columnSpanFull(),
                             ])
                             ->columns(1),
                         ComponentsBuilder\Block::make('embebido')
@@ -121,10 +126,10 @@ class TemaResource extends Resource
                                     $contenido[] = ["data" => ["url" => $tema->pdf], "type" => "pdf"];
                                 }
                                 if ($tema->video != null) {
-                                    if (str_contains($tema->video, 'http')){
+                                    if (str_contains($tema->video, 'http')) {
                                         $contenido[] = ["data" => ["embebido" => $tema->video], "type" => "embebido"];
                                     }
-                                    if (!str_contains($tema->video, 'http')){
+                                    if (!str_contains($tema->video, 'http')) {
                                         $contenido[] = ["data" => ["video" => $tema->video], "type" => "video"];
                                     }
                                 }
