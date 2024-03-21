@@ -38,7 +38,7 @@ class MeetingsRelationManager extends RelationManager
             ->recordTitleAttribute('meetingName')
             ->columns([
                 TextColumn::make('meetingName')->label('Nombre'),
-                TextColumn::make('inicio'),
+                TextColumn::make('inicio')->required(),
                 TextColumn::make('fin'),
                 TextColumn::make('status')->label('Estado'),
             ])
