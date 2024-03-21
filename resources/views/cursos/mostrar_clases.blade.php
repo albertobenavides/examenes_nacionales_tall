@@ -9,6 +9,8 @@
                     $totales = 0.0;
                     $pasados = 0.0;
                     $avance = 0;
+
+                    $ultimo_tema = $m->users->contains(auth()->id()) && $m->users->find(auth()->id())->pivot->tema_id != null ? App\Models\Tema::find($m->users->find(auth()->id())->pivot->tema_id) : $m->temas->sortby('orden')->first();
                 @endphp
                 @foreach ($m->temas as $t)
                     @if ($t->preguntar <= 0)
@@ -28,7 +30,7 @@
                     @endphp
                 @endforeach
                 {{-- [ ] Actualizar URLs --}}
-                <a href="/modulos/{{ $m->id }}" class="card lg:card-side bg-white shadow-xl my-3">
+                <a href="/modulos/{{ $m->id }}/temas/{{ $ultimo_tema->id }}" class="card lg:card-side bg-white shadow-xl my-3">
                     <figure class="w-full lg:w-60">
                         @if ($m->imagen)
                             <img src="/storage/{{ $m->imagen }}">
@@ -46,7 +48,7 @@
                         </div>
                         <div class="basis-2/5 lg:basis-1/4 border-s border-primary p-2 flex flex-col justify-between">
                             <div>
-                                <p class="text-sm"><b>Tema</b></p>
+                                <p class="text-sm text-center"><b>{{ $ultimo_tema->nombre }}</b></p>
                             </div>
                             <div class="btn btn-sm btn-primary btn-block">Continuar</div>
                         </div>

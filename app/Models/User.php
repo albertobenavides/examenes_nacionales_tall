@@ -7,6 +7,7 @@ namespace App\Models;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -62,6 +63,16 @@ class User extends Authenticatable implements HasAvatar
     public function intentos()
     {
         return $this->hasMany(Intento::class);
+    }
+
+    /**
+     * The modulos that belong to the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function modulos(): BelongsToMany
+    {
+        return $this->belongsToMany(Modulo::class, 'modulo_user')->withPivot('tema_id');
     }
 
     public function canAccessPanel(Panel $panel): bool

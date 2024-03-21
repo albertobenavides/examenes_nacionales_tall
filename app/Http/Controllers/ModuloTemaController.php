@@ -27,6 +27,9 @@ class ModuloTemaController extends Controller
      */
     public function show(Modulo $modulo, Tema $tema)
     {
+        $modulo->users()->syncWithoutDetaching([
+            auth()->id() => ['tema_id' => $tema->id]
+        ]);
         return view('temas.mostrar', [
             'modulo' => $modulo,
             'tema' => $tema
