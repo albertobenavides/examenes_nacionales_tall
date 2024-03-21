@@ -26,7 +26,7 @@ class MeetingsRelationManager extends RelationManager
         return $form
             ->schema([
                 TextInput::make('meetingName')->required()->label('Nombre'),
-                DateTimePicker::make('inicio')->default(Carbon::now()->addMinutes(5)->startOfMinute()),
+                DateTimePicker::make('inicio')->default(Carbon::now()->addMinutes(5)->startOfMinute())->required(),
                 DateTimePicker::make('fin')->default(Carbon::now()->addMinutes(5)->addHours()->startOfMinute()),
                 
             ]);
@@ -38,7 +38,7 @@ class MeetingsRelationManager extends RelationManager
             ->recordTitleAttribute('meetingName')
             ->columns([
                 TextColumn::make('meetingName')->label('Nombre'),
-                TextColumn::make('inicio')->required(),
+                TextColumn::make('inicio'),
                 TextColumn::make('fin'),
                 TextColumn::make('status')->label('Estado'),
             ])
