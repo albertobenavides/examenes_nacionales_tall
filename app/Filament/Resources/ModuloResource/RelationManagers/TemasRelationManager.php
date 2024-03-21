@@ -25,10 +25,6 @@ class TemasRelationManager extends RelationManager
                     ->maxLength(191),
                 Forms\Components\TextInput::make('descripcion')
                     ->maxLength(191),
-                Forms\Components\FileUpload::make('imagen')
-                    ->image(),
-                Forms\Components\FileUpload::make('pdf'),
-                Forms\Components\FileUpload::make('video'),
                 Forms\Components\TextInput::make('preguntar')
                     ->required()
                     ->numeric()
