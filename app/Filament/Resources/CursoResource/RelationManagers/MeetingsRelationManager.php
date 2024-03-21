@@ -3,13 +3,16 @@
 namespace App\Filament\Resources\CursoResource\RelationManagers;
 
 use App\Models\Meeting;
+use Carbon\Carbon;
 use Filament\Forms;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -23,6 +26,9 @@ class MeetingsRelationManager extends RelationManager
         return $form
             ->schema([
                 TextInput::make('meetingName')->required()->label('Nombre'),
+                DateTimePicker::make('inicio')->default(Carbon::now()->addMinutes(5)->startOfMinute()),
+                DateTimePicker::make('fin')->default(Carbon::now()->addMinutes(5)->addHours()->startOfMinute()),
+                
             ]);
     }
 
@@ -31,8 +37,10 @@ class MeetingsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('meetingName')
             ->columns([
-                Tables\Columns\TextColumn::make('meetingName')->label('Nombre'),
-                Tables\Columns\TextColumn::make('status')->label('Estado'),
+                TextColumn::make('meetingName')->label('Nombre'),
+                TextColumn::make('inicio'),
+                TextColumn::make('fin'),
+                TextColumn::make('status')->label('Estado'),
             ])
             ->filters([
                 //

@@ -58,8 +58,8 @@
         </div>
         <div class="lg:w-[200px] ms-4">
             <h2 class="text-center"><b>Sesiones</b></h2>
-            @forelse ($curso->meetings as $meeting)
-                <a href="/meeting/{{ $meeting->id }}" class="card shadow-lg my-3">
+            @forelse ($curso->meetings->sortby('inicio') as $meeting)
+                <a href="/meeting/{{ $meeting->id }}" class="card shadow-lg my-3" {{ Carbon\Carbon::parse($meeting->inicio)->isPast() ? '' : "style=pointer-events:none" }}>
                     <div class="card-title flex bg-primary text-white p-1 rounded-t-md">
                         <div class="w-5">
                             @if ($meeting->status == 'terminada')
@@ -75,7 +75,7 @@
                         </div>
                         <div class="w-full">
                             <h2 class="text-center text-sm">
-                                Creado: {{ $meeting->created_at->format('d-m-Y') }}
+                                {{ Carbon\Carbon::parse($meeting->inicio)->format('d-m-Y') }} <br> {{ Carbon\Carbon::parse($meeting->inicio)->format('H:i') }} {{ $meeting->fin != null ? ' - ' . Carbon\Carbon::parse($meeting->fin)->format('H:i') : '' }}
                             </h2>
                         </div>
                     </div>
