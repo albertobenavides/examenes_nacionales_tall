@@ -24,7 +24,7 @@
 <body class="text-accent">
     <x-impersonate::banner />
 
-    <div class="navbar bg-white">
+    <div class="navbar bg-base-100">
         <div class="navbar-start">
             <div class="sm:hidden inset-y-0 left-0 flex items-center">
                 <div class="dropdown dropdown-bottom">
@@ -41,7 +41,7 @@
                     </button>
                     <ul tabindex="0" class="menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 mt-4">
                         <li><a href="/users/{{ auth()->id() }}/cursos">Mis cursos</a></li>
-                      </ul>
+                    </ul>
                 </div>
             </div>
             <div class="w-10 rounded-full">
@@ -56,9 +56,9 @@
                 <input type="text" placeholder="Buscar... Próximamente" disabled />
             </label> --}}
             @auth
-            <ul class="menu menu-horizontal px-1">
-                <li><a href="/users/{{ auth()->id() }}/cursos" class="btn btn-ghost text-xl hidden sm:flex">Mis cursos</a></li>
-            </ul>
+                <ul class="menu menu-horizontal px-1">
+                    <li><a href="/users/{{ auth()->id() }}/cursos" class="btn btn-ghost text-xl hidden sm:flex">Mis cursos</a></li>
+                </ul>
             @endauth
         </div>
         <div class="navbar-end">
@@ -66,7 +66,8 @@
                 <div class="dropdown dropdown-end">
                     <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
                         <div class="w-10 rounded-full">
-                            <img alt="Imagen de perfil" src="https://source.boringavatars.com/beam/120/{{ urlencode(str(Filament\Facades\Filament::getNameForDefaultAvatar(auth()->user()))->trim()->explode(' ')->map(fn (string $segment): string => filled($segment) ? mb_substr($segment, 0, 1) : '')->join(' ')) }}?colors=edf000,002e5b,fde428,0073d8,ffcc01" />
+                            <img alt="Imagen de perfil"
+                                src="https://source.boringavatars.com/beam/120/{{ urlencode(str(Filament\Facades\Filament::getNameForDefaultAvatar(auth()->user()))->trim()->explode(' ')->map(fn(string $segment): string => filled($segment) ? mb_substr($segment, 0, 1) : '')->join(' ')) }}?colors=edf000,002e5b,fde428,0073d8,ffcc01" />
                         </div>
                     </div>
                     <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
@@ -76,7 +77,11 @@
                             <span class="badge">New</span>
                         </a>
                     </li> --}}
-                        {{-- <li><a>Settings</a></li> --}}
+                        @if (auth()->user()->hasRole('super_admin'))
+                            <li><a href="/admin">Administración</a></li>
+                            <div class="divider m-0"></div>
+                        @endif
+                        <li><a href="/admin/my-profile">Perfil</a></li>
                         <li><a onclick="document.getElementById('cerrar_sesion_form').submit();return false;">Cerrar sesión</a></li>
                     </ul>
                     <form id="cerrar_sesion_form" action="{{ route('logout') }}" method="POST" style="display: none;">

@@ -75,6 +75,7 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
+            ->homeUrl('/')
             ->defaultAvatarProvider(BoringAvatarsProvider::class);
             // ->navigation(function (NavigationBuilder $builder): NavigationBuilder {
             //     return $builder
