@@ -7,7 +7,7 @@
             $('.pregunta')
                 .attr('id', parseInt(pregunta_id) + 1)
                 .attr('pregunta_id', preguntas[pregunta_id].id);
-            $('#pregunta_num').html(parseInt(pregunta_id) + 1 + '/' + preguntas.length );
+            $('#pregunta_num').html(parseInt(pregunta_id) + 1 + '/' + preguntas.length);
             $('#pregunta_contenido').html(preguntas[pregunta_id].contenido);
 
             respuestas = '';
@@ -46,9 +46,9 @@
             MathJax.typeset();
         }
         $(function() {
-            window.onbeforeunload = function(e) {
-                return "¿Salir del examen?";
-            };
+            $(window).bind('beforeunload', function() {
+                return "Si sales, perderás el progreso del examen.";
+            });
             preguntas = {!! $preguntas !!};
             respuestas_elegidas = {};
             actual = 0;
@@ -87,6 +87,7 @@
 
             $('#revisar').submit(function(e) {
                 e.preventDefault();
+                $(window).unbind('beforeunload');
                 if (confirm('¿Terminar examen?')) {
                     $('#respuestas_input').val(JSON.stringify(respuestas_elegidas));
                     $(this).unbind('submit');

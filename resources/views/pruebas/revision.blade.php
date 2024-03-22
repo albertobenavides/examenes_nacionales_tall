@@ -1,28 +1,27 @@
-@extends('layouts.app')
+@extends('temas.base')
 
-@section('scripts')
+@push('scripts')
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
         function actualizarPregunta(pregunta_id) {
             $('.pregunta')
                 .attr('id', parseInt(pregunta_id) + 1)
                 .attr('pregunta_id', preguntas[pregunta_id].id);
-            $('#pregunta_num').attr('src', `https://fakeimg.pl/75/?text=${parseInt(pregunta_id) + 1}`);
+                $('#pregunta_num').html(parseInt(pregunta_id) + 1 + '/' + preguntas.length);
             $('#pregunta_contenido').html(preguntas[pregunta_id].contenido);
 
             respuestas = '';
             let i = 1;
             preguntas[pregunta_id].respuestas.forEach(respuesta => {
+                let bg = 'bg-neutral';
                 if (respuesta.elegida) {
-                    respuestas += `<div class="list-group-item list-group-item-action respuesta bg-info" respuesta_id="${respuesta.id}" pregunta_id="${respuesta.pregunta_id}">`;
-                } else {
-                    respuestas += `<div class="list-group-item list-group-item-action respuesta" respuesta_id="${respuesta.id}" pregunta_id="${respuesta.pregunta_id}">`;
+                    bg = 'bg-gray-400';
                 }
-                respuestas += `<ol type="A" start="${i}">
-                        <li>
-                            ${respuesta.contenido}
-                        </li>
-                    </ol>
-                </div>`;
+                respuestas += `<li class="respuesta ${bg} m-1 rounded" respuesta_id="${respuesta.id}" pregunta_id="${respuesta.pregunta_id}">
+                    <div>
+                    ${respuesta.contenido}
+                    </div>
+                </li>`;
                 i += 1;
             });
 
@@ -34,7 +33,6 @@
         $(function() {
             preguntas = {!! $preguntas !!};
             actual = 0;
-            $('#revisando').hide();
 
             // Primera pregunta
             actualizarPregunta(0);
@@ -42,129 +40,101 @@
             $(document.body).on('click', '.mostrar', function() {
                     var id = $(this).attr('data-toggle');
                     actual = parseInt(id);
-                    $('.mostrar').removeClass('bg-light');
-                    $(this).addClass('bg-light');
+                    $('.mostrar').removeClass('bg-gray-100');
+                    $(this).addClass('bg-gray-100');
                     actualizarPregunta(id);
                 })
                 .on('click', '#siguiente', function() {
                     if (actual == preguntas.length - 1) {
                         return;
                     }
-                    $('.mostrar').removeClass('bg-light');
+                    $('.mostrar').removeClass('bg-gray-100');
                     actual = actual + 1;
-                    $('button[data-toggle=' + actual + ']').addClass('bg-light');
+                    $('button[data-toggle=' + actual + ']').addClass('bg-gray-100');
                     actualizarPregunta(actual);
                 })
                 .on('click', '#anterior', function() {
                     if (actual == 0) {
                         return;
                     }
-                    $('.mostrar').removeClass('bg-light');
+                    $('.mostrar').removeClass('bg-gray-100');
                     actual = actual - 1;
-                    $('button[data-toggle=' + actual + ']').addClass('bg-light');
+                    $('button[data-toggle=' + actual + ']').addClass('bg-gray-100');
                     actualizarPregunta(actual);
                 });
         });
     </script>
-@endsection
+@endpush
 
-@section('content')
-    <div class="jumbotron pb-0">
-        <div class="container">
-            <h4>{{ Auth::user()->name }}</h4>
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">{{ $prueba->curso->nombre }}</li>
-                    <li class="breadcrumb-item">Simulaciones</li>
-                    <li class="breadcrumb-item">{{ $prueba->nombre }}</li>
-                    <li class="breadcrumb-item active">Revisión</li>
-                </ol>
-            </nav>
-            @php
-                $pago = App\Models\Pago::where('user_id', Auth::id())
-                    ->where('curso_id', $prueba->curso->id)
-                    ->where('fin', '>=', Carbon\Carbon::today())
-                    ->orderByDesc('promo_id')
-                    ->first();
-            @endphp
-            @if ($pago == null)
-                <a href="/pagos/crear" class="btn btn-secondary">Inscríbete</a>
-            @else
-                <h5>Vigencia: {{ Carbon\Carbon::parse($pago->fin)->format('d/m/Y') }}</h5>
-            @endif
+@section('contenido')
+    {{-- PREGUNTA --}}
+    <div class="pregunta" id="-1" pregunta_id="-1">
+        <h2 class="text-center">Pregunta <span id='pregunta_num'></span></h2>
+        <p id="pregunta_contenido">CONTENIDO</p>
+        <div class="card-body px-0">
+            {{-- RESPUESTA --}}
+            <div class="menu menu-sm" id="respuestas">
 
-            <ul class="nav nav-tabs mt-3">
-                <li class="nav-item">
-                    <a class="nav-link" href="/cursos/{{ $prueba->curso->id }}/logros">Logros</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/cursos/{{ $prueba->curso->id }}/clases">Clases</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/cursos/{{ $prueba->curso->id }}/examenes">Exámenes</a>
-                </li>
-            </ul>
+            </div>
+            {{-- .RESPUESTA --}}
+        </div>
+        <div class="card-footer">
         </div>
     </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3">
-                <h2 class="mt-3 text-center">Preguntas</h2>
-                <div class="text-center">
-                    @php
-                        $modules = $preguntas->groupby(function ($pregunta) {
-                            return $pregunta->tema->modulo;
-                        });
-                        $i = 0;
-                    @endphp
-                    @foreach ($modules as $m)
-                        <h5>{{ $m[0]->tema->modulo->nombre ?? '' }}</h5>
-                        @foreach ($m as $pregunta)
-                            @php
-                                $respuesta_elegida = $pregunta->respuestas->whereIn('elegida', true)->first();
-                            @endphp
-                            <button class="btn btn-link mostrar {{ $i == 0 ? 'bg-light' : '' }} {{ $respuesta_elegida && $respuesta_elegida->correcta ? 'text-success' : 'text-danger' }}" data-toggle="{{ $i }}">{{ $i + 1 }}</button>
-                            @php
-                                $i += 1;
-                            @endphp
-                        @endforeach
-                    @endforeach
+    {{-- .PREGUNTA --}}
+    <div class="flex justify-between">
+        <button id="anterior" class="btn btn-sm btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+            </svg>
+        </button>
+        <form action="/examenes/revisar" method="post" id="revisar">
+            @csrf
+            <input type="hidden" name="intento_id" value="{{ $intento->id }}">
+            <input type="hidden" name="respuestas" id="respuestas_input">
+            <button class="btn btn-sm btn-primary">
+                Terminar
+                <div class="spinner-border text-light" role="status" id="revisando">
+                    <span class="sr-only">Revisando...</span>
                 </div>
-                <div id="leyenda">
-                    <h5 class="mt-3 text-center">Calificación</h5>
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ $intento->calificacion }}" aria-valuemin="0" aria-valuemax="100" id="calificacion" style="width:{{ $intento->calificacion }}%">
-                            {{ $intento->calificacion }}</div>
-                    </div>
-                    <h5 class="mt-3 text-center">Aciertos</h5>
-                    <p class="text-center" id="calificacion2">{{ $intento->aciertos }}</p>
-                </div>
-            </div>
-            <div class="col-md-9">
-                {{-- PREGUNTA --}}
-                <div class="card pregunta" id="-1" pregunta_id="-1">
-                    <div class="card-header bg-primary text-white">
-                        <div class="media">
-                            <img id='pregunta_num' src="https://fakeimg.pl/75/?text=-1" class="mr-3 img-fluid rounded">
-                            <div class="media-body">
-                                <p class="lead text-center" id="pregunta_contenido">CONTENIDO</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        {{-- RESPUESTA --}}
-                        <div class="list-group list-group-flush" id="respuestas">
+            </button>
+        </form>
+        <button id="siguiente" class="btn btn-sm btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+            </svg>
+        </button>
+    </div>
+@endsection
 
-                        </div>
-                        {{-- .REPUESTA --}}
-                    </div>
-                    <div class="card-footer">
-                    </div>
-                </div>
-                {{-- .PREGUNTA --}}
-                <button id="anterior" class="btn btn-primary">Anterior</button>
-                <button id="siguiente" class="btn btn-primary">Siguiente</button>
-            </div>
+@section('sidebar')
+    <div class="pl-3 prose h2 lead bg-primary text-white text"><b>PREGUNTAS</b></div>
+    <div class="text-center">
+        @php
+            $modules = $preguntas->groupby(function ($pregunta) {
+                return $pregunta->tema->modulo;
+            });
+            $i = 0;
+        @endphp
+        @foreach ($modules as $m)
+            <h5>{{ $m[0]->tema->modulo->nombre ?? '' }}</h5>
+            @foreach ($m as $pregunta)
+                @php
+                    $respuesta_elegida = $pregunta->respuestas->whereIn('elegida', true)->first();
+                @endphp
+                <button class="btn btn-link mostrar {{ $i == 0 ? '' : '' }} {{ $respuesta_elegida && $respuesta_elegida->correcta ? 'text-success' : 'text-error' }}" data-toggle="{{ $i }}">{{ $i + 1 }}</button>
+                @php
+                    $i += 1;
+                @endphp
+            @endforeach
+        @endforeach
+    </div>
+    <div id="leyenda">
+        <h5 class="mt-3 text-center">Calificación</h5>
+        <div class="progress">
+            <progress id="calificacion" class="progress progress-primary w-full" value="{{ $intento->calificacion }}" max="100"></progress>
         </div>
+        <h5 class="mt-3 text-center">Aciertos</h5>
+        <p class="text-center" id="calificacion2"></p>
     </div>
 @endsection

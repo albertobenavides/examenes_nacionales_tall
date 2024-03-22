@@ -18,12 +18,4 @@ class EditUser extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
-
-    protected function handleRecordUpdate(Model $record, array $data): Model
-    {
-        $record->syncRoles([$data['rol_id']]);
-        $record->update($data);
-
-        return $record;
-    }
 }

@@ -95,7 +95,9 @@ class IntentoController extends Controller
         return view('pruebas.revision', [
             'prueba' => $prueba,
             'intento' => $intento,
-            'preguntas' => $preguntas
+            'preguntas' => $preguntas,
+            'tema' => $tema,
+            'modulo' => $tema->modulo
         ]);
     }
 

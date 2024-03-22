@@ -56,7 +56,7 @@
                 </a>
             @endforeach
         </div>
-        <div class="lg:w-[200px] ms-4">
+        <div class="lg:w-[15rem] ms-4">
             <h2 class="text-center"><b>Sesiones</b></h2>
             @forelse ($curso->meetings->sortby('inicio') as $meeting)
                 <a href="/meeting/{{ $meeting->id }}" class="card shadow-lg my-3" {{ Carbon\Carbon::parse($meeting->inicio)->isPast() ? '' : "style=pointer-events:none" }}>
