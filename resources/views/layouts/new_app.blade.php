@@ -67,7 +67,7 @@
                     <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
                         <div class="w-10 rounded-full">
                             @if (auth()->user()->avatar_url != '')
-                            <img alt="Imagen de perfil" src="/storage/{{ $this->avatar_url }}" />
+                            <img alt="Imagen de perfil" src="/storage/{{ auth()->user()->avatar_url }}" />
                             @endif
                             <img alt="Imagen de perfil"
                                 src="https://source.boringavatars.com/beam/120/{{ urlencode(str(Filament\Facades\Filament::getNameForDefaultAvatar(auth()->user()))->trim()->explode(' ')->map(fn(string $segment): string => filled($segment) ? mb_substr($segment, 0, 1) : '')->join(' ')) }}?colors=edf000,002e5b,fde428,0073d8,ffcc01" />
