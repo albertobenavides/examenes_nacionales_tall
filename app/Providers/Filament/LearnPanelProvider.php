@@ -2,7 +2,6 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Learn\Pages\Cursos;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -33,8 +32,7 @@ class LearnPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Learn/Resources'), for: 'App\\Filament\\Learn\\Resources')
             ->discoverPages(in: app_path('Filament/Learn/Pages'), for: 'App\\Filament\\Learn\\Pages')
             ->pages([
-                Pages\Dashboard::class,
-                Cursos::class
+                Pages\Dashboard::class
             ])
             ->discoverWidgets(in: app_path('Filament/Learn/Widgets'), for: 'App\\Filament\\Learn\\Widgets')
             ->widgets([

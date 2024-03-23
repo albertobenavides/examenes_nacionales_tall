@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +14,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements HasAvatar
+class User extends Authenticatable implements HasAvatar, FilamentUser
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
@@ -77,7 +78,11 @@ class User extends Authenticatable implements HasAvatar
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->hasRole(['super-admin', 'consulta']);
+        if ($panel->getId() === 'admin'){
+            return $this->hasRole(['super-admin', 'consulta']);
+        } else {
+            return true;
+        }
     }
 
     public function canImpersonate()

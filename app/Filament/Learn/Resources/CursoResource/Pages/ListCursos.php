@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Filament\Learn\Pages;
+namespace App\Filament\Learn\Resources\CursoResource\Pages;
 
+use App\Filament\Learn\Resources\CursoResource;
 use App\Models\Intento;
-use Filament\Pages\Page;
+use Filament\Resources\Pages\Page;
 
-class Cursos extends Page
+class ListCursos extends Page
 {
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static string $resource = CursoResource::class;
 
-    protected static string $view = 'filament.learn.pages.cursos';
+    protected static string $view = 'filament.learn.resources.curso-resource.pages.list';
 
     public $intentos;
  
