@@ -1,4 +1,32 @@
 <x-filament-panels::page>
+    <script src="https://cdn.jsdelivr.net/npm/js-circle-progress/dist/circle-progress.min.js" type="module"></script>
+    <script src="/js/scroll-progress/scroll-progress.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            @if ($tema->contenido != null)
+                let currentParagraphName = document.getElementById('current-paragraph-name');
+                let currentParagraphPercent = document.getElementById('current-paragraph-percent');
+
+                new ScrollProgress.Init(
+                    "#cursor",
+                    "#menu",
+                    progress => {
+                        try {
+                            let value_t = document.getElementById(progress.Id + '-p').value;
+                            document.getElementById(progress.Id + '-p').value = (value_t < progress.Percent) ? progress.Percent : value_t;
+                        } catch (error) {
+                            //
+                        }
+                    },
+                    id => {
+                        document.querySelectorAll('a[href*="embebed-"]').forEach(element => element.classList.remove('active-meny-item'));
+                        document.querySelector(`[href="#${id}"]`).classList.add('active-meny-item');
+                    }
+                );
+            @endif
+        });
+    </script>
     <div class="navbar bg-primary text-white">
         <div class="text-sm breadcrumbs">
             <ul class="text-xl">
@@ -16,7 +44,7 @@
                     <div class="rounded-b-lg px-4 py-0 {{ str_contains(url()->full(), '/temas/') && !str_contains(url()->full(), '/ejercicios') ? 'bg-primary text-white' : 'outline outline-2 outline-primary text-primary' }}">Contenido</div>
                 </a>
                 <div class="flex gap-x-8" x-bind:data-theme="$store.theme">
-                    <a class="no-underline" href="/modulos/{{ $modulo->id }}/temas/{{ $tema->id }}/ejercicios">
+                    <a class="no-underline" href="/learn/cursos/{{ $modulo->curso_id }}/modulos/{{ $modulo->id }}/temas/{{ $tema->id }}/ejercicios">
                         <div class="rounded-b-lg px-4 py-0 {{ str_contains(url()->full(), '/ejercicios') ? 'bg-primary text-white' : 'outline outline-2 outline-primary text-primary' }}">Ejercicios</div>
                     </a>
                     <a class="no-underline" href="/examenes/-{{ $tema->id }}">

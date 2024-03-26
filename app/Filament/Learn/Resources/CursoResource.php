@@ -36,7 +36,8 @@ class CursoResource extends Resource
         return [
             'index' => Pages\ListCursos::route('/'),
             'view' => Pages\ViewCurso::route('/{record}'),
-            'temas' => Pages\ViewTema::route('/{record}/modulos/{modulo}/temas/{tema}')
+            'temas' => Pages\ViewTema::route('/{record}/modulos/{modulo}/temas/{tema}'),
+            'ejercicios' => Pages\ViewEjercicios::route('/{record}/modulos/{modulo}/temas/{tema}/ejercicios'),
         ];
     }
 }
