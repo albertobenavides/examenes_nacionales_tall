@@ -7,6 +7,17 @@ export default {
     './resources/views/filament/learn/**/*.blade.php',
     './vendor/filament/**/*.blade.php',
   ],
+  theme: {
+    extend: {
+      typography: {
+        DEFAULT: {
+          css: {
+            maxWidth: '100%', // add required value here
+          }
+        }
+      }
+    },
+  },
   plugins: [
     require("@tailwindcss/typography"), require("daisyui")
   ],

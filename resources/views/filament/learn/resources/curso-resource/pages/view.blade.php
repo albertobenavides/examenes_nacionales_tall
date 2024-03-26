@@ -1,4 +1,13 @@
 <x-filament-panels::page>
+    
+<div class="navbar bg-primary text-white">
+    <div class="text-sm breadcrumbs">
+        <ul class="text-xl">
+            <li><a href="/users/{{ auth()->id() }}/cursos">Cursos</a></li>
+            <li><a href="/cursos/{{ $record->id }}/clases">{{ $record->nombre }}</a></li>
+        </ul>
+    </div>
+</div>
     <div class="lg:flex p-5">
         <div class="grow">
             <h2><b>Módulos del curso</b></h2>
@@ -28,7 +37,7 @@
                     @endphp
                 @endforeach
                 {{-- [ ] Actualizar URLs --}}
-                <a href="/modulos/{{ $m->id }}/temas/{{ $ultimo_tema->id }}" class="card lg:card-side bg-white shadow-xl my-3">
+                <a href="/learn/cursos/{{ $m->curso_id }}/modulos/{{ $m->id }}/temas/{{ $ultimo_tema->id }}" class="card lg:card-side bg-white shadow-xl my-3">
                     <figure class="w-full lg:w-60">
                         @if ($m->imagen)
                             <img src="/storage/{{ $m->imagen }}">

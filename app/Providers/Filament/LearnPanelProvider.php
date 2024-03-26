@@ -9,6 +9,7 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -54,6 +55,7 @@ class LearnPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->topNavigation()
+            ->maxContentWidth(MaxWidth::Full)
             ->viteTheme('resources/css/filament/learn/theme.css');
     }
 }

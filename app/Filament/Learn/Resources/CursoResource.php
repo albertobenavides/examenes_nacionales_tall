@@ -26,11 +26,17 @@ class CursoResource extends Resource
         ];
     }
 
+    public static function getBreadcrumb(): string
+{
+    return '';
+}
+
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListCursos::route('/'),
             'view' => Pages\ViewCurso::route('/{record}'),
+            'temas' => Pages\ViewTema::route('/{record}/modulos/{modulo}/temas/{tema}')
         ];
     }
 }
