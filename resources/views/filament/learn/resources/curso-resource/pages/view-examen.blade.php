@@ -116,7 +116,7 @@
                     <div class="rounded-b-lg px-4 py-0 {{ str_contains(url()->full(), '/temas/') && !str_contains(url()->full(), '/ejercicios') ? 'bg-primary text-white' : 'outline outline-2 outline-primary text-primary' }}">Contenido</div>
                 </a>
                 <div class="flex gap-x-8" x-bind:data-theme="$store.theme">
-                    <a class="no-underline" href="/modulos/{{ $modulo->id }}/temas/{{ $tema->id }}/ejercicios">
+                    <a class="no-underline" href="/learn/cursos/{{ $modulo->curso_id }}/modulos/{{ $modulo->id }}/temas/{{ $tema->id }}/ejercicios">
                         <div class="rounded-b-lg px-4 py-0 {{ str_contains(url()->full(), '/ejercicios') ? 'bg-primary text-white' : 'outline outline-2 outline-primary text-primary' }}">Ejercicios</div>
                     </a>
                     <a class="no-underline" href="/learn/cursos/{{ $modulo->curso_id }}/examenes/-{{ $tema->id }}">
