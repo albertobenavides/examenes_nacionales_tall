@@ -30,8 +30,8 @@
     <div class="navbar bg-primary text-white">
         <div class="text-sm breadcrumbs">
             <ul class="text-xl">
-                <li><a href="/users/{{ auth()->id() }}/cursos">Cursos</a></li>
-                <li><a href="/cursos/{{ $modulo->curso->id }}/clases">{{ $modulo->curso->nombre }}</a></li>
+                <li><a href="/learn/cursos">Cursos</a></li>
+                <li><a href="/learn/cursos/{{ $modulo->curso->id }}">{{ $modulo->curso->nombre }}</a></li>
                 <li>{{ $modulo->nombre }}</li>
                 <li>{{ $tema->nombre }}</li>
             </ul>
@@ -81,7 +81,7 @@
                                     </details>
                                 </li>
                             @else
-                                <li><a href="/modulos/{{ $t->modulo_id }}/temas/{{ $t->id }}">{{ $t->nombre }}</a></li>
+                                <li><a href="/learn/cursos/{{ $t->modulo->curso->id }}/modulos/{{ $t->modulo_id }}/temas/{{ $t->id }}">{{ $t->nombre }}</a></li>
                             @endif
                         @endforeach
                     </ul>

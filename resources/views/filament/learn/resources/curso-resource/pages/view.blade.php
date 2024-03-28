@@ -4,7 +4,7 @@
     <div class="text-sm breadcrumbs">
         <ul class="text-xl">
             <li><a href="/users/{{ auth()->id() }}/cursos">Cursos</a></li>
-            <li><a href="/cursos/{{ $record->id }}/clases">{{ $record->nombre }}</a></li>
+            <li>{{ $record->nombre }}</li>
         </ul>
     </div>
 </div>
@@ -37,7 +37,7 @@
                     @endphp
                 @endforeach
                 {{-- [ ] Actualizar URLs --}}
-                <a href="/learn/cursos/{{ $m->curso_id }}/modulos/{{ $m->id }}/temas/{{ $ultimo_tema->id }}" class="card lg:card-side bg-white shadow-xl my-3">
+                <a href="/learn/cursos/{{ $m->curso_id }}/modulos/{{ $m->id }}/temas/{{ $ultimo_tema->id }}" class="card lg:card-side shadow-xl my-3" x-bind:data-theme="$store.theme">
                     <figure class="w-full lg:w-60">
                         @if ($m->imagen)
                             <img src="/storage/{{ $m->imagen }}">
@@ -66,7 +66,7 @@
         <div class="lg:w-[15rem] ms-4">
             <h2 class="text-center"><b>Sesiones</b></h2>
             @forelse ($record->meetings->sortby('inicio') as $meeting)
-                <a href="/meeting/{{ $meeting->id }}" class="card shadow-lg my-3" {{ Carbon\Carbon::parse($meeting->inicio)->isPast() ? '' : 'style=pointer-events:none' }}>
+                <a href="/meeting/{{ $meeting->id }}" class="card shadow-lg my-3" {{ Carbon\Carbon::parse($meeting->inicio)->isPast() ? '' : 'style=pointer-events:none' }} x-bind:data-theme="$store.theme">
                     <div class="card-title flex bg-primary text-white p-1 rounded-t-md">
                         <div class="w-5">
                             @if ($meeting->status == 'terminada')
@@ -87,13 +87,13 @@
                             </h2>
                         </div>
                     </div>
-                    <div class="card-body bg-white rounded-b-md">
+                    <div class="card-body rounded-b-md" x-bind:data-theme="$store.theme">
                         <p class="text-center">{{ $meeting->meetingName }}</p>
                     </div>
                 </a>
             @empty
-                <div class="card shadow-lg my-3">
-                    <div class="card-body bg-white rounded-md">
+                <div class="card shadow-lg my-3" x-bind:data-theme="$store.theme">
+                    <div class="card-body rounded-md">
                         <p class="text-center">No hay sesiones aún</p>
                     </div>
                 </div>

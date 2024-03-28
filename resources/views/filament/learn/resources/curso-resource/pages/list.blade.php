@@ -9,7 +9,7 @@
             }
         @endphp
         <div class="flex justify-center p-10">
-            <a href="/learn/cursos/{{ $pago->curso_id }}" class="md:basis-1/3 lg:basis-1/4 card bg-base-100 shadow-xl rounded-md" x-bind:data-theme="$store.theme">
+            <a href="/learn/cursos/{{ $pago->curso_id }}" class="md:basis-1/3 lg:basis-1/4 card shadow-xl rounded-md" x-bind:data-theme="$store.theme">
                 <figure><img src="/storage/{{ $pago->curso->imagen }}" alt="{{ $pago->curso->nombre }}" /></figure>
                 <div class="card-body p-2">
                     <h2 class="card-title justify-center text-[1rem]">{{ $pago->curso->nombre }}</h2>

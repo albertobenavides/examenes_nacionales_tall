@@ -39,9 +39,8 @@
         $(function() {
             mostrarPregunta();
             racha = 0;
-        });
-
-        $('#revisar').click(function(e) {
+            $('#revisar').click(function(e) {
+            console.log('test');
             $('#revisar').hide();
             $.ajaxSetup({
                 headers: {
@@ -90,12 +89,14 @@
                 }
             });
         });
+        });
+
     </script>
     <div class="navbar bg-primary text-white">
         <div class="text-sm breadcrumbs">
             <ul class="text-xl">
-                <li><a href="/users/{{ auth()->id() }}/cursos">Cursos</a></li>
-                <li><a href="/cursos/{{ $modulo->curso->id }}/clases">{{ $modulo->curso->nombre }}</a></li>
+                <li><a href="/learn/cursos">Cursos</a></li>
+                <li><a href="/learn/cursos/{{ $modulo->curso->id }}">{{ $modulo->curso->nombre }}</a></li>
                 <li>{{ $modulo->nombre }}</li>
                 <li>{{ $tema->nombre }}</li>
             </ul>
@@ -149,13 +150,13 @@
         <div class="fixed md:static bottom-0 md:bottom-auto w-full md:w-1/3 lg:w-1/4 h-1/4 md:h-auto md:block border-t-2 border-t-primary md:border-t-0 shadow-md" x-bind:data-theme="$store.theme">
             <div class="h-full md:h-screen sticky top-0 overflow-scroll">
                 <div class="sticky col-start-5" x-bind:data-theme="$store.theme">
-                    <div class="pl-3 prose h2 lead bg-primary text-white text"><b>CONTENIDO</b></div>
+                    <div class="pl-3 prose h2 lead bg-primary"><b class="text-white">CONTENIDO</b></div>
                     <ul class="menu">
                         @foreach ($modulo->temas->sortBy('order') as $t)
                             @if ($t->id == $tema->id)
-                                <li><a href="/modulos/{{ $t->modulo_id }}/temas/{{ $t->id }}"><b>{{ $t->nombre }}</b></a></li>
+                                <li><a href="/learn/cursos/{{ $t->modulo->curso_id }}/modulos/{{ $t->modulo_id }}/temas/{{ $t->id }}"><b>{{ $t->nombre }}</b></a></li>
                             @else
-                                <li><a href="/modulos/{{ $t->modulo_id }}/temas/{{ $t->id }}">{{ $t->nombre }}</a></li>
+                                <li><a href="/learn/cursos/{{ $t->modulo->curso_id }}/modulos/{{ $t->modulo_id }}/temas/{{ $t->id }}">{{ $t->nombre }}</a></li>
                             @endif
                         @endforeach
                     </ul>
