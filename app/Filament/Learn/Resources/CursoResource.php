@@ -17,7 +17,9 @@ class CursoResource extends Resource
 {
     protected static ?string $model = Curso::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $modelLabel = 'Mis cursos';
+
+    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
     public static function getRelations(): array
     {

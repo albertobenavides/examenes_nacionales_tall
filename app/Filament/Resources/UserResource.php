@@ -100,7 +100,7 @@ class UserResource extends Resource
             ->actions([
                 // Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-                Impersonate::make(),
+                Impersonate::make()->redirectTo('/learn'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

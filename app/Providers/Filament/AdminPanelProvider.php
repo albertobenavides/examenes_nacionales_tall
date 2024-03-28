@@ -77,26 +77,5 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->homeUrl('/')
             ->defaultAvatarProvider(BoringAvatarsProvider::class);
-            // ->navigation(function (NavigationBuilder $builder): NavigationBuilder {
-            //     return $builder
-            //         ->groups([
-            //             NavigationGroup::make()
-            //                 ->items([
-            //                     ...CursoResource::getNavigationItems(),
-            //                     ...UserResource::getNavigationItems()
-            //                 ]),
-            //             NavigationGroup::make('Educación')
-            //                 ->items([
-            //                     ...ExamenResource::getNavigationItems(),
-            //                     ...InstitucionResource::getNavigationItems(),
-            //                 ]),
-            //             NavigationGroup::make()
-            //                 ->items([
-            //                     ...PreguntaResource::getNavigationItems(),
-            //                     ...\BezhanSalleh\FilamentShield\Resources\RoleResource::getNavigationItems()
-            //                 ]),
-            //         ]);
-            // })
-            // ->topNavigation();
     }
 }
