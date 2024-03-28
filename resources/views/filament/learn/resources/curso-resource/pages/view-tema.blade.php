@@ -47,7 +47,7 @@
                     <a class="no-underline" href="/learn/cursos/{{ $modulo->curso_id }}/modulos/{{ $modulo->id }}/temas/{{ $tema->id }}/ejercicios">
                         <div class="rounded-b-lg px-4 py-0 {{ str_contains(url()->full(), '/ejercicios') ? 'bg-primary text-white' : 'outline outline-2 outline-primary text-primary' }}">Ejercicios</div>
                     </a>
-                    <a class="no-underline" href="/examenes/-{{ $tema->id }}">
+                    <a class="no-underline" href="/learn/cursos/{{ $modulo->curso_id }}/examenes/-{{ $tema->id }}">
                         <div class="rounded-b-lg px-4 py-0 {{ str_contains(url()->full(), '/examenes/') ? 'bg-primary text-white' : 'outline outline-2 outline-primary text-primary' }}">Examen</div>
                     </a>
                 </div>
